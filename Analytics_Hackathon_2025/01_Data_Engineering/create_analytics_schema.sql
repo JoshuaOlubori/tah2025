@@ -1,22 +1,21 @@
 -- =================================================================
 -- Analytics Hackathon 2025: Data Engineering Script
--- Author: [Your Name]
+-- Author: Joshua Edun
 -- Description: Creates a new 'Analytics' schema with aggregated and
 --              cleaned tables to serve as a data mart for analysis.
 -- =================================================================
 
 -- Create a new schema to hold our analysis tables
--- This separates our work from the main OLTP schema and shows good practice.
 CREATE SCHEMA Analytics;
 GO
 
 -- =================================================================
 -- Table: Analytics.Fact_Sales
 -- Description: A central fact table combining sales order headers and details.
---              This table will be the primary source for most of our analysis.
+--              This table will be the primary source for most of the analysis.
 -- =================================================================
 WITH SalesData AS (
-    -- Step 1: Join header and detail tables to bring all sales data together.
+    -- Joining header and detail tables to bring all sales data together.
     SELECT
         soh.SalesOrderID,
         soh.OrderDate,
@@ -24,7 +23,7 @@ WITH SalesData AS (
         soh.SalesPersonID,
         soh.TerritoryID,
         soh.ShipMethodID,
-        -- Differentiate between Online (D2C) and Reseller channels
+        -- Differentiating between Online (D2C) and Reseller channels
         CASE WHEN soh.OnlineOrderFlag = 1 THEN 'Online' ELSE 'Reseller' END AS Channel,
         sod.SalesOrderDetailID,
         sod.ProductID,
@@ -32,15 +31,15 @@ WITH SalesData AS (
         sod.UnitPrice,
         sod.UnitPriceDiscount,
         sod.LineTotal,
-        -- Join to Product to get StandardCost for profitability analysis
+        -- Joining Product to get StandardCost for profitability analysis
         p.StandardCost,
         -- Calculate profit for each line item
         (sod.LineTotal - (p.StandardCost * sod.OrderQty)) AS LineProfit
     FROM
         Sales.SalesOrderHeader soh
-    JOIN
+    INNER JOIN
         Sales.SalesOrderDetail sod ON soh.SalesOrderID = sod.SalesOrderID
-    JOIN
+    INNER JOIN
         Production.Product p ON sod.ProductID = p.ProductID
 )
 -- Step 2: Create the final Fact_Sales table in the Analytics schema
@@ -73,7 +72,7 @@ GO
 -- Description: A dimension table for Products, enriched with category data.
 -- =================================================================
 WITH ProductDetails AS (
-    -- Step 1: Join Product with its subcategory and category to flatten the hierarchy.
+    -- Joining Product with its subcategory and category to flatten the hierarchy.
     SELECT
         p.ProductID,
         p.Name AS ProductName,
