@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.v_RFM_Online AS
+CREATE OR ALTER VIEW Analytics.v_RFM_Online AS
 WITH RFM_Base AS (
   SELECT
     c.CustomerID,

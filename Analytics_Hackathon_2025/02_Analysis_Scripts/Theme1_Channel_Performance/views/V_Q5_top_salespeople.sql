@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.v_TopResellerSalespeople AS
+CREATE OR ALTER VIEW Analytics.v_TopResellerSalespeople AS
 WITH SalesPersonPerformance AS (
   SELECT
     fs.SalesPersonID,

@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.v_ChannelOrderMetrics AS
+CREATE OR ALTER VIEW Analytics.v_ChannelOrderMetrics AS
 WITH OrderMetrics AS (
   SELECT
     SalesOrderID,

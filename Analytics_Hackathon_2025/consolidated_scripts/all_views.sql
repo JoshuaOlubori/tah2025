@@ -1,343 +1,340 @@
+-- ============================================================================
+-- CONSOLIDATED SQL VIEWS
+-- Analytics Hackathon 2025
+-- ============================================================================
+-- This file contains all views from the Analysis_Scripts folder
+-- organized by theme
+-- ============================================================================
+
+-- ============================================================================
+-- THEME 1: CHANNEL PERFORMANCE VIEWS
+-- ============================================================================
+
 CREATE OR ALTER VIEW Analytics.vChannelPerformance AS
 SELECT
-    YEAR(OrderDate) AS OrderYear,
-    Channel,
-    FORMAT(SUM(LineTotal), 'C', 'en-US') AS TotalRevenue,
-    FORMAT(SUM(LineProfit), 'C', 'en-US') AS TotalProfit,
-    FORMAT(AVG(LineProfit / NULLIF(LineTotal, 0)), 'P') AS AverageProfitMargin
-FROM
-    Analytics.Fact_Sales
-GROUP BY
-    YEAR(OrderDate),
-    Channel;    
+  YEAR(OrderDate) AS OrderYear,
+  Channel,
+  SUM(LineTotal) AS TotalRevenue,
+  SUM(LineProfit) AS TotalProfit,
+  CASE WHEN SUM(LineTotal) = 0 THEN NULL
+       ELSE SUM(LineProfit) * 1.0 / SUM(LineTotal) END AS ProfitMargin
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), Channel;
 
-CREATE OR ALTER VIEW Analytics.vMonthlyChannelTrend AS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_ChannelMonthly AS
 SELECT
-    YEAR(OrderDate) AS OrderYear,
-    MONTH(OrderDate) AS OrderMonth,
-    Channel,
-    FORMAT(SUM(LineTotal), 'C', 'en-US') AS MonthlyRevenue,
-    COUNT(DISTINCT SalesOrderID) AS NumberOfOrders
-FROM
-    Analytics.Fact_Sales
-GROUP BY
-    YEAR(OrderDate),
-    MONTH(OrderDate),
-    Channel;
+  YEAR(OrderDate) AS OrderYear,
+  MONTH(OrderDate) AS OrderMonth,
+  DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1) AS MonthStart,
+  Channel,
+  SUM(LineTotal) AS MonthlyRevenue,
+  COUNT(DISTINCT SalesOrderID) AS NumberOfOrders
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1), Channel;
 
-CREATE OR ALTER VIEW Analytics.vResellerTerritoryYoY AS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_ResellerTerritoryYoY AS
 WITH TerritorySales AS (
-    SELECT
-        st.Name AS TerritoryName,
-        st.[Group] AS TerritoryGroup,
-        YEAR(fs.OrderDate) AS OrderYear,
-        SUM(fs.LineTotal) AS TotalRevenue
-    FROM
-        Analytics.Fact_Sales fs
-    JOIN
-        Sales.SalesTerritory st ON fs.TerritoryID = st.TerritoryID
-    WHERE
-        fs.Channel = 'Reseller'
-    GROUP BY
-        st.Name,
-        st.[Group],
-        YEAR(fs.OrderDate)
+  SELECT
+    st.Name AS TerritoryName,
+    st.[Group] AS TerritoryGroup,
+    YEAR(fs.OrderDate) AS OrderYear,
+    SUM(fs.LineTotal) AS TotalRevenue
+  FROM Analytics.Fact_Sales fs
+  JOIN Sales.SalesTerritory st ON fs.TerritoryID = st.TerritoryID
+  WHERE fs.Channel = 'Reseller'
+  GROUP BY st.Name, st.[Group], YEAR(fs.OrderDate)
 ),
-YoYGrowth AS (
-    SELECT
-        TerritoryName,
-        TerritoryGroup,
-        OrderYear,
-        TotalRevenue,
-        LAG(TotalRevenue, 1, 0) OVER(PARTITION BY TerritoryName ORDER BY OrderYear) AS PreviousYearRevenue
-    FROM
-        TerritorySales
-)
-SELECT
+YoY AS (
+  SELECT
     TerritoryName,
     TerritoryGroup,
     OrderYear,
-    FORMAT(TotalRevenue, 'C', 'en-US') AS TotalRevenue,
-    FORMAT(PreviousYearRevenue, 'C', 'en-US') AS PreviousYearRevenue,
-    FORMAT((TotalRevenue - PreviousYearRevenue) / NULLIF(PreviousYearRevenue, 0), 'P') AS YoYGrowthRate
-FROM
-    YoYGrowth;
+    TotalRevenue,
+    LAG(TotalRevenue) OVER (PARTITION BY TerritoryName ORDER BY OrderYear) AS PrevRevenue
+  FROM TerritorySales
+)
+SELECT
+  TerritoryName,
+  TerritoryGroup,
+  OrderYear,
+  TotalRevenue,
+  PrevRevenue,
+  CASE 
+    WHEN PrevRevenue IS NULL OR PrevRevenue = 0 THEN NULL
+    ELSE (TotalRevenue - PrevRevenue) * 1.0 / PrevRevenue
+  END AS YoYGrowthPct
+FROM YoY
+ORDER BY TotalRevenue DESC, OrderYear;
 
-CREATE OR ALTER VIEW Analytics.vChannelOrderMetrics AS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_ChannelOrderMetrics AS
 WITH OrderMetrics AS (
-    SELECT
-        SalesOrderID,
-        Channel,
-        SUM(LineTotal) AS OrderTotalValue,
-        COUNT(SalesOrderDetailID) AS ItemsPerOrder
-    FROM
-        Analytics.Fact_Sales
-    GROUP BY
-        SalesOrderID,
-        Channel
-)
-SELECT
+  SELECT
+    SalesOrderID,
     Channel,
-    FORMAT(AVG(OrderTotalValue), 'C', 'en-US') AS AverageOrderValue,
-    AVG(CAST(ItemsPerOrder AS FLOAT)) AS AverageItemsPerOrder,
-    COUNT(SalesOrderID) AS TotalOrders
-FROM
-    OrderMetrics
-GROUP BY
-    Channel;
-
-CREATE OR ALTER VIEW Analytics.vTopResellerSalespeople AS
-WITH SalesPersonPerformance AS (
-    SELECT
-        fs.SalesPersonID,
-        p.FirstName + ' ' + p.LastName AS SalesPersonName,
-        SUM(fs.LineTotal) AS TotalRevenue,
-        SUM(fs.LineProfit) AS TotalProfit
-    FROM
-        Analytics.Fact_Sales fs
-    JOIN
-        Person.Person p ON fs.SalesPersonID = p.BusinessEntityID
-    WHERE
-        fs.Channel = 'Reseller' AND fs.SalesPersonID IS NOT NULL
-    GROUP BY
-        fs.SalesPersonID,
-        p.FirstName,
-        p.LastName
+    SUM(LineTotal) AS OrderTotalValue,
+    COUNT(SalesOrderDetailID) AS ItemsPerOrder
+  FROM Analytics.Fact_Sales
+  GROUP BY SalesOrderID, Channel
 )
 SELECT
-    SalesPersonName,
-    FORMAT(TotalRevenue, 'C', 'en-US') AS TotalRevenue,
-    FORMAT(TotalProfit, 'C', 'en-US') AS TotalProfit,
-    FORMAT(TotalProfit / NULLIF(TotalRevenue, 0), 'P') AS ProfitMargin,
-    RANK() OVER (ORDER BY TotalRevenue DESC) AS Rank
-FROM
-    SalesPersonPerformance;
+  Channel,
+  AVG(OrderTotalValue) AS AverageOrderValue,
+  AVG(CAST(ItemsPerOrder AS FLOAT)) AS AverageItemsPerOrder,
+  COUNT(*) AS TotalOrders
+FROM OrderMetrics
+GROUP BY Channel;
 
-CREATE OR ALTER VIEW Analytics.vCustomerRFM AS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_TopResellerSalespeople AS
+WITH SalesPersonPerformance AS (
+  SELECT
+    fs.SalesPersonID,
+    COALESCE(p.FirstName + ' ' + p.LastName, 'Unknown') AS SalesPersonName,
+    SUM(fs.LineTotal) AS TotalRevenue,
+    SUM(fs.LineProfit) AS TotalProfit
+  FROM Analytics.Fact_Sales fs
+  LEFT JOIN Person.Person p ON fs.SalesPersonID = p.BusinessEntityID
+  WHERE fs.Channel = 'Reseller' AND fs.SalesPersonID IS NOT NULL
+  GROUP BY fs.SalesPersonID, p.FirstName, p.LastName
+)
+SELECT TOP (5)
+  SalesPersonName,
+  TotalRevenue,
+  TotalProfit,
+  CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin
+FROM SalesPersonPerformance
+ORDER BY TotalRevenue DESC;
+
+-- ============================================================================
+-- THEME 2: CUSTOMER SEGMENTATION VIEWS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_RFM_Online AS
 WITH RFM_Base AS (
-    SELECT
-        c.CustomerID,
-        p.FirstName + ' ' + p.LastName AS CustomerName,
-        MAX(fs.OrderDate) AS LastOrderDate,
-        DATEDIFF(day, MAX(fs.OrderDate), GETDATE()) AS Recency,
-        COUNT(DISTINCT fs.SalesOrderID) AS Frequency,
-        SUM(fs.LineTotal) AS Monetary
-    FROM
-        Analytics.Fact_Sales fs
-    JOIN Sales.Customer c ON fs.CustomerID = c.CustomerID
-    JOIN Person.Person p ON c.PersonID = p.BusinessEntityID
-    WHERE fs.Channel = 'Online'
-    GROUP BY c.CustomerID, p.FirstName, p.LastName
+  SELECT
+    c.CustomerID,
+    COALESCE(p.FirstName + ' ' + p.LastName, 'Company/Unknown') AS CustomerName,
+    MAX(fs.OrderDate) AS LastOrderDate,
+    DATEDIFF(day, MAX(fs.OrderDate), GETDATE()) AS Recency,
+    COUNT(DISTINCT fs.SalesOrderID) AS Frequency,
+    SUM(fs.LineTotal) AS Monetary
+  FROM Analytics.Fact_Sales fs
+  JOIN Sales.Customer c ON fs.CustomerID = c.CustomerID
+  LEFT JOIN Person.Person p ON c.PersonID = p.BusinessEntityID
+  WHERE fs.Channel = 'Online'
+  GROUP BY c.CustomerID, p.FirstName, p.LastName
 ),
 RFM_Scores AS (
-    SELECT
-        CustomerID,
-        CustomerName,
-        Recency,
-        Frequency,
-        Monetary,
-        NTILE(4) OVER (ORDER BY Recency DESC) AS R_Score,
-        NTILE(4) OVER (ORDER BY Frequency ASC) AS F_Score,
-        NTILE(4) OVER (ORDER BY Monetary ASC) AS M_Score
-    FROM RFM_Base
-),
-RFM_Final AS (
-    SELECT
-        CustomerID,
-        CustomerName,
-        Recency,
-        Frequency,
-        FORMAT(Monetary, 'C', 'en-US') AS Monetary,
-        R_Score,
-        F_Score,
-        M_Score,
-        (R_Score + F_Score + M_Score) AS RFM_Score
-    FROM RFM_Scores
-)
-SELECT
+  SELECT
     CustomerID,
     CustomerName,
     Recency,
     Frequency,
     Monetary,
-    RFM_Score,
-    CASE
-        WHEN RFM_Score >= 11 THEN 'Champions'
-        WHEN RFM_Score >= 9 THEN 'Loyal Customers'
-        WHEN RFM_Score >= 6 THEN 'Potential Loyalists'
-        WHEN RFM_Score >= 4 THEN 'At-Risk Customers'
-        ELSE 'Lost Customers'
-    END AS CustomerSegment
-FROM RFM_Final;
+    NTILE(4) OVER (ORDER BY Recency ASC) AS R_Score,    -- smaller recency = better
+    NTILE(4) OVER (ORDER BY Frequency DESC) AS F_Score, -- larger frequency = better
+    NTILE(4) OVER (ORDER BY Monetary DESC) AS M_Score   -- larger monetary = better
+  FROM RFM_Base
+)
+SELECT
+  CustomerID,
+  CustomerName,
+  Recency,
+  Frequency,
+  Monetary,
+  R_Score, F_Score, M_Score,
+  (R_Score + F_Score + M_Score) AS RFM_Score,
+  CASE
+    WHEN (R_Score + F_Score + M_Score) >= 11 THEN 'Champions'
+    WHEN (R_Score + F_Score + M_Score) >= 9 THEN 'Loyal Customers'
+    WHEN (R_Score + F_Score + M_Score) >= 6 THEN 'Potential Loyalists'
+    WHEN (R_Score + F_Score + M_Score) >= 4 THEN 'At-Risk Customers'
+    ELSE 'Lost Customers'
+  END AS CustomerSegment
+FROM RFM_Scores
+ORDER BY RFM_Score DESC;
 
-CREATE OR ALTER VIEW Analytics.vMonthlyCustomerTypeTrend AS
+-- ============================================================================
+
+CREATE OR ALTER VIEW Analytics.v_MonthlyNewRepeat AS
 WITH CustomerFirstOrder AS (
-    SELECT
-        CustomerID,
-        MIN(OrderDate) AS FirstOrderDate
-    FROM Analytics.Fact_Sales
-    GROUP BY CustomerID
+  SELECT CustomerID, MIN(OrderDate) AS FirstOrderDate
+  FROM Analytics.Fact_Sales
+  GROUP BY CustomerID
 ),
 MonthlyCustomerActivity AS (
-    SELECT
-        fs.SalesOrderID,
-        fs.CustomerID,
-        fs.OrderDate,
-        fs.LineTotal,
-        CASE
-            WHEN FORMAT(fs.OrderDate, 'yyyy-MM') = FORMAT(cfo.FirstOrderDate, 'yyyy-MM') THEN 'New'
-            ELSE 'Repeat'
-        END AS CustomerType
-    FROM Analytics.Fact_Sales fs
-    JOIN CustomerFirstOrder cfo ON fs.CustomerID = cfo.CustomerID
+  SELECT
+    fs.SalesOrderID,
+    fs.CustomerID,
+    fs.OrderDate,
+    fs.LineTotal,
+    CASE WHEN CAST(fs.OrderDate AS DATE) = CAST(cfo.FirstOrderDate AS DATE) THEN 'New' ELSE 'Repeat' END AS CustomerType
+  FROM Analytics.Fact_Sales fs
+  JOIN CustomerFirstOrder cfo ON fs.CustomerID = cfo.CustomerID
 )
 SELECT
-    FORMAT(OrderDate, 'yyyy-MM') AS OrderMonth,
-    CustomerType,
-    COUNT(DISTINCT CustomerID) AS NumberOfCustomers,
-    FORMAT(SUM(LineTotal) / COUNT(DISTINCT SalesOrderID), 'C', 'en-US') AS AverageOrderValue
+  FORMAT(OrderDate, 'yyyy-MM') AS OrderMonth,
+  CustomerType,
+  COUNT(DISTINCT CustomerID) AS NumberOfCustomers,
+  SUM(LineTotal) * 1.0 / NULLIF(COUNT(DISTINCT SalesOrderID),0) AS AverageOrderValue
 FROM MonthlyCustomerActivity
-GROUP BY FORMAT(OrderDate, 'yyyy-MM'), CustomerType;
+GROUP BY FORMAT(OrderDate, 'yyyy-MM'), CustomerType
+ORDER BY OrderMonth, CustomerType;
+
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vAvgDaysToSecondPurchase AS
-WITH CustomerPurchaseHistory AS (
-    SELECT
-        CustomerID,
-        OrderDate,
-        ROW_NUMBER() OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS PurchaseNumber
-    FROM Analytics.Fact_Sales
-    WHERE Channel = 'Online'
-),
-FirstToSecondPurchase AS (
-    SELECT
-        CustomerID,
-        MIN(CASE WHEN PurchaseNumber = 1 THEN OrderDate END) AS FirstPurchaseDate,
-        MIN(CASE WHEN PurchaseNumber = 2 THEN OrderDate END) AS SecondPurchaseDate
-    FROM CustomerPurchaseHistory
-    WHERE PurchaseNumber <= 2
-    GROUP BY CustomerID
+WITH Purchases AS (
+  SELECT
+    CustomerID,
+    OrderDate,
+    ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS rn,
+    LEAD(OrderDate) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate
+  FROM Analytics.Fact_Sales
+  WHERE Channel = 'Online'
 )
 SELECT
-    AVG(CAST(DATEDIFF(day, FirstPurchaseDate, SecondPurchaseDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
-FROM FirstToSecondPurchase
-WHERE SecondPurchaseDate IS NOT NULL;
+  AVG(CAST(DATEDIFF(day, OrderDate, NextOrderDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
+FROM Purchases
+WHERE rn = 1 AND NextOrderDate IS NOT NULL;
+
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vTopCustomerGeography AS
-WITH TopCustomers AS (
-    SELECT
-        CustomerID,
-        SUM(LineTotal) AS TotalSpent
-    FROM Analytics.Fact_Sales
-    WHERE Channel = 'Online'
-    GROUP BY CustomerID
-    ORDER BY TotalSpent DESC
-    OFFSET 0 ROWS FETCH NEXT (
-        SELECT COUNT(DISTINCT CustomerID) / 10
-        FROM Analytics.Fact_Sales
-        WHERE Channel = 'Online'
-    ) ROWS ONLY
+WITH CustSpend AS (
+  SELECT
+    fs.CustomerID,
+    SUM(fs.LineTotal) AS TotalSpent
+  FROM Analytics.Fact_Sales fs
+  WHERE fs.Channel = 'Online'
+  GROUP BY fs.CustomerID
+),
+Ranked AS (
+  SELECT
+    cs.*,
+    NTILE(10) OVER (ORDER BY TotalSpent DESC) AS Decile
+  FROM CustSpend cs
+),
+TopDecile AS (
+  SELECT CustomerID, TotalSpent FROM Ranked WHERE Decile = 1 -- top 10%
 )
 SELECT
-    st.Name AS Territory,
-    sp.Name AS State,
-    a.City,
-    COUNT(tc.CustomerID) AS NumberOfTopCustomers
-FROM TopCustomers tc
-JOIN Sales.Customer c ON tc.CustomerID = c.CustomerID
+  st.Name AS Territory,
+  sp.Name AS State,
+  a.City,
+  COUNT(DISTINCT td.CustomerID) AS NumberOfTopCustomers
+FROM TopDecile td
+JOIN Sales.Customer c ON td.CustomerID = c.CustomerID
 JOIN Person.BusinessEntityAddress bea ON c.PersonID = bea.BusinessEntityID
 JOIN Person.Address a ON bea.AddressID = a.AddressID
 JOIN Person.StateProvince sp ON a.StateProvinceID = sp.StateProvinceID
 JOIN Sales.SalesTerritory st ON sp.TerritoryID = st.TerritoryID
-GROUP BY st.Name, sp.Name, a.City;
+GROUP BY st.Name, sp.Name, a.City
+ORDER BY NumberOfTopCustomers DESC;
+
+-- ============================================================================
+-- THEME 3: PRODUCT OPTIMIZATION VIEWS
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vTopBottomProducts AS
-WITH RankedTop AS (
-    SELECT TOP 10
-        'Top 10' AS Category,
-        p.ProductName,
-        p.CategoryName,
-        p.SubcategoryName,
-        FORMAT(SUM(fs.LineTotal), 'C', 'en-US') AS TotalRevenue,
-        FORMAT(SUM(fs.LineProfit), 'C', 'en-US') AS TotalProfit,
-        FORMAT(AVG(fs.LineProfit / NULLIF(fs.LineTotal, 0)), 'P') AS ProfitMargin
-    FROM Analytics.Fact_Sales fs
-    JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-    GROUP BY p.ProductName, p.CategoryName, p.SubcategoryName
-    ORDER BY SUM(fs.LineTotal) DESC
+WITH ProdAgg AS (
+  SELECT
+    p.ProductID,
+    p.ProductName,
+    p.CategoryName,
+    p.SubcategoryName,
+    SUM(fs.LineTotal) AS TotalRevenue,
+    SUM(fs.LineProfit) AS TotalProfit
+  FROM Analytics.Fact_Sales fs
+  JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+  GROUP BY p.ProductID, p.ProductName, p.CategoryName, p.SubcategoryName
 ),
-RankedBottom AS (
-    SELECT TOP 10
-        'Bottom 10' AS Category,
-        p.ProductName,
-        p.CategoryName,
-        p.SubcategoryName,
-        FORMAT(SUM(fs.LineTotal), 'C', 'en-US') AS TotalRevenue,
-        FORMAT(SUM(fs.LineProfit), 'C', 'en-US') AS TotalProfit,
-        FORMAT(AVG(fs.LineProfit / NULLIF(fs.LineTotal, 0)), 'P') AS ProfitMargin
-    FROM Analytics.Fact_Sales fs
-    JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-    GROUP BY p.ProductName, p.CategoryName, p.SubcategoryName
-    ORDER BY SUM(fs.LineTotal) ASC
+Top10 AS (
+  SELECT TOP (10) 'Top 10' AS Category, ProductID, ProductName, CategoryName, SubcategoryName, TotalRevenue, TotalProfit
+  FROM ProdAgg ORDER BY TotalRevenue DESC
+),
+Bottom10 AS (
+  SELECT TOP (10) 'Bottom 10' AS Category, ProductID, ProductName, CategoryName, SubcategoryName, TotalRevenue, TotalProfit
+  FROM ProdAgg ORDER BY TotalRevenue ASC
 )
-SELECT * FROM RankedTop
+SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Top10
 UNION ALL
-SELECT * FROM RankedBottom;
+SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Bottom10;
+
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vFrequentProductPairs AS
 WITH OrderProducts AS (
-    SELECT
+ SELECT
         fs.SalesOrderID,
-        p.ProductName
-    FROM Analytics.Fact_Sales fs
-    JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-),
-RankedPairs AS (
-    SELECT
-        a.ProductName AS ProductA,
-        b.ProductName AS ProductB,
-        COUNT(*) AS Frequency
-    FROM OrderProducts a
-    JOIN OrderProducts b ON a.SalesOrderID = b.SalesOrderID AND a.ProductName < b.ProductName
-    GROUP BY a.ProductName, b.ProductName
+        p.ProductName,
+        p.ProductID
+    FROM
+        Analytics.Fact_Sales fs
+    JOIN
+        Analytics.Dim_Product p ON fs.ProductID = p.ProductID
 )
-SELECT TOP 20 *
-FROM RankedPairs
-ORDER BY Frequency DESC;
+SELECT
+  a.ProductName AS ProductA,
+    b.ProductName AS ProductB,
+  COUNT(*) AS PairFrequency
+FROM OrderProducts a
+JOIN OrderProducts b ON a.SalesOrderID = b.SalesOrderID AND a.ProductID < b.ProductID
+GROUP BY  a.ProductName,
+    b.ProductName
+ORDER BY PairFrequency DESC;
+
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vCategoryChannelRevenue AS
 SELECT
-    p.CategoryName,
-    FORMAT(SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS OnlineRevenue,
-    FORMAT(SUM(CASE WHEN fs.Channel = 'Reseller' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS ResellerRevenue
-FROM
-    Analytics.Fact_Sales fs
-JOIN
-    Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-GROUP BY
-    p.CategoryName
-ORDER BY
-    p.CategoryName;
+  p.CategoryName,
+  SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END) AS OnlineRevenue,
+  SUM(CASE WHEN fs.Channel = 'Reseller' THEN fs.LineTotal ELSE 0 END) AS ResellerRevenue,
+  SUM(fs.LineTotal) AS TotalRevenue
+FROM Analytics.Fact_Sales fs
+JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+GROUP BY p.CategoryName
+ORDER BY TotalRevenue DESC;
+
+-- ============================================================================
 
 CREATE OR ALTER VIEW Analytics.vDiscountImpact AS
-WITH DiscountAnalysis AS (
-    SELECT
-        p.CategoryName,
-        p.SubcategoryName,
-        fs.UnitPriceDiscount,
-        SUM(fs.OrderQty) AS TotalQuantitySold,
-        SUM(fs.LineProfit) AS TotalProfit
-    FROM Analytics.Fact_Sales fs
-    JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-    WHERE p.SubcategoryName IN ('Mountain Bikes', 'Road Bikes', 'Jerseys', 'Helmets')
-    GROUP BY p.CategoryName, p.SubcategoryName, fs.UnitPriceDiscount
+WITH DiscountBuckets AS (
+  SELECT
+    p.CategoryName,
+    p.SubcategoryName,
+    fs.UnitPriceDiscount,
+    CASE
+      WHEN fs.UnitPriceDiscount BETWEEN 0 AND 0.05 THEN '0-5%'
+      WHEN fs.UnitPriceDiscount > 0.05 AND fs.UnitPriceDiscount <= 0.15 THEN '5-15%'
+      WHEN fs.UnitPriceDiscount > 0.15 AND fs.UnitPriceDiscount <= 0.30 THEN '15-30%'
+      ELSE '>30%'
+    END AS DiscountBucket,
+    fs.OrderQty,
+    fs.LineProfit
+  FROM Analytics.Fact_Sales fs
+  JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+  WHERE p.SubcategoryName IN ('Mountain Bikes', 'Road Bikes', 'Jerseys', 'Helmets')
 )
 SELECT
-    CategoryName,
-    SubcategoryName,
-    FORMAT(UnitPriceDiscount, 'P') AS DiscountPercentage,
-    TotalQuantitySold,
-    FORMAT(TotalProfit, 'C', 'en-US') AS TotalProfit,
-    FORMAT(TotalProfit / NULLIF(TotalQuantitySold, 0), 'C', 'en-US') AS ProfitPerUnit
-FROM DiscountAnalysis
-WHERE UnitPriceDiscount > 0
-ORDER BY SubcategoryName, UnitPriceDiscount;
+  CategoryName,
+  SubcategoryName,
+  DiscountBucket,
+  SUM(OrderQty) AS TotalQuantitySold,
+  SUM(LineProfit) AS TotalProfit,
+  CASE WHEN SUM(OrderQty)=0 THEN NULL ELSE SUM(LineProfit) * 1.0 / SUM(OrderQty) END AS ProfitPerUnit
+FROM DiscountBuckets
+GROUP BY CategoryName, SubcategoryName, DiscountBucket
+ORDER BY SubcategoryName, DiscountBucket;
+
+-- ============================================================================
+-- END OF CONSOLIDATED VIEWS
+-- ============================================================================
