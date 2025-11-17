@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vFrequentProductPairs AS
+CREATE OR ALTER VIEW Analytics.vFrequentProductPairs AS
 WITH OrderProducts AS (
     SELECT
         fs.SalesOrderID,

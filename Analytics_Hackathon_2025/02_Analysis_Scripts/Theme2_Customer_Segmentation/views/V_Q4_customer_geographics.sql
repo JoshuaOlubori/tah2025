@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vTopCustomerGeography AS
+CREATE OR ALTER VIEW Analytics.vTopCustomerGeography AS
 WITH TopCustomers AS (
     SELECT
         CustomerID,

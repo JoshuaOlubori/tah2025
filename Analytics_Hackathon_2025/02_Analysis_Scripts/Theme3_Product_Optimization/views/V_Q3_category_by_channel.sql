@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vCategoryChannelRevenue AS
+CREATE OR ALTER VIEW Analytics.vCategoryChannelRevenue AS
 SELECT
     p.CategoryName,
     FORMAT(SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS OnlineRevenue,

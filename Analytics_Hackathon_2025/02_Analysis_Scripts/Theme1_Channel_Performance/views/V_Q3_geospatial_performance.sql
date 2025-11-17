@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vResellerTerritoryYoY AS
+CREATE OR ALTER VIEW Analytics.vResellerTerritoryYoY AS
 WITH TerritorySales AS (
     SELECT
         st.Name AS TerritoryName,

@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vChannelPerformance AS
+CREATE OR ALTER VIEW Analytics.vChannelPerformance AS
 SELECT
     YEAR(OrderDate) AS OrderYear,
     Channel,

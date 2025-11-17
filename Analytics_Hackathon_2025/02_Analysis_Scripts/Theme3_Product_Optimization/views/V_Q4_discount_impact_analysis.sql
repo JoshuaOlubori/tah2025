@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vDiscountImpact AS
+CREATE OR ALTER VIEW Analytics.vDiscountImpact AS
 WITH DiscountAnalysis AS (
     SELECT
         p.CategoryName,

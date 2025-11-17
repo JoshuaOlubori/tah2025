@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vMonthlyCustomerTypeTrend AS
+CREATE OR ALTER VIEW Analytics.vMonthlyCustomerTypeTrend AS
 WITH CustomerFirstOrder AS (
     SELECT
         CustomerID,

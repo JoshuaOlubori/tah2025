@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vAvgDaysToSecondPurchase AS
+CREATE OR ALTER VIEW Analytics.vAvgDaysToSecondPurchase AS
 WITH CustomerPurchaseHistory AS (
     SELECT
         CustomerID,

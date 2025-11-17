@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vMonthlyChannelTrend AS
+CREATE OR ALTER VIEW Analytics.vMonthlyChannelTrend AS
 SELECT
     YEAR(OrderDate) AS OrderYear,
     MONTH(OrderDate) AS OrderMonth,

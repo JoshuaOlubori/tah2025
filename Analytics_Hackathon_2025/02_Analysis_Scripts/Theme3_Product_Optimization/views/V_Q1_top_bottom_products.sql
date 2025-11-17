@@ -1,4 +1,4 @@
-CREATE VIEW Analytics.vTopBottomProducts AS
+CREATE OR ALTER VIEW Analytics.vTopBottomProducts AS
 WITH RankedTop AS (
     SELECT TOP 10
         'Top 10' AS Category,
