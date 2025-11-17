@@ -3,24 +3,30 @@
 -- This query uses a PIVOT operator to compare channel revenues side-by-side for each product category.
 
 SELECT
-    CategoryName,
-    FORMAT(ISNULL([Online], 0), 'C', 'en-US') AS OnlineRevenue,
-    FORMAT(ISNULL([Reseller], 0), 'C', 'en-US') AS ResellerRevenue
-FROM (
-    -- Step 1: Get the revenue for each product category and channel
-    SELECT
-        p.CategoryName,
-        fs.Channel,
-        fs.LineTotal
-    FROM
-        Analytics.Fact_Sales fs
-    JOIN
-        Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-) AS SourceData
-PIVOT (
-    -- Step 2: Pivot the data to create columns for each channel
-    SUM(LineTotal)
-    FOR Channel IN ([Online], [Reseller])
-) AS PivotTable
+    p.CategoryName,
+    FORMAT(SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS OnlineRevenue,
+    FORMAT(SUM(CASE WHEN fs.Channel = 'Reseller' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS ResellerRevenue
+FROM
+    Analytics.Fact_Sales fs
+JOIN
+    Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+GROUP BY
+    p.CategoryName
 ORDER BY
-    CategoryName;
+    p.CategoryName;
+
+
+
+CREATE VIEW Analytics.vCategoryChannelRevenue AS
+SELECT
+    p.CategoryName,
+    FORMAT(SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS OnlineRevenue,
+    FORMAT(SUM(CASE WHEN fs.Channel = 'Reseller' THEN fs.LineTotal ELSE 0 END), 'C', 'en-US') AS ResellerRevenue
+FROM
+    Analytics.Fact_Sales fs
+JOIN
+    Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+GROUP BY
+    p.CategoryName
+ORDER BY
+    p.CategoryName;
