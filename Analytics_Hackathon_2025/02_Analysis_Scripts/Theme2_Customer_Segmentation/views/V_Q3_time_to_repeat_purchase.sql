@@ -1,22 +1,14 @@
 CREATE OR ALTER VIEW Analytics.vAvgDaysToSecondPurchase AS
-WITH CustomerPurchaseHistory AS (
-    SELECT
-        CustomerID,
-        OrderDate,
-        ROW_NUMBER() OVER(PARTITION BY CustomerID ORDER BY OrderDate) AS PurchaseNumber
-    FROM Analytics.Fact_Sales
-    WHERE Channel = 'Online'
-),
-FirstToSecondPurchase AS (
-    SELECT
-        CustomerID,
-        MIN(CASE WHEN PurchaseNumber = 1 THEN OrderDate END) AS FirstPurchaseDate,
-        MIN(CASE WHEN PurchaseNumber = 2 THEN OrderDate END) AS SecondPurchaseDate
-    FROM CustomerPurchaseHistory
-    WHERE PurchaseNumber <= 2
-    GROUP BY CustomerID
+WITH Purchases AS (
+  SELECT
+    CustomerID,
+    OrderDate,
+    ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS rn,
+    LEAD(OrderDate) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate
+  FROM Analytics.Fact_Sales
+  WHERE Channel = 'Online'
 )
 SELECT
-    AVG(CAST(DATEDIFF(day, FirstPurchaseDate, SecondPurchaseDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
-FROM FirstToSecondPurchase
-WHERE SecondPurchaseDate IS NOT NULL;
+  AVG(CAST(DATEDIFF(day, OrderDate, NextOrderDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
+FROM Purchases
+WHERE rn = 1 AND NextOrderDate IS NOT NULL;

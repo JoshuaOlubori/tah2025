@@ -1,23 +1,28 @@
 CREATE OR ALTER VIEW Analytics.vDiscountImpact AS
-WITH DiscountAnalysis AS (
-    SELECT
-        p.CategoryName,
-        p.SubcategoryName,
-        fs.UnitPriceDiscount,
-        SUM(fs.OrderQty) AS TotalQuantitySold,
-        SUM(fs.LineProfit) AS TotalProfit
-    FROM Analytics.Fact_Sales fs
-    JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
-    WHERE p.SubcategoryName IN ('Mountain Bikes', 'Road Bikes', 'Jerseys', 'Helmets')
-    GROUP BY p.CategoryName, p.SubcategoryName, fs.UnitPriceDiscount
+WITH DiscountBuckets AS (
+  SELECT
+    p.CategoryName,
+    p.SubcategoryName,
+    fs.UnitPriceDiscount,
+    CASE
+      WHEN fs.UnitPriceDiscount BETWEEN 0 AND 0.05 THEN '0-5%'
+      WHEN fs.UnitPriceDiscount > 0.05 AND fs.UnitPriceDiscount <= 0.15 THEN '5-15%'
+      WHEN fs.UnitPriceDiscount > 0.15 AND fs.UnitPriceDiscount <= 0.30 THEN '15-30%'
+      ELSE '>30%'
+    END AS DiscountBucket,
+    fs.OrderQty,
+    fs.LineProfit
+  FROM Analytics.Fact_Sales fs
+  JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+  WHERE p.SubcategoryName IN ('Mountain Bikes', 'Road Bikes', 'Jerseys', 'Helmets')
 )
 SELECT
-    CategoryName,
-    SubcategoryName,
-    FORMAT(UnitPriceDiscount, 'P') AS DiscountPercentage,
-    TotalQuantitySold,
-    FORMAT(TotalProfit, 'C', 'en-US') AS TotalProfit,
-    FORMAT(TotalProfit / NULLIF(TotalQuantitySold, 0), 'C', 'en-US') AS ProfitPerUnit
-FROM DiscountAnalysis
-WHERE UnitPriceDiscount > 0
-ORDER BY SubcategoryName, UnitPriceDiscount;
+  CategoryName,
+  SubcategoryName,
+  DiscountBucket,
+  SUM(OrderQty) AS TotalQuantitySold,
+  SUM(LineProfit) AS TotalProfit,
+  CASE WHEN SUM(OrderQty)=0 THEN NULL ELSE SUM(LineProfit) * 1.0 / SUM(OrderQty) END AS ProfitPerUnit
+FROM DiscountBuckets
+GROUP BY CategoryName, SubcategoryName, DiscountBucket
+ORDER BY SubcategoryName, DiscountBucket;
