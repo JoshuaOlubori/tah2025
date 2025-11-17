@@ -20,6 +20,7 @@ SELECT
        ELSE SUM(LineProfit) * 1.0 / SUM(LineTotal) END AS ProfitMargin
 FROM Analytics.Fact_Sales
 GROUP BY YEAR(OrderDate), Channel;
+GO
 
 -- ============================================================================
 
@@ -33,6 +34,7 @@ SELECT
   COUNT(DISTINCT SalesOrderID) AS NumberOfOrders
 FROM Analytics.Fact_Sales
 GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1), Channel;
+GO
 
 -- ============================================================================
 
@@ -68,7 +70,8 @@ SELECT
     ELSE (TotalRevenue - PrevRevenue) * 1.0 / PrevRevenue
   END AS YoYGrowthPct
 FROM YoY
-ORDER BY TotalRevenue DESC, OrderYear;
+-- ORDER BY TotalRevenue DESC, OrderYear;
+GO
 
 -- ============================================================================
 
@@ -89,6 +92,7 @@ SELECT
   COUNT(*) AS TotalOrders
 FROM OrderMetrics
 GROUP BY Channel;
+GO
 
 -- ============================================================================
 
@@ -110,7 +114,8 @@ SELECT TOP (5)
   TotalProfit,
   CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin
 FROM SalesPersonPerformance
-ORDER BY TotalRevenue DESC;
+-- ORDER BY TotalRevenue DESC;
+GO
 
 -- ============================================================================
 -- THEME 2: CUSTOMER SEGMENTATION VIEWS
@@ -159,7 +164,8 @@ SELECT
     ELSE 'Lost Customers'
   END AS CustomerSegment
 FROM RFM_Scores
-ORDER BY RFM_Score DESC;
+-- ORDER BY RFM_Score DESC;
+GO
 
 -- ============================================================================
 
@@ -186,7 +192,8 @@ SELECT
   SUM(LineTotal) * 1.0 / NULLIF(COUNT(DISTINCT SalesOrderID),0) AS AverageOrderValue
 FROM MonthlyCustomerActivity
 GROUP BY FORMAT(OrderDate, 'yyyy-MM'), CustomerType
-ORDER BY OrderMonth, CustomerType;
+-- ORDER BY OrderMonth, CustomerType;
+GO
 
 -- ============================================================================
 
@@ -204,6 +211,7 @@ SELECT
   AVG(CAST(DATEDIFF(day, OrderDate, NextOrderDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
 FROM Purchases
 WHERE rn = 1 AND NextOrderDate IS NOT NULL;
+GO
 
 -- ============================================================================
 
@@ -237,7 +245,8 @@ JOIN Person.Address a ON bea.AddressID = a.AddressID
 JOIN Person.StateProvince sp ON a.StateProvinceID = sp.StateProvinceID
 JOIN Sales.SalesTerritory st ON sp.TerritoryID = st.TerritoryID
 GROUP BY st.Name, sp.Name, a.City
-ORDER BY NumberOfTopCustomers DESC;
+-- ORDER BY NumberOfTopCustomers DESC;
+GO
 
 -- ============================================================================
 -- THEME 3: PRODUCT OPTIMIZATION VIEWS
@@ -267,6 +276,7 @@ Bottom10 AS (
 SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Top10
 UNION ALL
 SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Bottom10;
+GO
 
 -- ============================================================================
 
@@ -289,7 +299,8 @@ FROM OrderProducts a
 JOIN OrderProducts b ON a.SalesOrderID = b.SalesOrderID AND a.ProductID < b.ProductID
 GROUP BY  a.ProductName,
     b.ProductName
-ORDER BY PairFrequency DESC;
+-- ORDER BY PairFrequency DESC;
+GO
 
 -- ============================================================================
 
@@ -302,7 +313,8 @@ SELECT
 FROM Analytics.Fact_Sales fs
 JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
 GROUP BY p.CategoryName
-ORDER BY TotalRevenue DESC;
+-- ORDER BY TotalRevenue DESC;
+GO
 
 -- ============================================================================
 
@@ -333,7 +345,8 @@ SELECT
   CASE WHEN SUM(OrderQty)=0 THEN NULL ELSE SUM(LineProfit) * 1.0 / SUM(OrderQty) END AS ProfitPerUnit
 FROM DiscountBuckets
 GROUP BY CategoryName, SubcategoryName, DiscountBucket
-ORDER BY SubcategoryName, DiscountBucket;
+-- ORDER BY SubcategoryName, DiscountBucket;
+GO
 
 -- ============================================================================
 -- END OF CONSOLIDATED VIEWS
