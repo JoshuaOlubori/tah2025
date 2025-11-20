@@ -1,0 +1,69 @@
+THE ANALYTICS HACKATHON 2025.txt
+2.38 KB •68 lines
+•
+Formatting may be inconsistent from source
+THE ANALYTICS HACKATHON 2025
+Challenge Overview
+You are an Analyst at AdventureWorks, a global manufacturing company that sells products through online and reseller channels. Management wants to understand business performance, customer behavior, and product trends.
+Your task is to:
+Explore and analyze the AdventureWorks dataset.
+Identify five (5) high-quality insights that have business relevance.
+Support each insight with evidence â€” queries, visualizations, and reasoning.
+Document your process and prepare a presentation-ready report.
+
+Tools to Use
+You may use any combination of the following tools:
+SQL â€“ for data exploration, querying, and extraction.
+Excel â€“ for cleaning, quick analysis, or visualization.
+Power BI â€“ for interactive dashboards and storytelling.
+Python â€“ for deeper analysis, automation, or visualization.
+PowerPoint / Google Slides â€“ for your final presentation.
+Note: Your choice and combination of tools depend on you â€” use what best supports your analytical process and storytelling.
+
+Dataset
+Use the AdventureWorks sample database (2019 or 2022 version).
+You can restore it from Microsoftâ€™s SQL Server samples or online repositories.
+Tables of interest may include:
+Sales.SalesOrderHeader
+Sales.SalesOrderDetail
+Production.Product
+Sales.Customer
+Sales.SalesTerritory
+Person.Person
+HumanResources.Employee
+
+Deliverables
+Each participant or team should submit the following:
+SQL Scripts â€“ all queries used for data exploration and insight generation.
+Documentation Report â€“ a structured document (Word, Markdown, or PDF) containing:
+Each insightâ€™s objective/question
+SQL logic or method used
+Key findings and interpretation
+Business implication or recommendation
+Dashboard or Visual Report â€“ built using Excel, Power BI, or Python (matplotlib/seaborn).
+Presentation Slides â€“ 3â€“5 slides summarizing your top insights, ready for presentation.
+
+Evaluation Criteria
+Criteria
+Description
+Points
+Insight Quality
+Relevance, originality, and business impact
+25
+SQL & Analysis Proficiency
+Query design, logic, and analytical depth
+25
+Visualization & Storytelling
+Clarity, aesthetics, and data storytelling
+20
+Documentation
+Clarity, reproducibility, and structure
+15
+Presentation
+Communication, professionalism, and summary quality
+15
+Total
+
+
+100
+
