@@ -1,0 +1,238 @@
+﻿Territory,State,City,NumberOfTopCustomers
+Canada,Alberta,Calgary,2
+Canada,British Columbia,Burnaby,2
+Canada,British Columbia,Cliffside,6
+Canada,British Columbia,Haney,8
+Canada,British Columbia,Langford,5
+Canada,British Columbia,Langley,2
+Canada,British Columbia,Metchosin,2
+Canada,British Columbia,N. Vancouver,3
+Canada,British Columbia,Newton,8
+Canada,British Columbia,Oak Bay,4
+Canada,British Columbia,Port Hammond,5
+Canada,British Columbia,Royal Oak,5
+Canada,British Columbia,Shawnee,7
+Canada,British Columbia,Sooke,4
+Canada,British Columbia,Vancouver,4
+Canada,British Columbia,Victoria,3
+Canada,British Columbia,Westminster,3
+Germany,Bayern,Erlangen,5
+Germany,Bayern,Frankfurt,4
+Germany,Bayern,Grevenbroich,5
+Germany,Bayern,Hof,7
+Germany,Bayern,Ingolstadt,7
+Southwest,California,Bell Gardens,1
+Southwest,California,Bellflower,15
+Southwest,California,Berkeley,8
+Southwest,California,Beverly Hills,13
+Southwest,California,Burbank,15
+Southwest,California,Burlingame,10
+Southwest,California,Chula Vista,7
+Southwest,California,Colma,11
+Southwest,California,Concord,7
+Southwest,California,Coronado,6
+Southwest,California,Daly City,4
+Southwest,California,Downey,5
+Southwest,California,El Cajon,5
+Southwest,California,Fremont,4
+Southwest,California,Glendale,7
+Southwest,California,Grossmont,2
+Southwest,California,Imperial Beach,3
+Southwest,California,La Jolla,5
+Southwest,California,Lakewood,3
+Southwest,California,Lemon Grove,13
+Southwest,California,Lincoln Acres,4
+Southwest,California,Long Beach,7
+Southwest,California,Los Angeles,4
+Southwest,California,Mill Valley,2
+Southwest,California,National City,4
+Southwest,California,Newport Beach,8
+Southwest,California,Novato,4
+Southwest,California,Oakland,4
+Southwest,California,Palo Alto,6
+Southwest,California,Redwood City,6
+Southwest,California,San Carlos,6
+Southwest,California,San Diego,3
+Southwest,California,San Francisco,5
+Southwest,California,San Gabriel,4
+Southwest,California,Santa Cruz,6
+Southwest,California,Santa Monica,6
+Southwest,California,Spring Valley,6
+Southwest,California,Torrance,4
+Southwest,California,West Covina,3
+Southwest,California,Woodland Hills,11
+United Kingdom,England,Berks,6
+United Kingdom,England,Berkshire,5
+United Kingdom,England,Billericay,9
+United Kingdom,England,Birmingham,5
+United Kingdom,England,Bracknell,3
+United Kingdom,England,Bury,6
+United Kingdom,England,Cambridge,2
+United Kingdom,England,Cheltenham,5
+United Kingdom,England,Esher-Molesey,7
+United Kingdom,England,Gateshead,10
+United Kingdom,England,Gloucestershire,2
+United Kingdom,England,High Wycombe,2
+United Kingdom,England,Kirkby,9
+United Kingdom,England,Lancaster,5
+United Kingdom,England,Leeds,8
+United Kingdom,England,Liverpool,6
+United Kingdom,England,London,66
+United Kingdom,England,Maidenhead,3
+United Kingdom,England,Milton Keynes,12
+United Kingdom,England,Newcastle upon Tyne,11
+United Kingdom,England,Oxford,15
+United Kingdom,England,Oxon,3
+United Kingdom,England,Peterborough,8
+United Kingdom,England,Reading,1
+United Kingdom,England,Runcorn,8
+United Kingdom,England,Stoke-on-Trent,7
+United Kingdom,England,W. York,3
+United Kingdom,England,Warrington,12
+United Kingdom,England,Watford,8
+United Kingdom,England,West Sussex,3
+United Kingdom,England,Wokingham,4
+United Kingdom,England,Woolston,7
+United Kingdom,England,York,23
+Germany,Hessen,Berlin,5
+Germany,Hessen,Darmstadt,4
+Germany,Hessen,Dresden,5
+Germany,Hessen,Duesseldorf,4
+Germany,Hessen,Frankfurt,9
+Germany,Hessen,Hamburg,3
+Germany,Hessen,Kassel,4
+Germany,Hessen,München,4
+Germany,Hessen,Salzgitter,2
+Germany,Hamburg,Berlin,3
+Germany,Hamburg,Bonn,2
+Germany,Hamburg,Essen,3
+Germany,Hamburg,Frankfurt am Main,3
+Germany,Hamburg,Hamburg,9
+Germany,Hamburg,Mühlheim,1
+Germany,Hamburg,München,4
+Germany,Hamburg,Paderborn,2
+Australia,New South Wales,Coffs Harbour,20
+Australia,New South Wales,Darlinghurst,15
+Australia,New South Wales,Goulburn,30
+Australia,New South Wales,Lane Cove,23
+Australia,New South Wales,Lavender Bay,14
+Australia,New South Wales,Malabar,13
+Australia,New South Wales,Matraville,19
+Australia,New South Wales,Milsons Point,17
+Australia,New South Wales,Newcastle,21
+Australia,New South Wales,North Ryde,12
+Australia,New South Wales,North Sydney,14
+Australia,New South Wales,Port Macquarie,20
+Australia,New South Wales,Rhodes,16
+Australia,New South Wales,Silverwater,16
+Australia,New South Wales,Springwood,13
+Australia,New South Wales,St. Leonards,18
+Australia,New South Wales,Sydney,21
+Australia,New South Wales,Wollongong,23
+Germany,Nordrhein-Westfalen,Berlin,4
+Germany,Nordrhein-Westfalen,Bonn,2
+Germany,Nordrhein-Westfalen,Bottrop,1
+Germany,Nordrhein-Westfalen,Braunschweig,1
+Germany,Nordrhein-Westfalen,Hannover,2
+Germany,Nordrhein-Westfalen,Leipzig,3
+Germany,Nordrhein-Westfalen,München,1
+Germany,Nordrhein-Westfalen,Paderborn,5
+Germany,Nordrhein-Westfalen,Solingen,7
+Germany,Nordrhein-Westfalen,Werne,2
+Northwest,Oregon,Beaverton,7
+Northwest,Oregon,Corvallis,4
+Northwest,Oregon,Lake Oswego,5
+Northwest,Oregon,Lebanon,5
+Northwest,Oregon,Milwaukie,6
+Northwest,Oregon,Oregon City,3
+Northwest,Oregon,Portland,7
+Northwest,Oregon,Salem,6
+Northwest,Oregon,W. Linn,3
+Northwest,Oregon,Woodburn,3
+Australia,Queensland,Brisbane,26
+Australia,Queensland,Caloundra,23
+Australia,Queensland,East Brisbane,14
+Australia,Queensland,Gold Coast,20
+Australia,Queensland,Hawthorne,22
+Australia,Queensland,Hervey Bay,24
+Australia,Queensland,Rockhampton,18
+Australia,Queensland,Townsville,29
+Australia,South Australia,Cloverdale,15
+Australia,South Australia,Findon,13
+Australia,South Australia,Perth,16
+Germany,Saarland,Berlin,4
+Germany,Saarland,Frankfurt am Main,2
+Germany,Saarland,Kiel,5
+Germany,Saarland,Münster,3
+Germany,Saarland,Neunkirchen,7
+Germany,Saarland,Offenbach,6
+Germany,Saarland,Poing,3
+Germany,Saarland,Saarbrücken,2
+Germany,Saarland,Saarlouis,4
+Germany,Saarland,Stuttgart,5
+Germany,Saarland,Sulzbach Taunus,5
+Australia,Tasmania,Hobart,18
+Australia,Victoria,Bendigo,26
+Australia,Victoria,Cranbourne,16
+Australia,Victoria,Geelong,25
+Australia,Victoria,Melbourne,17
+Australia,Victoria,Melton,23
+Australia,Victoria,Seaford,15
+Australia,Victoria,South Melbourne,22
+Australia,Victoria,Sunbury,24
+Australia,Victoria,Warrnambool,29
+Northwest,Washington,Ballard,4
+Northwest,Washington,Bellingham,9
+Northwest,Washington,Bremerton,4
+Northwest,Washington,Burien,7
+Northwest,Washington,Edmonds,4
+Northwest,Washington,Everett,3
+Northwest,Washington,Issaquah,6
+Northwest,Washington,Kirkland,2
+Northwest,Washington,Lynnwood,3
+Northwest,Washington,Marysville,2
+Northwest,Washington,Olympia,5
+Northwest,Washington,Port Orchard,4
+Northwest,Washington,Puyallup,3
+Northwest,Washington,Renton,4
+Northwest,Washington,Seattle,3
+Northwest,Washington,Sedro Woolley,7
+Northwest,Washington,Spokane,2
+Northwest,Washington,Tacoma,4
+Northwest,Washington,Walla Walla,5
+Northwest,Washington,Yakima,7
+Northwest,Wyoming,Cheyenne,1
+Germany,Brandenburg,Eilenburg,3
+France,Charente-Maritime,Saint Ouen,3
+France,Garonne (Haute),Colomiers,4
+France,Loir et Cher,Saint Ouen,3
+France,Loiret,Orleans,8
+France,Moselle,Metz,6
+France,Nord,Croix,2
+France,Nord,Dunkerque,4
+France,Nord,Lille,3
+France,Nord,Roncq,2
+France,Nord,Roubaix,4
+France,Nord,Villeneuve-d'Ascq,8
+France,Seine (Paris),Paris,33
+France,Seine et Marne,Lieusaint,5
+France,Seine et Marne,Roissy en Brie,4
+France,Yveline,Chatou,6
+France,Yveline,Saint Germain en Laye,5
+France,Yveline,Versailles,9
+France,Somme,Saint Ouen,2
+France,Essonne,Les Ulis,14
+France,Essonne,Morangis,5
+France,Essonne,Verrieres Le Buisson,4
+France,Hauts de Seine,Colombes,3
+France,Hauts de Seine,Courbevoie,2
+France,Hauts de Seine,Paris La Defense,4
+France,Hauts de Seine,Sèvres,2
+France,Hauts de Seine,Suresnes,2
+France,Seine Saint Denis,Bobigny,6
+France,Seine Saint Denis,Drancy,2
+France,Seine Saint Denis,Pantin,5
+France,Seine Saint Denis,Saint-Denis,4
+France,Seine Saint Denis,Tremblay-en-France,7
+France,Val de Marne,Orly,1
+France,Val d'Oise,Cergy,3

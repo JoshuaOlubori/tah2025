@@ -1,17 +1,17 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
-[1] Config.pm:311> INFO - Logfile is 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.blg'
-[190] biber-MSWIN64:340> INFO - === 
-[246] Biber.pm:420> INFO - Reading 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bcf'
-[454] Biber.pm:994> INFO - Found 1 citekeys in bib section 0
-[479] Biber.pm:4463> INFO - Processing section 0
-[502] Biber.pm:4654> INFO - Looking for bibtex file 'Bibliography/Bibliography.bib' for section 0
-[590] bibtex.pm:1713> INFO - LaTeX decoding ...
-[664] bibtex.pm:1519> INFO - Found BibTeX data source 'Bibliography/Bibliography.bib'
-[744] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[744] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[744] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
-[744] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[747] bbl.pm:676> INFO - Writing 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bbl' with encoding 'UTF-8'
-[748] bbl.pm:779> INFO - Output to c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bbl
-[748] Biber.pm:131> WARN - Duplicate entry key: 'worldbank2020' in file 'Bibliography/Bibliography.bib', skipping ...
-[748] Biber.pm:133> INFO - WARNINGS: 1
+[0] Config.pm:311> INFO - Logfile is 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.blg'
+[134] biber-MSWIN64:340> INFO - === 
+[170] Biber.pm:420> INFO - Reading 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bcf'
+[289] Biber.pm:994> INFO - Found 1 citekeys in bib section 0
+[306] Biber.pm:4463> INFO - Processing section 0
+[319] Biber.pm:4654> INFO - Looking for bibtex file 'Bibliography/Bibliography.bib' for section 0
+[377] bibtex.pm:1713> INFO - LaTeX decoding ...
+[430] bibtex.pm:1519> INFO - Found BibTeX data source 'Bibliography/Bibliography.bib'
+[483] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[484] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[484] Biber.pm:4283> INFO - Sorting list 'nyt/global//global/global/global' of type 'entry' with template 'nyt' and locale 'en-US'
+[484] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[486] bbl.pm:676> INFO - Writing 'c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bbl' with encoding 'UTF-8'
+[487] bbl.pm:779> INFO - Output to c:/Users/PC/Documents/Development/ANALYTICS/tah/Analytics_Hackathon_2025/report/AdventureWorks.bbl
+[487] Biber.pm:131> WARN - Duplicate entry key: 'worldbank2020' in file 'Bibliography/Bibliography.bib', skipping ...
+[487] Biber.pm:133> INFO - WARNINGS: 1

@@ -4,79 +4,77 @@
 {
 \parindent0pt
 \vspace{.935em}
+\section{Overview of Sales Channels}
 
-This chapter provides a detailed examination of the company's two primary sales channels: the Online platform and the Reseller network. The analysis focuses on their respective contributions to total revenue and their performance trajectories over the period from 2011 to 2014. The objective is to identify the strengths and growth patterns of each channel, thereby informing strategic priorities.
+AdventureWorks distributes its products through two distinct avenues: the \textbf{Online} channel (Direct-to-Consumer) and the \textbf{Reseller} channel (Business-to-Business). A comparative analysis of these channels reveals a significant divergence between revenue generation and profitability. While the Reseller channel is the primary driver of volume, the Online channel serves as the engine for profit stability.
 
-\section{Overall Revenue Contribution}
-The company's revenue is generated through two distinct channels, with a significant disparity in their contribution to the total sales volume. Over the entire period of analysis, the company generated a total revenue of \$109.85 million.
+\section{Financial Performance and The Profitability Paradox}
 
-The Reseller channel is the primary engine of revenue, accounting for approximately \textbf{\$80.49 million}, which constitutes \textbf{73.3\%} of the total revenue. In contrast, the Online channel generated approximately \textbf{\$29.36 million}, representing the remaining \textbf{26.7\%}. This distribution underscores the critical importance of the Reseller network to the company's financial performance. A summary of the revenue split is presented in \autoref{tab:channel-revenue-split}.
+The most critical insight derived from the longitudinal data (2011--2014) is the inverse relationship between revenue volume and profit margin across channels.
 
-\begin{table}[H]
+As illustrated in \autoref{tab:profitability_paradox}, the Reseller channel consistently generates the majority of revenue, peaking at \$32.89 million in 2013. However, this volume appears to come at a cost. The Reseller channel has operated at a negative profit margin since 2012, recording a loss of -2.85\% in 2013. Conversely, the Online channel, while smaller in scale, maintains a robust profit margin consistently hovering around 40\%.
+
+\begin{table}[h!]
     \centering
-    \caption{Total Revenue Contribution by Channel}
-    \label{tab:channel-revenue-split}
-    \begin{tabularx}{\textwidth}{|l|r|r|}
-        \hline
-        \textbf{Channel} & \textbf{Total Revenue (\$)} & \textbf{Percentage of Total Revenue (\%)} \\
-        \hline
-        Reseller & 80,487,704.18 & 73.3 \\
-        Online & 29,358,677.22 & 26.7 \\
-        \hline
-        \textbf{Total} & \textbf{109,846,381.40} & \textbf{100.0} \\
-        \hline
+    \caption{Yearly Revenue and Profit Margin Comparison}
+    \label{tab:profitability_paradox}
+    \begin{tabularx}{\textwidth}{l X r r r}
+        \toprule
+        \textbf{Year} & \textbf{Channel} & \textbf{Total Revenue (\$)} & \textbf{Total Profit (\$)} & \textbf{Margin (\%)} \\
+        \midrule
+        \multirow{2}{*}{2011} & Online & 3.86 M & 1.54 M & 39.91\% \\
+         & Reseller & 8.78 M & 0.08 M & 0.97\% \\
+        \midrule
+        \multirow{2}{*}{2012} & Online & 6.39 M & 2.38 M & 37.28\% \\
+         & Reseller & 27.13 M & (1.43 M) & -5.29\% \\
+        \midrule
+        \multirow{2}{*}{2013} & Online & 10.73 M & 4.29 M & 40.00\% \\
+         & Reseller & 32.89 M & (0.94 M) & -2.85\% \\
+        \midrule
+        \multirow{2}{*}{2014*} & Online & 8.37 M & 3.47 M & 41.45\% \\
+         & Reseller & 11.69 M & (0.03 M) & -0.24\% \\
+        \bottomrule
+        \multicolumn{5}{l}{\footnotesize \textit{*2014 data represents a partial fiscal year.}}
     \end{tabularx}
 \end{table}
 
-\section{Temporal Revenue Analysis (2011-2014)}
-An analysis of revenue trends over time reveals the growth dynamics of each channel. The available dataset provides quarterly revenue from Q2 2011 to Q2 2014. It is important to note that data for Q1 2011 and for the second half of 2014 (Q3 and Q4) were unavailable and are thus excluded from this temporal analysis.
+This discrepancy suggests that the pricing strategy for Resellers—likely involving deep volume discounts—may be eroding the bottom line, whereas the Online channel benefits from premium pricing power.
 
-\subsection{Annual Revenue Trends}
-The annual revenue for both channels shows a general upward trend from 2011 to 2013, as summarized in \autoref{tab:annual-revenue-trends}.
+\section{Operational Metrics: Volume vs. Value}
 
-\begin{table}[H]
-    \centering
-    \caption{Annual Revenue by Channel (2011-2014)}
-    \label{tab:annual-revenue-trends}
-    \begin{tabularx}{\textwidth}{|l|r|r|r|r|}
-        \hline
-        \textbf{Channel} & \textbf{2011 (\$)} & \textbf{2012 (\$)} & \textbf{2013 (\$)} & \textbf{2014 (H1) (\$)} \\
-        \hline
-        Online & 3,863,120 & 6,390,599 & 10,732,128 & 8,372,830 \\
-        Reseller & 8,778,552 & 27,133,702 & 32,890,352 & 11,685,099 \\
-        \hline
-        \textbf{Total} & \textbf{12,641,672} & \textbf{33,524,301} & \textbf{43,622,480} & \textbf{20,057,929} \\
-        \hline
-    \end{tabularx}
-    \caption*{\footnotesize Note: 2011 data excludes Q1. 2014 data includes only H1 (Q1 and Q2).}
-\end{table}
-
-The Reseller channel experienced explosive growth in 2012, with revenue more than tripling from the previous year. This was followed by more moderate, yet still strong, growth in 2013. The Online channel exhibited a more consistent and steady growth pattern, with year-over-year growth rates of 65.5\% in 2012 and 67.9\% in 2013.
-
-The first half of 2014 presents a mixed picture. The Online channel's revenue in H1 2014 (\$8.37 million) already represents 78\% of its total 2013 revenue, suggesting it was on a path for continued strong growth. However, the Reseller channel's H1 2014 revenue (\$11.69 million) was comparatively weaker, representing only 35.5\% of its 2013 total. This suggests a potential slowdown or increased seasonality in the Reseller channel for that year.
-
-\subsection{Quarterly Performance}
-A closer look at the quarterly data, which would be visualized in \autoref{fig:quarterly-revenue}, reveals further insights. The Reseller channel's revenue peaked in Q3 2013 at \$9.82 million. The Online channel shows a more gradual but consistent climb, reaching its peak in Q1 2014 at \$4.58 million. There does not appear to be a consistent, strong seasonal pattern across both channels, although revenue for both channels tends to be higher in the latter half of the year for 2011 and 2013.
-
-\begin{figure}[H]
-    \centering
-    % \includegraphics[scale=0.7]{Figures/quarterly_revenue_trends.png}
-    \fbox{Placeholder for Quarterly Revenue Trends Figure}
-    \caption{Quarterly Revenue Trends by Channel (2011-2014)}
-    \label{fig:quarterly-revenue}
-\end{figure}
-
-\section{Comparative Analysis and Conclusion}
-The analysis highlights a clear dichotomy in the company's channel structure.
+The fundamental operational differences between the channels are highlighted by the Average Order Value (AOV) and items per order. The data confirms that the Reseller channel functions as a bulk-wholesale mechanism, while the Online channel serves individual consumer needs.
 
 \begin{itemize}
-    \item \textbf{Dominance of the Reseller Channel:} The Reseller network is the bedrock of the company's revenue, consistently outperforming the Online channel in absolute terms by a factor of approximately 3:1. Its explosive growth in 2012 was a key driver of the company's overall performance.
-    
-    \item \textbf{Steady Growth of the Online Channel:} While smaller in scale, the Online channel demonstrates highly consistent and robust year-over-year growth. Its strong performance in the first half of 2014 suggests it may be a more reliable source of future growth.
-    
-    \item \textbf{Potential Volatility in Reseller Channel:} The significant drop in the Reseller channel's growth rate from over 200\% in 2012 to 21\% in 2013, coupled with the weaker performance in H1 2014, may indicate market saturation, increased competition, or other external factors. This warrants further investigation.
+    \item \textbf{Reseller Channel:} Characterized by a high AOV of \textbf{\$21,147.58} and an average of \textbf{16 items per order}. This indicates complex, large-scale logistical requirements.
+    \item \textbf{Online Channel:} Characterized by a lower AOV of \textbf{\$1,061.45} and an average of \textbf{2.18 items per order}, reflecting a transactional, high-frequency retail model.
 \end{itemize}
 
-In conclusion, the company relies heavily on its Reseller channel but should view its Online channel as a key asset for stable and predictable growth. Strategic initiatives could focus on two areas: first, investigating the causes of the apparent slowdown in the Reseller channel to ensure its long-term health; and second, continuing to invest in the Online channel to build upon its consistent growth momentum. The subsequent chapters on customer segmentation and product optimization will shed more light on the underlying behaviors driving the performance of these two critical channels.
+\section{Geographic \& Personnel Performance}
+
+\subsection{Territorial Growth}
+The North American market remains the stronghold for AdventureWorks. Specifically, the \textbf{Southwest} territory is a dominant performer, generating over \$7.19 million in 2013 alone. However, international markets are showing distinct trends. The \textbf{United Kingdom} and \textbf{France} showed positive year-over-year growth in 2013 (1.23\% and 1.61\% respectively), identifying them as key expansion targets. Conversely, established markets like Central North America have shown signs of saturation or decline (-0.68\% growth in 2014).
+
+\subsection{Salesforce Efficiency}
+An analysis of the top salespeople within the Reseller channel reinforces the concern regarding profitability. \autoref{tab:salesperson_performance} lists the top five performers by revenue. Notably, \textbf{all top five salespeople generated negative profit margins}.
+
+\begin{table}[h!]
+    \centering
+    \caption{Top 5 Salespeople by Revenue (Reseller Channel)}
+    \label{tab:salesperson_performance}
+    \begin{tabularx}{\textwidth}{X r r r}
+        \toprule
+        \textbf{Salesperson} & \textbf{Total Revenue} & \textbf{Total Profit} & \textbf{Profit Margin} \\
+        \midrule
+        Michael Blythe & \$9,293,903 & (\$281,662) & -3.03\% \\
+        Jae Pak & \$8,503,338 & (\$142,034) & -1.67\% \\
+        Tsvi Reiter & \$7,171,012 & (\$147,095) & -2.05\% \\
+        Shu Ito & \$6,427,005 & (\$396,323) & -6.17\% \\
+        Amy Alberts & \$732,759 & (\$24,279) & -3.31\% \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+For example, Michael Blythe generated the highest revenue (\$9.29M) but incurred a loss of over \$281k. This systemic issue suggests that sales commissions or targets may be aligned solely with gross revenue rather than net profitability, incentivizing aggressive discounting to close deals.
+
 
 }

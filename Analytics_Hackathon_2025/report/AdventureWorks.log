@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  20 NOV 2025 23:31
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  20 NOV 2025 23:40
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -2421,34 +2421,22 @@ ar represented the peak performance period. Reseller revenue surged,
  (Chapters/02-Channel-Performance.tex
 Chapter 2.
 
-Underfull \hbox (badness 10000) in alignment at lines 28--28
-[][][] 
- []
-
-
-Underfull \hbox (badness 10000) in alignment at lines 50--50
-[][][][][] 
- []
-
-
 
 [4
 
 
 
 
-]
+])
 
-[5])
-
-[6]
+[5]
 \openout2 = `Chapters/03-Okra-Solution.aux'.
 
  (Chapters/03-Okra-Solution.tex
 Chapter 3.
 
 
-[7
+[6
 
 
 
@@ -2461,7 +2449,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[8]
+[7]
 File: Figures/okra_mockup_farmer_db.png Graphic file (type bmp)
 <Figures/okra_mockup_farmer_db.png>
 File: Figures/okra_mockup_buyer_db.png Graphic file (type bmp)
@@ -2473,9 +2461,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[9]
+[8]
 
-[10]
+[9]
 Overfull \hbox (13.15813pt too wide) in paragraph at lines 119--120
 \TU/TeXGyrePagella(0)/m/n/10.95 A hybrid dataset was constructed by combining m
 ultiple primary and secondary datasets.
@@ -2483,7 +2471,7 @@ ultiple primary and secondary datasets.
 
 
 
-[11]
+[10]
 Overfull \hbox (2.20924pt too wide) in paragraph at lines 132--133
 []\TU/TeXGyrePagella(0)/b/n/10.95 Tomato Checker Dataset\TU/TeXGyrePagella(0)/m
 /n/10.95 : Source: Roboflow ([][]$[][][][][] [] [] [] [][][][][][][][] [] [][][
@@ -2513,7 +2501,7 @@ Overfull \hbox (17.36407pt too wide) in paragraph at lines 135--136
 
 
 
-[12]
+[11]
 File: Figures/confusion_matrix.png Graphic file (type bmp)
 <Figures/confusion_matrix.png>
 
@@ -2521,7 +2509,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[13]
+[12]
 Overfull \hbox (7.2351pt too wide) in paragraph at lines 218--219
 \TU/TeXGyrePagella(0)/m/n/10.95 The metric progression shows a consistent trend
  of improvement with increasing epochs,
@@ -2534,7 +2522,7 @@ Underfull \vbox (badness 2285) has occurred while \output is active []
 
 
 
-[14]
+[13]
 File: Figures/fi_conf.png Graphic file (type bmp)
 <Figures/fi_conf.png>
 File: Figures/gradio_demo_1.png Graphic file (type bmp)
@@ -2543,28 +2531,28 @@ File: Figures/gradio_demo_2.png Graphic file (type bmp)
 <Figures/gradio_demo_2.png>
 )
 
+[14]
+
 [15]
 
-[16]
-
-[18
+[17
 
 
 
 ] (Matter/08-Back-Page.tex
 
-[19
+[18
 
 
 ]
 
-[21
+[20
 
 ]
 
 File: Figures/Theme/Back-Page-BG.pdf Graphic file (type pdf)
 <use Figures/Theme/Back-Page-BG.pdf>
-[22
+[21
 
 
 ]
@@ -2615,18 +2603,18 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `AdventureWorks.out' has not changed.
-(rerunfilecheck)             Checksum: F0A957BB809F95DE7174F062A2413841;7331.
+(rerunfilecheck)             Checksum: 744F6EE25886177FB0498116B0841125;7654.
 Package logreq Info: Writing requests to 'AdventureWorks.run.xml'.
 \openout1 = `AdventureWorks.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  58044 strings out of 408640
- 1201481 string characters out of 5745420
- 2271923 words of memory out of 5000000
- 80135 multiletter control sequences out of 15000+600000
- 594505 words of font info for 151 fonts, out of 8000000 for 9000
+ 1201562 string characters out of 5745420
+ 2272192 words of memory out of 5000000
+ 80134 multiletter control sequences out of 15000+600000
+ 594513 words of font info for 152 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  123i,12n,122p,2644b,5416s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on AdventureWorks.pdf (37 pages).
+Output written on AdventureWorks.pdf (36 pages).
