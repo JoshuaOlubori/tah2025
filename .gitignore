@@ -1,1 +1,12 @@
 # /data
+*.xml
+*.out
+*.lot
+*.log
+*.lof
+*.ist
+*.glo
+*.blg
+*.bbl
+*.aux
+*.acn

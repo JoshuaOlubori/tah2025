@@ -95,12 +95,6 @@
 	\end{table}
 
 
-	\begin{figure}[!htpb]
-		\centering
-		\includegraphics[width=0.8\linewidth]{Figures/fig_5.png}
-		\caption{Revenue vs.\ Profit Margin for Top 10 Product.}
-		\label{fig:revenue_margin_top10}
-	\end{figure}
 
 
 	\subsection*{Market Basket Opportunities}
@@ -181,7 +175,14 @@
 
 	\subsection*{Profitability Crisis in Road-250 Series}
 
-	The Road-250 Black (44) represents a critical anomaly: \$2.5M in revenue but negative \$36K profit (--1.4\% margin). This loss-making SKU, despite ranking in the top 10 by revenue, suggests either aggressive promotional pricing or uncontrolled cost inflation. Immediate investigation of COGS allocation is warranted.
+	The Road-250 Black (44) is anomalous: \$2.5M in revenue but negative \$36K profit (--1.4\% margin), as observed in \autoref{fig:revenue_margin_top10}. This loss-making product, despite ranking in the top 10 by revenue, suggests either aggressive promotional pricing or uncontrolled cost inflation. Immediate investigation of COGS allocation is warranted.
+
+		\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=0.8\linewidth]{Figures/fig_5.png}
+		\caption{Revenue vs.\ Profit Margin for Top 10 Product.}
+		\label{fig:revenue_margin_top10}
+	\end{figure}
 
 	\subsection*{Cross-Selling and Discount Insights}
 
@@ -189,7 +190,19 @@
 
 	\subsection*{Channel Segmentation and Strategy}
 
-	Components show zero online penetration yet generate \$11.8M reseller revenue (pure B2B). Accessories show 55\% online adoption, the highest of all categories. Bikes split 30\%--70\% online-to-reseller. This asymmetry requires tailored strategies:
+	Components show zero online penetration yet generate \$11.8M reseller revenue (pure B2B). Accessories show 55\% online adoption, the highest of all categories. Bikes split 30\%--70\% online-to-reseller. 
+	
+	
+		\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=0.8\linewidth]{Figures/fig_6.png}
+		\caption{Category revenue mix by channel.}
+		\label{fig:category_revenue_channel}
+	\end{figure}
+
+	
+	
+	This asymmetry requires tailored strategies:
 
 	\begin{enumerate}
 		\item \textbf{Profitability Crisis in Road-250 Series:}
@@ -241,14 +254,7 @@
 		\item \textbf{Online Accessory Growth Initiative}
 		      Launch a ``Pack \& Protect'' ecommerce campaign bundling helmets, patch kits, and lights. Target 20\% lift in online accessory revenue (from \$0.7M to \$0.84M) within 12 months through retargeting and email campaigns.
 
-		\item \textbf{Dashboard Development}
-		      Build a PowerBI ``Product Margin Monitor'' with:
-		      \begin{itemize}
-			      \item Scatter plot of Revenue vs.\ Profit Margin per Product, colored by discount bucket
-			      \item Channel Performance Heatmap (Category $\times$ Channel $\times$ Margin\%)
-			      \item Top 20 Product Pair Co-occurrence Network Graph
-			      \item Discount Sensitivity Curve (Units Sold vs.\ Profit per Unit by Discount Level)
-		      \end{itemize}
+	
 
 		\item \textbf{Competitive Pricing Benchmark}
 		      Conduct quarterly market pricing analysis for top 20 SKUs against 3--5 key competitors. Quantify whether Road-250 and Mountain Bike margin pressure is market-driven or internal.

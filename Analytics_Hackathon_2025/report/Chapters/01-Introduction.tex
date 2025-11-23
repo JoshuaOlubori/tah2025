@@ -7,7 +7,7 @@
 \textit{Authors: Edun Joshua, Mbuotidem Awak, Makinde Kayode}
 
 \vspace{.935em}
-AdventureWorks operates as a global manufacturing entity, distributing products through a dual-channel strategy comprising an online direct-to-consumer interface and a robust reseller network. This report presents a comprehensive analysis of business performance, customer behavior, and product trends based on the provided dataset. The primary objective is to identify high-quality insights with actionable business relevance, supported by quantitative evidence.
+AdventureWorks operates as a global manufacturing entity, distributing products through a dual-channel strategy comprising an online direct-to-consumer interface and a robust reseller network. This report showcases findings from analysis of the business from 3 lenses: channel performance, customer behavior, and product trends. The objective is to identify actionable insights of business relevance, backed by quantitative evidence.
 
 \begin{block}[tip]
     \textit{AdventureWorks has generated a total revenue of \$109.85M with a net profit of \$9.37M. The business relies heavily on its Reseller channel, which accounts for approximately 73\% of total revenue.}
@@ -15,7 +15,7 @@ AdventureWorks operates as a global manufacturing entity, distributing products 
 
 \section{Business Performance Overview}
 
-The analysis of the dataset reveals a business with a substantial market footprint. The aggregate financial and operational metrics indicate a mature operation with a significant customer base. As detailed in \autoref{tab:kpi_summary}, the company has processed sales amounting to nearly \$110 million, serving over 19,000 customers with a high Average Order Value (AOV).
+Intial exploratory data analysis of the dataset reveals a business with a substantial market footprint. The aggregate financial and operational metrics indicate a mature operation with a significant customer base. As detailed in \autoref{tab:kpi_summary}, the company has processed sales amounting to nearly \$110 million, serving over 19,000 customers with a high Average Order Value (AOV).
 
 \begin{table}[h!]
     \centering
@@ -33,11 +33,20 @@ The analysis of the dataset reveals a business with a substantial market footpri
     \end{tabularx}
 \end{table}
 
-\section{Channel Distribution Analysis}
+\section{Channel Distribution}
 
-A critical component of the AdventureWorks business model is its channel diversification.  The revenue stream is bifurcated into Reseller and Online channels. The data demonstrates a clear dominance of the Reseller channel, which contributes the vast majority of gross revenue.
+The revenue stream of the business is bifurcated into Reseller and Online channels. \autoref{fig:revenue_by_channel} illustrates the volume of the Reseller channel, contributing the majority of gross revenue.
 
-As presented in \autoref{tab:channel_revenue}, the Reseller channel generated approximately \$80.5 million, while the Online channel contributed \$29.4 million. This distribution suggests a B2B-centric business model where bulk purchasing or wholesale agreements drive the core financial performance.
+
+	\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=0.5\linewidth]{Figures/fig_7.png}
+		\caption{Revenue by channel}
+		\label{fig:revenue_by_channel}
+	\end{figure}
+
+
+As presented in \autoref{tab:channel_revenue}, the Reseller channel generated approximately \$80.5 million, while the Online channel contributed \$29.4 million. This distribution suggests a B2B-centric business model where bulk purchasing or wholesale agreements has the greatest impact on financial performance.
 
 \begin{table}[h!]
     \centering
@@ -55,21 +64,21 @@ As presented in \autoref{tab:channel_revenue}, the Reseller channel generated ap
     \end{tabularx}
 \end{table}
 
-\section{Temporal Revenue Trends}
+% \section{Temporal Revenue Trends}
 
-The temporal analysis of revenue from 2011 through 2014 highlights distinct growth trajectories for both channels.
+% The temporal analysis of revenue from 2011 through 2014 highlights distinct growth trajectories for both channels.
 
-\subsection{Growth Phase (2011--2013)}
-The fiscal period beginning in Q2 2011 marked the initial intake of revenue, with the Reseller channel quickly outpacing Online sales.
-\begin{itemize}
-    \item \textbf{2011:} The Reseller channel demonstrated aggressive growth, expanding from \$489k in Q2 to \$4.74M by Q4. Online sales showed steady but more modest growth, ending the year at \$1.9M in Q4.
-    \item \textbf{2012:} Both channels stabilized, with Reseller revenues consistently ranging between \$5.8M and \$7.7M per quarter.
-    \item \textbf{2013:} This year represented the peak performance period. Reseller revenue surged, hitting a high of \$9.82M in Q3 2013. Online revenue also saw its highest values, reaching \$4.3M in Q4 2013.
-\end{itemize}
+% \subsection{Growth Phase (2011--2013)}
+% The fiscal period beginning in Q2 2011 marked the initial intake of revenue, with the Reseller channel quickly outpacing Online sales.
+% \begin{itemize}
+%     \item \textbf{2011:} The Reseller channel demonstrated aggressive growth, expanding from \$489k in Q2 to \$4.74M by Q4. Online sales showed steady but more modest growth, ending the year at \$1.9M in Q4.
+%     \item \textbf{2012:} Both channels stabilized, with Reseller revenues consistently ranging between \$5.8M and \$7.7M per quarter.
+%     \item \textbf{2013:} This year represented the peak performance period. Reseller revenue surged, hitting a high of \$9.82M in Q3 2013. Online revenue also saw its highest values, reaching \$4.3M in Q4 2013.
+% \end{itemize}
 
-\subsection{Consolidation and Decline (2014)}
-The first half of 2014 shows a shift in momentum. While Q1 2014 maintained strong figures (Reseller: \$8.27M; Online: \$4.58M), Q2 2014 indicates a significant contraction, particularly in the Reseller market, which dropped to \$3.42M. Data for Q3 and Q4 2014 is currently absent, suggesting either a reporting lag or a cessation of the analyzed period.
+% \subsection{Consolidation and Decline (2014)}
+% The first half of 2014 shows a shift in momentum. While Q1 2014 maintained strong figures (Reseller: \$8.27M; Online: \$4.58M), Q2 2014 indicates a significant contraction, particularly in the Reseller market, which dropped to \$3.42M. Data for Q3 and Q4 2014 is currently absent, suggesting either a reporting lag or a cessation of the analyzed period.
 
-This trend analysis suggests that while the Reseller channel is the primary revenue engine, it is also subject to higher volatility compared to the relatively stable Online channel.
+% This trend analysis suggests that while the Reseller channel is the primary revenue engine, it is also subject to higher volatility compared to the relatively stable Online channel.
 
 }
