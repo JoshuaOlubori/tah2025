@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 09:52
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 15:39
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -2215,8 +2215,8 @@ File: Figures/Theme/Cover-BG.pdf Graphic file (type pdf)
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-File: Figures/Theme/Logotypes/logo-green.pdf Graphic file (type pdf)
-<use Figures/Theme/Logotypes/logo-green.pdf>
+File: Figures/Theme/Logotypes/logo.pdf Graphic file (type pdf)
+<use Figures/Theme/Logotypes/logo.pdf>
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 5
 7.
 
@@ -2698,8 +2698,8 @@ Package logreq Info: Writing requests to 'AdventureWorks.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  58156 strings out of 408640
- 1210125 string characters out of 5745420
- 2294097 words of memory out of 5000000
+ 1210071 string characters out of 5745420
+ 2293854 words of memory out of 5000000
  80163 multiletter control sequences out of 15000+600000
  607294 words of font info for 183 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
