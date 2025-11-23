@@ -3,32 +3,40 @@
 \contentsline {frontmatter}{List of Tables}{xiv}{listoftables}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Business Performance Overview}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Channel Distribution}{2}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Channel Performance and Salesforce Efficiency}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Overview of Sales Channels}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Financial Performance and The Profitability Paradox}{3}{section.2.2}%
-\contentsline {section}{\numberline {2.3}Operational Metrics: Volume vs. Value}{4}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Geographic \& Personnel Performance}{4}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Territorial Growth}{4}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Salesforce Efficiency}{5}{subsection.2.4.2}%
-\contentsline {chapter}{\numberline {3}Customer Segmentation}{6}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Introduction}{6}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Data and Preprocessing}{6}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Methods}{7}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Results}{7}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Segment Distribution and Scale}{7}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}New vs. Repeat Customer AOV Dynamics}{8}{subsection.3.4.2}%
-\contentsline {subsection}{\numberline {3.4.3}The Repeat Purchase Cycle and Retention Insights}{9}{subsection.3.4.3}%
-\contentsline {subsection}{\numberline {3.4.4}Geographic Concentration and Regional Targeting}{10}{subsection.3.4.4}%
-\contentsline {section}{\numberline {3.5}Interpretation and Business Insights}{10}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}The Retention Gap and Purchase-to-Purchase Timing}{10}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Segment-Specific Acquisition and Retention Strategy}{10}{subsection.3.5.2}%
-\contentsline {section}{\numberline {3.6}Limitations}{11}{section.3.6}%
-\contentsline {chapter}{\numberline {4}Product Optimization}{13}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Objectives}{13}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Data and Preprocessing}{13}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Methods}{14}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Results}{14}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Interpretation and Operational Insights}{16}{section.4.5}%
-\contentsline {section}{\numberline {4.6}Limitations}{17}{section.4.6}%
-\contentsline {section}{\numberline {4.7}Recommendations for Next Steps}{18}{section.4.7}%
+\contentsline {section}{\numberline {1.2}Channel Distribution}{1}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Channel Performance}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{3}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Key Findings}{3}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}The Profitability Paradox}{3}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Operational Metrics: Volume vs. Value}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Geographic and Personnel Performance}{4}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Business Insights and Recommendations}{4}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Limitations}{6}{section.2.4}%
+\contentsline {chapter}{\numberline {3}Customer Segmentation}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Methodology}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Key Findings}{8}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Segment Distribution}{8}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}The 161-Day Repeat Purchase Cycle}{8}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}New vs. Repeat Customer Value}{9}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Geographic Concentration of Top Customers}{9}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Business Insights and Recommendations}{9}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Limitations}{10}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Product Optimization}{11}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Introduction}{11}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Methodology}{11}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Key Findings}{11}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Hero vs. Laggard Products}{11}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Market Basket and Bundling Opportunities}{12}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Channel-Specific Product Performance}{12}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}The Corrosive Impact of Aggressive Discounting}{13}{subsection.4.3.4}%
+\contentsline {section}{\numberline {4.4}Business Insights and Recommendations}{13}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Limitations}{14}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Conclusion and Recommendations}{15}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Summary of Findings}{15}{section.5.1}%
+\contentsline {section}{\numberline {5.2}High-Impact Business Recommendations}{16}{section.5.2}%
+\contentsline {chapter}{Appendices}{}{}
+\contentsline {chapter}{\numberline {A}SQL Views}{25}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Theme 1: Channel Performance}{25}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Theme 2: Customer Segmentation}{25}{section.A.2}%
+\contentsline {section}{\numberline {A.3}Theme 3: Product Optimization}{25}{section.A.3}%

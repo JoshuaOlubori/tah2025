@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 06:10
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 08:58
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -1988,12 +1988,14 @@ Package csquotes Info: Redefining alias 'default' -> 'english'.
 (Matter/00-Cover.aux) (Matter/01-Front-Page.aux) (Matter/02-Copyright.aux)
 (Matter/03-Acknowledgements.aux) (Chapters/00-Abstract.aux)
 (Chapters/01-Introduction.aux) (Chapters/02-Channel-Performance.aux)
-(Chapters/03-Customer-Segmentation.aux) (Chapters/04-Product-Optimisation.aux))
+(Chapters/03-Customer-Segmentation.aux) (Chapters/04-Product-Optimisation.aux)
+(Chapters/05-Conclusion.aux))
 \openout1 = `AdventureWorks.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/npxmi/m/it on input line 29.
 LaTeX Font Info:    Trying to load font information for OML+npxmi on input line
  29.
+
 (C:\Users\PC\AppData\Local\Programs\MiKTeX\tex/latex/newpx\omlnpxmi.fd
 File: omlnpxmi.fd 2013/03/21 Fontinst v1.933 font definitions for OML/npxmi.
 )
@@ -2393,24 +2395,20 @@ Chapter 1.
 Package newfloat Info: Setting Plan B file extension to `lof'... on input line 
 1.
 
-Overfull \hbox (15.00374pt too wide) in paragraph at lines 10--11
-[]\TU/TeXGyrePagella(0)/m/n/10.95 AdventureWorks operates as a global manufactu
-ring entity, distributing products through
+Overfull \hbox (15.00374pt too wide) in paragraph at lines 4--5
+\TU/TeXGyrePagella(0)/m/n/10.95 AdventureWorks operates as a global manufacturi
+ng entity, distributing products through
  []
 
-
-Underfull \vbox (badness 2626) has occurred while \output is active []
-
+File: Figures/fig_7.png Graphic file (type bmp)
+<Figures/fig_7.png>
 
 
 [1
 
 
 
-]
-File: Figures/fig_7.png Graphic file (type bmp)
-<Figures/fig_7.png>
-)
+])
 
 [2]
 \openout2 = `Chapters/02-Channel-Performance.aux'.
@@ -2425,141 +2423,250 @@ Chapter 2.
 
 
 ]
-Overfull \hbox (0.72136pt too wide) in paragraph at lines 55--56
-[]\TU/TeXGyrePagella(0)/m/n/10.95 This confirms that the Reseller channel funct
-ions as a bulk-wholesale mechanism, while
- []
-
-
-Overfull \hbox (3.52307pt too wide) in paragraph at lines 60--61
-\TU/TeXGyrePagella(0)/m/n/10.95 The \TU/TeXGyrePagella(0)/b/n/10.95 United King
-dom \TU/TeXGyrePagella(0)/m/n/10.95 and \TU/TeXGyrePagella(0)/b/n/10.95 France 
-\TU/TeXGyrePagella(0)/m/n/10.95 showed positive year-over-year growth in 2013 (
-1.23%
- []
-
 File: Figures/fig_1.png Graphic file (type bmp)
 <Figures/fig_1.png>
 File: Figures/fig_2.png Graphic file (type bmp)
 <Figures/fig_2.png>
 
 
-[4])
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[5]
+
+
+[4]
+Overfull \hbox (0.25998pt too wide) in paragraph at lines 86--87
+\TU/TeXGyrePagella(0)/m/n/10.95 pricing structure where discounts are tied to v
+olume thresholds that protect profit
+ []
+
+
+
+[5])
+
+[6]
 \openout2 = `Chapters/03-Customer-Segmentation.aux'.
 
  (Chapters/03-Customer-Segmentation.tex
 Chapter 3.
 
-Overfull \hbox (0.47653pt too wide) in paragraph at lines 14--15
-\TU/TeXGyrePagella(0)/m/n/10.95 combined with customer demographic and geograph
-ic data. The primary dataset is de-
- []
 
-
-
-[6
+[7
 
 
 
 
 ]
-
-[7]
 File: Figures/fig_3.png Graphic file (type bmp)
 <Figures/fig_3.png>
 
 
 [8]
-Overfull \hbox (0.96352pt too wide) in paragraph at lines 119--120
-[][][]\TU/TeXGyrePagella(0)/m/n/10.95 Figure 3.2[][][] illustrates the stark AO
-V difference between new and repeat customers across
- []
-
 File: Figures/fig_4.png Graphic file (type bmp)
 <Figures/fig_4.png>
 
-Overfull \hbox (1.16298pt too wide) in paragraph at lines 131--132
-\TU/TeXGyrePagella(0)/m/n/10.95 peat penetration, suggesting either shorter obs
-ervation windows or changing cus-
- []
 
-
-
-[9]
+[9])
 
 [10]
-
-[11])
-
-[12]
 \openout2 = `Chapters/04-Product-Optimisation.aux'.
 
  (Chapters/04-Product-Optimisation.tex
 Chapter 4.
 
 
-[13
+[11
 
 
 
 
 ]
-Overfull \hbox (0.23358pt too wide) in paragraph at lines 63--66
-\TU/TeXGyrePagella(0)/m/n/10.95 A self-join on \TU/lmtt/m/n/10.95 Fact_Sales \T
-U/TeXGyrePagella(0)/m/n/10.95 grouped products purchased within the same \TU/lm
-tt/m/n/10.95 SalesOrderID\TU/TeXGyrePagella(0)/m/n/10.95 .
- []
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Overfull \hbox (5.31274pt too wide) in paragraph at lines 102--104
-\TU/TeXGyrePagella(0)/m/n/10.95 The basket analysis revealed strong cross-selli
-ng patterns. Frequent pairs include frame-
- []
-
-
-
-[14]
-
-[15]
 File: Figures/fig_5.png Graphic file (type bmp)
 <Figures/fig_5.png>
 
-Underfull \vbox (badness 1478) has occurred while \output is active []
+Overfull \hbox (5.08522pt too wide) in paragraph at lines 29--31
+\TU/TeXGyrePagella(0)/m/n/10.95 Market basket analysis revealed strong cross-se
+lling patterns that suggest clear bundling
+ []
 
 
+Overfull \hbox (6.52151pt too wide) in paragraph at lines 31--32
+[]\TU/TeXGyrePagella(0)/b/n/10.95 Component Pairing: \TU/TeXGyrePagella(0)/m/n/
+10.95 High-frequency pairing of components like frames and forks,
+ []
 
-[16]
 File: Figures/fig_6.png Graphic file (type bmp)
 <Figures/fig_6.png>
 
 
-[17])
+[12]
+File: Figures/fig_8.png Graphic file (type bmp)
+<Figures/fig_8.png>
+File: Figures/fig_9.png Graphic file (type bmp)
+<Figures/fig_9.png>
 
-[18]
+Underfull \hbox (badness 1975) in paragraph at lines 78--78
+[]\TU/TeXGyrePagella(0)/b/n/10 (b) |\TU/TeXGyrePagella(0)/m/it/10 Discounting i
+nfluencing losses in the
+ []
 
-[20
+
+Overfull \hbox (2.7906pt too wide) in paragraph at lines 86--87
+\TU/TeXGyrePagella(0)/m/n/10.95 long tail of underperformers and outright loss-
+makers. Channel-specific product strate-
+ []
+
+
+
+[13])
+
+[14]
+\openout2 = `Chapters/05-Conclusion.aux'.
+
+ (Chapters/05-Conclusion.tex
+Chapter 5.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[15
+
 
 
 
 ]
 
-LaTeX Warning: Empty bibliography on input line 66.
+[16])
 
-(Matter/08-Back-Page.tex
+[17]
+
+[19
+
+
+
+]
+
+LaTeX Warning: Empty bibliography on input line 67.
+
+(Matter/06-Appendices.tex
+
+[21
+
+
+]
 
 [22
 
+]
+
+[24
+
+]) (Chapters/Appendices/00-AppendixA.tex
+Appendix A.
+Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
+t line 7.
+\openout4 = `AdventureWorks.pyg'.
+
+(_minted-AdventureWorks/default.pygstyle)
+(_minted-AdventureWorks/F35006F9FAD91A6B0212040678BF074C4D271D5E551C68F3C5B9145
+5708703AA.pygtex
+LaTeX Font Info:    Font shape `TU/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `TU/lmtt/b/n' tried instead on input line 2.
+)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/39DE15256DFA0AEBA6EC7C215BB80F7C4D271D5E551C68F3C5B9145
+5708703AA.pygtex
+LaTeX Font Info:    Font shape `TU/TeXGyrePagella(0)/bx/n' in size <9> not avai
+lable
+(Font)              Font shape `TU/TeXGyrePagella(0)/b/n' tried instead on inpu
+t line 11.
+)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/60AD81DB242808463DBAD35D7D86D3254D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/9A8CA7724582800F3182C9DDEAE40BE34D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/5AA2F3B31413CA1728A929866C3A3DE14D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/7D6F44C93ECEB36E5F476E2C26593AF14D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/A18D96FC4B82D7C0C3A00D94CD5535DE4D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/41D0384ED4497A56B5ADB65C0C6EEFC64D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/A635BCF61F511DC6AEF68E8EB153741B4D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/2D5F2900DC0EAEC07EFF24069421F9864D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/A4777D917316B44E8CD0857C27AB612C4D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/DBAA89560173A82F34947BCD91EB0B464D271D5E551C68F3C5B9145
+5708703AA.pygtex)
+\openout4 = `AdventureWorks.pyg'.
+
+
+(_minted-AdventureWorks/FB78A1DDB51733588F5B61EF8CC3CB394D271D5E551C68F3C5B9145
+5708703AA.pygtex)) (Matter/08-Back-Page.tex
+
+[25
+
+
+]
+
+[26]
+
+[27]
+
+[28]
+
+[29]
+
+[30]
+
+[31]
+
+[32]
+
+[33]
+
+[35
 
 ]
 
 File: Figures/Theme/Back-Page-BG.pdf Graphic file (type pdf)
 <use Figures/Theme/Back-Page-BG.pdf>
-[23
+[36
 
 
 ]
@@ -2605,24 +2712,26 @@ This document will not have a glossary.
 (Matter/02-Copyright.aux) (Matter/03-Acknowledgements.aux)
 (Chapters/00-Abstract.aux) (Chapters/01-Introduction.aux)
 (Chapters/02-Channel-Performance.aux) (Chapters/03-Customer-Segmentation.aux)
-(Chapters/04-Product-Optimisation.aux))
+(Chapters/04-Product-Optimisation.aux) (Chapters/05-Conclusion.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `AdventureWorks.out' has not changed.
-(rerunfilecheck)             Checksum: 61AD5CDB7DC42C83B15339CCCB7F3460;7314.
+(rerunfilecheck)             Checksum: 49561EEE00D9F900E5F9F60E3C7E24C3;8377.
+runsystem(del AdventureWorks.pyg)...executed.
+
 Package logreq Info: Writing requests to 'AdventureWorks.run.xml'.
 \openout1 = `AdventureWorks.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 57845 strings out of 408640
- 1197545 string characters out of 5745420
- 2282542 words of memory out of 5000000
- 79927 multiletter control sequences out of 15000+600000
- 607222 words of font info for 174 fonts, out of 8000000 for 9000
+ 58157 strings out of 408640
+ 1210139 string characters out of 5745420
+ 2356207 words of memory out of 5000000
+ 80164 multiletter control sequences out of 15000+600000
+ 607294 words of font info for 183 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 123i,13n,122p,2644b,4380s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 123i,12n,122p,2644b,4249s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on AdventureWorks.pdf (38 pages).
+Output written on AdventureWorks.pdf (49 pages).

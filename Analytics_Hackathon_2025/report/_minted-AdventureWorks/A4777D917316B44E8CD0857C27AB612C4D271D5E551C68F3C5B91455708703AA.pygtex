@@ -1,0 +1,22 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{vFrequentProductPairs}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{+w}{    }\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{OrderProducts}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{ }\PYG{k}{SELECT}
+\PYG{+w}{        }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesOrderID}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductName}\PYG{p}{,}
+\PYG{+w}{        }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductID}
+\PYG{+w}{    }\PYG{k}{FROM}
+\PYG{+w}{        }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{    }\PYG{k}{JOIN}
+\PYG{+w}{        }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Dim\PYGZus{}Product}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{ProductID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductID}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{a}\PYG{p}{.}\PYG{n}{ProductName}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ProductA}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{b}\PYG{p}{.}\PYG{n}{ProductName}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ProductB}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{COUNT}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{PairFrequency}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{OrderProducts}\PYG{+w}{ }\PYG{n}{a}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{OrderProducts}\PYG{+w}{ }\PYG{n}{b}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{SalesOrderID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{.}\PYG{n}{SalesOrderID}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{ProductID}\PYG{+w}{ }\PYG{o}{\PYGZlt{}}\PYG{+w}{ }\PYG{n}{b}\PYG{p}{.}\PYG{n}{ProductID}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{  }\PYG{n}{a}\PYG{p}{.}\PYG{n}{ProductName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{b}\PYG{p}{.}\PYG{n}{ProductName}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{PairFrequency}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{;}
+\end{Verbatim}

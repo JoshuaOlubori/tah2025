@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}MonthlyNewRepeat}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{CustomerFirstOrder}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{CustomerID}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{MIN}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{FirstOrderDate}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{CustomerID}
+\PYG{p}{),}
+\PYG{n}{MonthlyCustomerActivity}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesOrderID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{CASE}\PYG{+w}{ }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{k}{CAST}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n+nb}{DATE}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{CAST}\PYG{p}{(}\PYG{n}{cfo}\PYG{p}{.}\PYG{n}{FirstOrderDate}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n+nb}{DATE}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}New\PYGZsq{}}\PYG{+w}{ }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Repeat\PYGZsq{}}\PYG{+w}{ }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{CustomerType}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{CustomerFirstOrder}\PYG{+w}{ }\PYG{n}{cfo}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{cfo}\PYG{p}{.}\PYG{n}{CustomerID}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{FORMAT}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}yyyy\PYGZhy{}MM\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{OrderMonth}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{CustomerType}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{+w}{ }\PYG{n}{CustomerID}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{NumberOfCustomers}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{.}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{k}{NULLIF}\PYG{p}{(}\PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{+w}{ }\PYG{n}{SalesOrderID}\PYG{p}{),}\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{AverageOrderValue}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{MonthlyCustomerActivity}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{FORMAT}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}yyyy\PYGZhy{}MM\PYGZsq{}}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{CustomerType}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{OrderMonth}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CustomerType}\PYG{p}{;}
+\end{Verbatim}

@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{vTopCustomerGeography}\PYG{+w}{ }\PYG{k}{AS}
+
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{CustSpend}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalSpent}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{Channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Online\PYGZsq{}}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{CustomerID}
+\PYG{p}{),}
+\PYG{n}{Ranked}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{cs}\PYG{p}{.}\PYG{o}{*}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{NTILE}\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TotalSpent}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Decile}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{CustSpend}\PYG{+w}{ }\PYG{n}{cs}
+\PYG{p}{),}
+\PYG{n}{TopDecile}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{CustomerID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{TotalSpent}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Ranked}\PYG{+w}{ }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{Decile}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{c+c1}{\PYGZhy{}\PYGZhy{} top 10\PYGZpc{}}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{st}\PYG{p}{.}\PYG{n}{Name}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Territory}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{sp}\PYG{p}{.}\PYG{n}{Name}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{k}{State}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{a}\PYG{p}{.}\PYG{n}{City}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{+w}{ }\PYG{n}{td}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{NumberOfTopCustomers}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{TopDecile}\PYG{+w}{ }\PYG{n}{td}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Sales}\PYG{p}{.}\PYG{n}{Customer}\PYG{+w}{ }\PYG{k}{c}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{td}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{c}\PYG{p}{.}\PYG{n}{CustomerID}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Person}\PYG{p}{.}\PYG{n}{BusinessEntityAddress}\PYG{+w}{ }\PYG{n}{bea}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{k}{c}\PYG{p}{.}\PYG{n}{PersonID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{bea}\PYG{p}{.}\PYG{n}{BusinessEntityID}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Person}\PYG{p}{.}\PYG{n}{Address}\PYG{+w}{ }\PYG{n}{a}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{bea}\PYG{p}{.}\PYG{n}{AddressID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{AddressID}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Person}\PYG{p}{.}\PYG{n}{StateProvince}\PYG{+w}{ }\PYG{n}{sp}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{StateProvinceID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{sp}\PYG{p}{.}\PYG{n}{StateProvinceID}
+\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Sales}\PYG{p}{.}\PYG{n}{SalesTerritory}\PYG{+w}{ }\PYG{n}{st}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{sp}\PYG{p}{.}\PYG{n}{TerritoryID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{st}\PYG{p}{.}\PYG{n}{TerritoryID}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{st}\PYG{p}{.}\PYG{n}{Name}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{sp}\PYG{p}{.}\PYG{n}{Name}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{a}\PYG{p}{.}\PYG{n}{City}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{NumberOfTopCustomers}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{;}
+\end{Verbatim}

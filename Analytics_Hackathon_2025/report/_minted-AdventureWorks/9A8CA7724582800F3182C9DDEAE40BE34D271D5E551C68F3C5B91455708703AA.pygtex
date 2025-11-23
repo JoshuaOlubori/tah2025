@@ -1,0 +1,19 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}ChannelOrderMetrics}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{OrderMetrics}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{SalesOrderID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{Channel}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{OrderTotalValue}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{COUNT}\PYG{p}{(}\PYG{n}{SalesOrderDetailID}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ItemsPerOrder}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{SalesOrderID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{Channel}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{Channel}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{AVG}\PYG{p}{(}\PYG{n}{OrderTotalValue}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{AverageOrderValue}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{AVG}\PYG{p}{(}\PYG{k}{CAST}\PYG{p}{(}\PYG{n}{ItemsPerOrder}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n+nb}{FLOAT}\PYG{p}{))}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{AverageItemsPerOrder}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{COUNT}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalOrders}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{OrderMetrics}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{Channel}\PYG{p}{;}
+\end{Verbatim}

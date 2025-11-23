@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{vTopBottomProducts}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{ProdAgg}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{p}\PYG{p}{.}\PYG{n}{CategoryName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{p}\PYG{p}{.}\PYG{n}{SubcategoryName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineProfit}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalProfit}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Dim\PYGZus{}Product}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{ProductID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductID}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{ProductName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{CategoryName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{SubcategoryName}
+\PYG{p}{),}
+\PYG{n}{Top10}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{TOP}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Top 10\PYGZsq{}}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Category}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ProductID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ProductName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CategoryName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SubcategoryName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{TotalProfit}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{ProdAgg}\PYG{+w}{ }\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{DESC}
+\PYG{p}{),}
+\PYG{n}{Bottom10}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{TOP}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{10}\PYG{p}{)}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Bottom 10\PYGZsq{}}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Category}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ProductID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{ProductName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{CategoryName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{SubcategoryName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{TotalProfit}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{ProdAgg}\PYG{+w}{ }\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{ASC}
+\PYG{p}{)}
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{o}{*}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{CASE}\PYG{+w}{ }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{k}{NULL}\PYG{+w}{ }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{n}{TotalProfit}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{.}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ProfitMargin}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Top10}
+\PYG{k}{UNION}\PYG{+w}{ }\PYG{k}{ALL}
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{o}{*}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{CASE}\PYG{+w}{ }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{k}{NULL}\PYG{+w}{ }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{n}{TotalProfit}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{.}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ProfitMargin}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Bottom10}\PYG{p}{;}
+\end{Verbatim}

@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}TopResellerSalespeople}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{SalesPersonPerformance}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesPersonID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{COALESCE}\PYG{p}{(}\PYG{n}{p}\PYG{p}{.}\PYG{n}{FirstName}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{LastName}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Unknown\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{SalesPersonName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineProfit}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalProfit}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{LEFT}\PYG{+w}{ }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Person}\PYG{p}{.}\PYG{n}{Person}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesPersonID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{BusinessEntityID}
+\PYG{+w}{  }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{Channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Reseller\PYGZsq{}}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesPersonID}\PYG{+w}{ }\PYG{k}{IS}\PYG{+w}{ }\PYG{k}{NOT}\PYG{+w}{ }\PYG{k}{NULL}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesPersonID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{FirstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{LastName}
+\PYG{p}{)}
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{TOP}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{5}\PYG{p}{)}
+\PYG{+w}{  }\PYG{n}{SalesPersonName}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{TotalRevenue}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{TotalProfit}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{CASE}\PYG{+w}{ }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{k}{NULL}\PYG{+w}{ }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{n}{TotalProfit}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{.}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{ProfitMargin}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{SalesPersonPerformance}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{;}
+\end{Verbatim}

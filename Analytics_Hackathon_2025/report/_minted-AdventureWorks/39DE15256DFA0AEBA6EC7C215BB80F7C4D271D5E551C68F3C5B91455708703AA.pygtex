@@ -1,0 +1,12 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}ChannelMonthly}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{OrderYear}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{MONTH}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{OrderMonth}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{DATEFROMPARTS}\PYG{p}{(}\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{k}{MONTH}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{MonthStart}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{Channel}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{MonthlyRevenue}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{+w}{ }\PYG{n}{SalesOrderID}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{NumberOfOrders}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}
+\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{k}{MONTH}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{DATEFROMPARTS}\PYG{p}{(}\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{k}{MONTH}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{Channel}\PYG{p}{;}
+\end{Verbatim}

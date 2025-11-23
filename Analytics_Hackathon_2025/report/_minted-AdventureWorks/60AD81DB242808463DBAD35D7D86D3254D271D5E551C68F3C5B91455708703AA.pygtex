@@ -1,0 +1,35 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}ResellerTerritoryYoY}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{TerritorySales}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{st}\PYG{p}{.}\PYG{n}{Name}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TerritoryName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{st}\PYG{p}{.[}\PYG{k}{Group}\PYG{p}{]}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TerritoryGroup}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{OrderYear}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{TotalRevenue}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Sales}\PYG{p}{.}\PYG{n}{SalesTerritory}\PYG{+w}{ }\PYG{n}{st}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{TerritoryID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{st}\PYG{p}{.}\PYG{n}{TerritoryID}
+\PYG{+w}{  }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{Channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Reseller\PYGZsq{}}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{st}\PYG{p}{.}\PYG{n}{Name}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{st}\PYG{p}{.[}\PYG{k}{Group}\PYG{p}{],}\PYG{+w}{ }\PYG{k}{YEAR}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{p}{)}
+\PYG{p}{),}
+\PYG{n}{YoY}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{TerritoryName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{TerritoryGroup}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{OrderYear}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{TotalRevenue}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{LAG}\PYG{p}{(}\PYG{n}{TotalRevenue}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TerritoryName}\PYG{+w}{ }\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{OrderYear}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{PrevRevenue}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{TerritorySales}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{TerritoryName}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{TerritoryGroup}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{OrderYear}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{TotalRevenue}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{PrevRevenue}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{CASE}
+\PYG{+w}{    }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{n}{PrevRevenue}\PYG{+w}{ }\PYG{k}{IS}\PYG{+w}{ }\PYG{k}{NULL}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{n}{PrevRevenue}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{k}{NULL}
+\PYG{+w}{    }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{o}{\PYGZhy{}}\PYG{+w}{ }\PYG{n}{PrevRevenue}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{.}\PYG{l+m+mi}{0}\PYG{+w}{ }\PYG{o}{/}\PYG{+w}{ }\PYG{n}{PrevRevenue}
+\PYG{+w}{  }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{YoYGrowthPct}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{YoY}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{TotalRevenue}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{OrderYear}\PYG{p}{;}
+\end{Verbatim}

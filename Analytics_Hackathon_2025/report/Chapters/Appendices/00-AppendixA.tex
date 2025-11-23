@@ -1,2 +1,371 @@
-\chapter{Showcasing the First Appendix}
-\guideinfo{Appendices contain supplementary material \textbf{created by the author} that enhances the reader’s understanding of the dissertation while not being essential for following the primary narrative. These sections often include detailed tables, figures, complex calculations, or materials like survey questions and interview transcripts produced in the course of the research. The appendices allow readers to explore the research in greater detail, offering a deeper insight into methods and findings without interrupting the main body of work.}
+\chapter{SQL Views}
+This appendix contains the SQL code for the views created to support the analysis in the main body of the report.
+
+\section{Theme 1: Channel Performance}
+
+\begin{listing}[!htpb]
+\caption{View for Channel Revenue Comparison}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vChannelPerformance AS
+SELECT
+  YEAR(OrderDate) AS OrderYear,
+  Channel,
+  SUM(LineTotal) AS TotalRevenue,
+  SUM(LineProfit) AS TotalProfit,
+  CASE WHEN SUM(LineTotal) = 0 THEN NULL
+       ELSE SUM(LineProfit) * 1.0 / SUM(LineTotal) END AS ProfitMargin
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), Channel;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Monthly Sales Trends}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_ChannelMonthly AS
+SELECT
+  YEAR(OrderDate) AS OrderYear,
+  MONTH(OrderDate) AS OrderMonth,
+  DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1) AS MonthStart,
+  Channel,
+  SUM(LineTotal) AS MonthlyRevenue,
+  COUNT(DISTINCT SalesOrderID) AS NumberOfOrders
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1), Channel;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Geospatial Performance}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_ResellerTerritoryYoY AS
+WITH TerritorySales AS (
+  SELECT
+    st.Name AS TerritoryName,
+    st.[Group] AS TerritoryGroup,
+    YEAR(fs.OrderDate) AS OrderYear,
+    SUM(fs.LineTotal) AS TotalRevenue
+  FROM Analytics.Fact_Sales fs
+  JOIN Sales.SalesTerritory st ON fs.TerritoryID = st.TerritoryID
+  WHERE fs.Channel = 'Reseller'
+  GROUP BY st.Name, st.[Group], YEAR(fs.OrderDate)
+),
+YoY AS (
+  SELECT
+    TerritoryName,
+    TerritoryGroup,
+    OrderYear,
+    TotalRevenue,
+    LAG(TotalRevenue) OVER (PARTITION BY TerritoryName ORDER BY OrderYear) AS PrevRevenue
+  FROM TerritorySales
+)
+SELECT
+  TerritoryName,
+  TerritoryGroup,
+  OrderYear,
+  TotalRevenue,
+  PrevRevenue,
+  CASE 
+    WHEN PrevRevenue IS NULL OR PrevRevenue = 0 THEN NULL
+    ELSE (TotalRevenue - PrevRevenue) * 1.0 / PrevRevenue
+  END AS YoYGrowthPct
+FROM YoY
+ORDER BY TotalRevenue DESC, OrderYear;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Average Order Metrics}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_ChannelOrderMetrics AS
+WITH OrderMetrics AS (
+  SELECT
+    SalesOrderID,
+    Channel,
+    SUM(LineTotal) AS OrderTotalValue,
+    COUNT(SalesOrderDetailID) AS ItemsPerOrder
+  FROM Analytics.Fact_Sales
+  GROUP BY SalesOrderID, Channel
+)
+SELECT
+  Channel,
+  AVG(OrderTotalValue) AS AverageOrderValue,
+  AVG(CAST(ItemsPerOrder AS FLOAT)) AS AverageItemsPerOrder,
+  COUNT(*) AS TotalOrders
+FROM OrderMetrics
+GROUP BY Channel;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Top Salespeople}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_TopResellerSalespeople AS
+WITH SalesPersonPerformance AS (
+  SELECT
+    fs.SalesPersonID,
+    COALESCE(p.FirstName + ' ' + p.LastName, 'Unknown') AS SalesPersonName,
+    SUM(fs.LineTotal) AS TotalRevenue,
+    SUM(fs.LineProfit) AS TotalProfit
+  FROM Analytics.Fact_Sales fs
+  LEFT JOIN Person.Person p ON fs.SalesPersonID = p.BusinessEntityID
+  WHERE fs.Channel = 'Reseller' AND fs.SalesPersonID IS NOT NULL
+  GROUP BY fs.SalesPersonID, p.FirstName, p.LastName
+)
+SELECT TOP (5)
+  SalesPersonName,
+  TotalRevenue,
+  TotalProfit,
+  CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin
+FROM SalesPersonPerformance
+ORDER BY TotalRevenue DESC;
+\end{minted}
+\end{listing}
+
+\section{Theme 2: Customer Segmentation}
+
+\begin{listing}[!htpb]
+\caption{View for RFM Analysis}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_RFM_Online AS
+WITH RFM_Base AS (
+  SELECT
+    c.CustomerID,
+    COALESCE(p.FirstName + ' ' + p.LastName, 'Company/Unknown') AS CustomerName,
+    MAX(fs.OrderDate) AS LastOrderDate,
+    DATEDIFF(day, MAX(fs.OrderDate), GETDATE()) AS Recency,
+    COUNT(DISTINCT fs.SalesOrderID) AS Frequency,
+    SUM(fs.LineTotal) AS Monetary
+  FROM Analytics.Fact_Sales fs
+  JOIN Sales.Customer c ON fs.CustomerID = c.CustomerID
+  LEFT JOIN Person.Person p ON c.PersonID = p.BusinessEntityID
+  WHERE fs.Channel = 'Online'
+  GROUP BY c.CustomerID, p.FirstName, p.LastName
+),
+RFM_Scores AS (
+  SELECT
+    CustomerID,
+    CustomerName,
+    Recency,
+    Frequency,
+    Monetary,
+    NTILE(4) OVER (ORDER BY Recency ASC) AS R_Score,    -- smaller recency = better
+    NTILE(4) OVER (ORDER BY Frequency DESC) AS F_Score, -- larger frequency = better
+    NTILE(4) OVER (ORDER BY Monetary DESC) AS M_Score   -- larger monetary = better
+  FROM RFM_Base
+)
+SELECT
+  CustomerID,
+  CustomerName,
+  Recency,
+  Frequency,
+  Monetary,
+  R_Score, F_Score, M_Score,
+  (R_Score + F_Score + M_Score) AS RFM_Score,
+  CASE
+    WHEN (R_Score + F_Score + M_Score) >= 11 THEN 'Champions'
+    WHEN (R_Score + F_Score + M_Score) >= 9 THEN 'Loyal Customers'
+    WHEN (R_Score + F_Score + M_Score) >= 6 THEN 'Potential Loyalists'
+    WHEN (R_Score + F_Score + M_Score) >= 4 THEN 'At-Risk Customers'
+    ELSE 'Lost Customers'
+  END AS CustomerSegment
+FROM RFM_Scores
+ORDER BY RFM_Score DESC;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for New vs. Repeat Customers}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.v_MonthlyNewRepeat AS
+WITH CustomerFirstOrder AS (
+  SELECT CustomerID, MIN(OrderDate) AS FirstOrderDate
+  FROM Analytics.Fact_Sales
+  GROUP BY CustomerID
+),
+MonthlyCustomerActivity AS (
+  SELECT
+    fs.SalesOrderID,
+    fs.CustomerID,
+    fs.OrderDate,
+    fs.LineTotal,
+    CASE WHEN CAST(fs.OrderDate AS DATE) = CAST(cfo.FirstOrderDate AS DATE) THEN 'New' ELSE 'Repeat' END AS CustomerType
+  FROM Analytics.Fact_Sales fs
+  JOIN CustomerFirstOrder cfo ON fs.CustomerID = cfo.CustomerID
+)
+SELECT
+  FORMAT(OrderDate, 'yyyy-MM') AS OrderMonth,
+  CustomerType,
+  COUNT(DISTINCT CustomerID) AS NumberOfCustomers,
+  SUM(LineTotal) * 1.0 / NULLIF(COUNT(DISTINCT SalesOrderID),0) AS AverageOrderValue
+FROM MonthlyCustomerActivity
+GROUP BY FORMAT(OrderDate, 'yyyy-MM'), CustomerType
+ORDER BY OrderMonth, CustomerType;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Time to Repeat Purchase}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vAvgDaysToSecondPurchase AS
+WITH Purchases AS (
+  SELECT
+    CustomerID,
+    OrderDate,
+    ROW_NUMBER() OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS rn,
+    LEAD(OrderDate) OVER (PARTITION BY CustomerID ORDER BY OrderDate) AS NextOrderDate
+  FROM Analytics.Fact_Sales
+  WHERE Channel = 'Online'
+)
+SELECT
+  AVG(CAST(DATEDIFF(day, OrderDate, NextOrderDate) AS FLOAT)) AS AvgDaysToRepeatPurchase
+FROM Purchases
+WHERE rn = 1 AND NextOrderDate IS NOT NULL;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Customer Geographics}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vTopCustomerGeography AS
+
+WITH CustSpend AS (
+  SELECT
+    fs.CustomerID,
+    SUM(fs.LineTotal) AS TotalSpent
+  FROM Analytics.Fact_Sales fs
+  WHERE fs.Channel = 'Online'
+  GROUP BY fs.CustomerID
+),
+Ranked AS (
+  SELECT
+    cs.*,
+    NTILE(10) OVER (ORDER BY TotalSpent DESC) AS Decile
+  FROM CustSpend cs
+),
+TopDecile AS (
+  SELECT CustomerID, TotalSpent FROM Ranked WHERE Decile = 1 -- top 10%
+)
+SELECT
+  st.Name AS Territory,
+  sp.Name AS State,
+  a.City,
+  COUNT(DISTINCT td.CustomerID) AS NumberOfTopCustomers
+FROM TopDecile td
+JOIN Sales.Customer c ON td.CustomerID = c.CustomerID
+JOIN Person.BusinessEntityAddress bea ON c.PersonID = bea.BusinessEntityID
+JOIN Person.Address a ON bea.AddressID = a.AddressID
+JOIN Person.StateProvince sp ON a.StateProvinceID = sp.StateProvinceID
+JOIN Sales.SalesTerritory st ON sp.TerritoryID = st.TerritoryID
+GROUP BY st.Name, sp.Name, a.City
+ORDER BY NumberOfTopCustomers DESC;
+\end{minted}
+\end{listing}
+
+\section{Theme 3: Product Optimization}
+
+\begin{listing}[!htpb]
+\caption{View for Top and Bottom Products}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vTopBottomProducts AS
+WITH ProdAgg AS (
+  SELECT
+    p.ProductID,
+    p.ProductName,
+    p.CategoryName,
+    p.SubcategoryName,
+    SUM(fs.LineTotal) AS TotalRevenue,
+    SUM(fs.LineProfit) AS TotalProfit
+  FROM Analytics.Fact_Sales fs
+  JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+  GROUP BY p.ProductID, p.ProductName, p.CategoryName, p.SubcategoryName
+),
+Top10 AS (
+  SELECT TOP (10) 'Top 10' AS Category, ProductID, ProductName, CategoryName, SubcategoryName, TotalRevenue, TotalProfit
+  FROM ProdAgg ORDER BY TotalRevenue DESC
+),
+Bottom10 AS (
+  SELECT TOP (10) 'Bottom 10' AS Category, ProductID, ProductName, CategoryName, SubcategoryName, TotalRevenue, TotalProfit
+  FROM ProdAgg ORDER BY TotalRevenue ASC
+)
+SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Top10
+UNION ALL
+SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END AS ProfitMargin FROM Bottom10;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Market Basket Analysis}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vFrequentProductPairs AS
+    WITH OrderProducts AS (
+ SELECT
+        fs.SalesOrderID,
+        p.ProductName,
+        p.ProductID
+    FROM
+        Analytics.Fact_Sales fs
+    JOIN
+        Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+)
+SELECT
+  a.ProductName AS ProductA,
+    b.ProductName AS ProductB,
+  COUNT(*) AS PairFrequency
+FROM OrderProducts a
+JOIN OrderProducts b ON a.SalesOrderID = b.SalesOrderID AND a.ProductID < b.ProductID
+GROUP BY  a.ProductName,
+    b.ProductName
+ORDER BY PairFrequency DESC;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Category by Channel}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vCategoryChannelRevenue AS
+SELECT
+  p.CategoryName,
+  SUM(CASE WHEN fs.Channel = 'Online' THEN fs.LineTotal ELSE 0 END) AS OnlineRevenue,
+  SUM(CASE WHEN fs.Channel = 'Reseller' THEN fs.LineTotal ELSE 0 END) AS ResellerRevenue,
+  SUM(fs.LineTotal) AS TotalRevenue
+FROM Analytics.Fact_Sales fs
+JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+GROUP BY p.CategoryName
+ORDER BY TotalRevenue DESC;
+\end{minted}
+\end{listing}
+
+\begin{listing}[!htpb]
+\caption{View for Discount Impact Analysis}
+\begin{minted}{sql}
+CREATE OR ALTER VIEW Analytics.vDiscountImpact AS
+WITH DiscountBuckets AS (
+  SELECT
+    p.CategoryName,
+    p.SubcategoryName,
+    fs.UnitPriceDiscount,
+    CASE
+      WHEN fs.UnitPriceDiscount BETWEEN 0 AND 0.05 THEN '0-5%'
+      WHEN fs.UnitPriceDiscount > 0.05 AND fs.UnitPriceDiscount <= 0.15 THEN '5-15%'
+      WHEN fs.UnitPriceDiscount > 0.15 AND fs.UnitPriceDiscount <= 0.30 THEN '15-30%'
+      ELSE '>30%'
+    END AS DiscountBucket,
+    fs.OrderQty,
+    fs.LineProfit
+  FROM Analytics.Fact_Sales fs
+  JOIN Analytics.Dim_Product p ON fs.ProductID = p.ProductID
+  WHERE p.SubcategoryName IN ('Mountain Bikes', 'Road Bikes', 'Jerseys', 'Helmets')
+)
+SELECT
+  CategoryName,
+  SubcategoryName,
+  DiscountBucket,
+  SUM(OrderQty) AS TotalQuantitySold,
+  SUM(LineProfit) AS TotalProfit,
+  CASE WHEN SUM(OrderQty)=0 THEN NULL ELSE SUM(LineProfit) * 1.0 / SUM(OrderQty) END AS ProfitPerUnit
+FROM DiscountBuckets
+GROUP BY CategoryName, SubcategoryName, DiscountBucket
+ORDER BY SubcategoryName, DiscountBucket;
+\end{minted}
+\end{listing}

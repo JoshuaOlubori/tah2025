@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{vAvgDaysToSecondPurchase}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{Purchases}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{OrderDate}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{ROW\PYGZus{}NUMBER}\PYG{p}{()}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{CustomerID}\PYG{+w}{ }\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{rn}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{LEAD}\PYG{p}{(}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{CustomerID}\PYG{+w}{ }\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{NextOrderDate}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}
+\PYG{+w}{  }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{Channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Online\PYGZsq{}}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{k}{AVG}\PYG{p}{(}\PYG{k}{CAST}\PYG{p}{(}\PYG{n}{DATEDIFF}\PYG{p}{(}\PYG{k}{day}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{OrderDate}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{NextOrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n+nb}{FLOAT}\PYG{p}{))}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{AvgDaysToRepeatPurchase}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Purchases}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{rn}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{NextOrderDate}\PYG{+w}{ }\PYG{k}{IS}\PYG{+w}{ }\PYG{k}{NOT}\PYG{+w}{ }\PYG{k}{NULL}\PYG{p}{;}
+\end{Verbatim}

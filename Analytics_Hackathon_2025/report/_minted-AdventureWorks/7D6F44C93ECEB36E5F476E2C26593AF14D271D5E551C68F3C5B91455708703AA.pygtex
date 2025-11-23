@@ -1,0 +1,46 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{OR}\PYG{+w}{ }\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{VIEW}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{v\PYGZus{}RFM\PYGZus{}Online}\PYG{+w}{ }\PYG{k}{AS}
+\PYG{k}{WITH}\PYG{+w}{ }\PYG{n}{RFM\PYGZus{}Base}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{k}{c}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{COALESCE}\PYG{p}{(}\PYG{n}{p}\PYG{p}{.}\PYG{n}{FirstName}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{} \PYGZsq{}}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{LastName}\PYG{p}{,}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Company/Unknown\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{CustomerName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{MAX}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{LastOrderDate}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{DATEDIFF}\PYG{p}{(}\PYG{k}{day}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{MAX}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{OrderDate}\PYG{p}{),}\PYG{+w}{ }\PYG{n}{GETDATE}\PYG{p}{())}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Recency}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{COUNT}\PYG{p}{(}\PYG{k}{DISTINCT}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{SalesOrderID}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Frequency}\PYG{p}{,}
+\PYG{+w}{    }\PYG{k}{SUM}\PYG{p}{(}\PYG{n}{fs}\PYG{p}{.}\PYG{n}{LineTotal}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{Monetary}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{Analytics}\PYG{p}{.}\PYG{n}{Fact\PYGZus{}Sales}\PYG{+w}{ }\PYG{n}{fs}
+\PYG{+w}{  }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Sales}\PYG{p}{.}\PYG{n}{Customer}\PYG{+w}{ }\PYG{k}{c}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{k}{c}\PYG{p}{.}\PYG{n}{CustomerID}
+\PYG{+w}{  }\PYG{k}{LEFT}\PYG{+w}{ }\PYG{k}{JOIN}\PYG{+w}{ }\PYG{n}{Person}\PYG{p}{.}\PYG{n}{Person}\PYG{+w}{ }\PYG{n}{p}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{k}{c}\PYG{p}{.}\PYG{n}{PersonID}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{BusinessEntityID}
+\PYG{+w}{  }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{fs}\PYG{p}{.}\PYG{n}{Channel}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Online\PYGZsq{}}
+\PYG{+w}{  }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{k}{c}\PYG{p}{.}\PYG{n}{CustomerID}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{FirstName}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{p}\PYG{p}{.}\PYG{n}{LastName}
+\PYG{p}{),}
+\PYG{n}{RFM\PYGZus{}Scores}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{  }\PYG{k}{SELECT}
+\PYG{+w}{    }\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{CustomerName}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{Recency}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{Frequency}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{Monetary}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{NTILE}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{Recency}\PYG{+w}{ }\PYG{k}{ASC}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{R\PYGZus{}Score}\PYG{p}{,}\PYG{+w}{    }\PYG{c+c1}{\PYGZhy{}\PYGZhy{} smaller recency = better}
+\PYG{+w}{    }\PYG{n}{NTILE}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{Frequency}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{p}{,}\PYG{+w}{ }\PYG{c+c1}{\PYGZhy{}\PYGZhy{} larger frequency = better}
+\PYG{+w}{    }\PYG{n}{NTILE}\PYG{p}{(}\PYG{l+m+mi}{4}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{OVER}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{Monetary}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{+w}{   }\PYG{c+c1}{\PYGZhy{}\PYGZhy{} larger monetary = better}
+\PYG{+w}{  }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{RFM\PYGZus{}Base}
+\PYG{p}{)}
+\PYG{k}{SELECT}
+\PYG{+w}{  }\PYG{n}{CustomerID}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{CustomerName}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{Recency}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{Frequency}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{Monetary}\PYG{p}{,}
+\PYG{+w}{  }\PYG{n}{R\PYGZus{}Score}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{,}
+\PYG{+w}{  }\PYG{p}{(}\PYG{n}{R\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{RFM\PYGZus{}Score}\PYG{p}{,}
+\PYG{+w}{  }\PYG{k}{CASE}
+\PYG{+w}{    }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{R\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{11}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Champions\PYGZsq{}}
+\PYG{+w}{    }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{R\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{9}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Loyal Customers\PYGZsq{}}
+\PYG{+w}{    }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{R\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Potential Loyalists\PYGZsq{}}
+\PYG{+w}{    }\PYG{k}{WHEN}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{R\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{F\PYGZus{}Score}\PYG{+w}{ }\PYG{o}{+}\PYG{+w}{ }\PYG{n}{M\PYGZus{}Score}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZgt{}=}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{+w}{ }\PYG{k}{THEN}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}At\PYGZhy{}Risk Customers\PYGZsq{}}
+\PYG{+w}{    }\PYG{k}{ELSE}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Lost Customers\PYGZsq{}}
+\PYG{+w}{  }\PYG{k}{END}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{CustomerSegment}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{RFM\PYGZus{}Scores}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{RFM\PYGZus{}Score}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{;}
+\end{Verbatim}
