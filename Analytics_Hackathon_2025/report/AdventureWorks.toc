@@ -1,17 +1,16 @@
 \babel@toc {english}{}\relax 
-\contentsline {frontmatter}{List of Figures}{xi}{listoffigures}%
-\contentsline {frontmatter}{List of Tables}{xiv}{listoftables}%
-\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Business Performance Overview}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Channel Distribution}{1}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Channel Performance}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Introduction}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Key Findings}{3}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}The Profitability Paradox}{3}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Operational Metrics: Volume vs. Value}{4}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Geographic and Personnel Performance}{4}{subsection.2.2.3}%
-\contentsline {section}{\numberline {2.3}Business Insights and Recommendations}{4}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Limitations}{6}{section.2.4}%
+\contentsline {frontmatter}{List of Figures}{v}{listoffigures}%
+\contentsline {frontmatter}{List of Tables}{1}{listoftables}%
+\contentsline {chapter}{\numberline {1}Introduction}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Business Performance Overview}{2}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Channel Distribution}{2}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Channel Performance}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{4}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Key Findings}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}The Profitability Paradox}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Operational Metrics: Volume vs. Value}{5}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Geographic and Personnel Performance}{5}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Business Insights and Recommendations}{5}{section.2.3}%
 \contentsline {chapter}{\numberline {3}Customer Segmentation}{7}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Introduction}{7}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Methodology}{7}{section.3.2}%
@@ -21,7 +20,6 @@
 \contentsline {subsection}{\numberline {3.3.3}New vs. Repeat Customer Value}{9}{subsection.3.3.3}%
 \contentsline {subsection}{\numberline {3.3.4}Geographic Concentration of Top Customers}{9}{subsection.3.3.4}%
 \contentsline {section}{\numberline {3.4}Business Insights and Recommendations}{9}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Limitations}{10}{section.3.5}%
 \contentsline {chapter}{\numberline {4}Product Optimization}{11}{chapter.4}%
 \contentsline {section}{\numberline {4.1}Introduction}{11}{section.4.1}%
 \contentsline {section}{\numberline {4.2}Methodology}{11}{section.4.2}%
@@ -31,12 +29,11 @@
 \contentsline {subsection}{\numberline {4.3.3}Channel-Specific Product Performance}{12}{subsection.4.3.3}%
 \contentsline {subsection}{\numberline {4.3.4}The Corrosive Impact of Aggressive Discounting}{13}{subsection.4.3.4}%
 \contentsline {section}{\numberline {4.4}Business Insights and Recommendations}{13}{section.4.4}%
-\contentsline {section}{\numberline {4.5}Limitations}{14}{section.4.5}%
 \contentsline {chapter}{\numberline {5}Conclusion and Recommendations}{15}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Summary of Findings}{15}{section.5.1}%
 \contentsline {section}{\numberline {5.2}High-Impact Business Recommendations}{16}{section.5.2}%
 \contentsline {chapter}{Appendices}{}{}
-\contentsline {chapter}{\numberline {A}SQL Views}{25}{appendix.A}%
-\contentsline {section}{\numberline {A.1}Theme 1: Channel Performance}{25}{section.A.1}%
-\contentsline {section}{\numberline {A.2}Theme 2: Customer Segmentation}{25}{section.A.2}%
+\contentsline {chapter}{\numberline {A}SQL Views}{19}{appendix.A}%
+\contentsline {section}{\numberline {A.1}Theme 1: Channel Performance}{19}{section.A.1}%
+\contentsline {section}{\numberline {A.2}Theme 2: Customer Segmentation}{22}{section.A.2}%
 \contentsline {section}{\numberline {A.3}Theme 3: Product Optimization}{25}{section.A.3}%

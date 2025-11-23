@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 08:58
+This is XeTeX, Version 3.141592653-2.6-0.999997 (MiKTeX 25.2) (preloaded format=xelatex 2025.5.7)  23 NOV 2025 09:52
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -2179,11 +2179,6 @@ File: Figures/Theme/Cover-BG.pdf Graphic file (type pdf)
 
 
 
-]
-
-[3
-
-
 ])
 \openout2 = `Matter/01-Front-Page.aux'.
 
@@ -2267,15 +2262,10 @@ File: Figures/Theme/Front-Page-BG.pdf Graphic file (type pdf)
 
 
 
-]
-
-[3
-
-
 ])
 \openout2 = `Matter/02-Copyright.aux'.
 
- (Matter/02-Copyright.tex
+ (Matter/02-Copyright.tex)
 
 [1
 
@@ -2283,10 +2273,6 @@ File: Figures/Theme/Front-Page-BG.pdf Graphic file (type pdf)
 
 
 ]
-
-[3
-
-])
 \openout2 = `Matter/03-Acknowledgements.aux'.
 
  (Matter/03-Acknowledgements.tex
@@ -2317,37 +2303,38 @@ Package fontspec Info:
 (fontspec)             <->"Crimson/BI/OT:script=latn;language=dflt;letterspace=
 -0.5;"
 
-
+)
 
 [1
 
 
 
 
-
 ]
-
-[3
-
-])
 \openout2 = `Chapters/00-Abstract.aux'.
 
  (Chapters/00-Abstract.tex
+Overfull \hbox (17.92712pt too wide) in paragraph at lines 14--15
+\TU/TeXGyrePagella(0)/m/n/10.95 data-driven diagnosis of its sales performance 
+and product portfolio. Utilizing transaction-
+ []
 
-[4
+
+Overfull \hbox (9.01428pt too wide) in paragraph at lines 16--17
+\TU/TeXGyrePagella(0)/b/n/10.95 Keywords: \TU/TeXGyrePagella(0)/m/n/10.95 Profi
+tability Diagnosis, Channel Strategy, RFM Segmentation, Market-Basket
+ []
+
+)
+
+[2
 
 
 
 
+] (AdventureWorks.toc
 
-]
-
-[6
-
-]) (AdventureWorks.toc
-
-[7
-
+[3
 
 
 
@@ -2357,22 +2344,13 @@ Package fontspec Info:
 
 
 
-[8]
-
-[10
-
-] (AdventureWorks.lof)
+[4] (AdventureWorks.lof)
 \tf@lof=\write12
 \openout12 = `AdventureWorks.lof'.
 
 
 
-[11
-
-
-]
-
-[13
+[5
 
 ] (AdventureWorks.lot)
 \tf@lot=\write13
@@ -2380,12 +2358,7 @@ Package fontspec Info:
 
 
 
-[14
-
-
-]
-
-[16
+[1
 
 ]
 \openout2 = `Chapters/01-Introduction.aux'.
@@ -2404,20 +2377,19 @@ File: Figures/fig_7.png Graphic file (type bmp)
 <Figures/fig_7.png>
 
 
-[1
-
+[2
 
 
 ])
 
-[2]
+[3]
 \openout2 = `Chapters/02-Channel-Performance.aux'.
 
  (Chapters/02-Channel-Performance.tex
 Chapter 2.
 
 
-[3
+[4
 
 
 
@@ -2433,15 +2405,13 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[4]
+[5]
 Overfull \hbox (0.25998pt too wide) in paragraph at lines 86--87
 \TU/TeXGyrePagella(0)/m/n/10.95 pricing structure where discounts are tied to v
 olume thresholds that protect profit
  []
 
-
-
-[5])
+)
 
 [6]
 \openout2 = `Chapters/03-Customer-Segmentation.aux'.
@@ -2540,28 +2510,14 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 [17]
 
-[19
-
-
-
-]
-
 LaTeX Warning: Empty bibliography on input line 67.
 
-(Matter/06-Appendices.tex
+(Matter/06-Appendices.tex) (Chapters/Appendices/00-AppendixA.tex
 
-[21
+[18
 
-
-]
-
-[22
 
 ]
-
-[24
-
-]) (Chapters/Appendices/00-AppendixA.tex
 Appendix A.
 Package hyperref Info: bookmark level for unknown listing defaults to 0 on inpu
 t line 7.
@@ -2588,11 +2544,20 @@ t line 11.
 
 (_minted-AdventureWorks/60AD81DB242808463DBAD35D7D86D3254D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+
+[19
+
+]
 \openout4 = `AdventureWorks.pyg'.
 
 
 (_minted-AdventureWorks/9A8CA7724582800F3182C9DDEAE40BE34D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[20]
 \openout4 = `AdventureWorks.pyg'.
 
 
@@ -2603,11 +2568,21 @@ t line 11.
 
 (_minted-AdventureWorks/7D6F44C93ECEB36E5F476E2C26593AF14D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[21]
 \openout4 = `AdventureWorks.pyg'.
 
 
 (_minted-AdventureWorks/A18D96FC4B82D7C0C3A00D94CD5535DE4D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[22]
 \openout4 = `AdventureWorks.pyg'.
 
 
@@ -2618,16 +2593,31 @@ t line 11.
 
 (_minted-AdventureWorks/A635BCF61F511DC6AEF68E8EB153741B4D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[23]
 \openout4 = `AdventureWorks.pyg'.
 
 
 (_minted-AdventureWorks/2D5F2900DC0EAEC07EFF24069421F9864D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[24]
 \openout4 = `AdventureWorks.pyg'.
 
 
 (_minted-AdventureWorks/A4777D917316B44E8CD0857C27AB612C4D271D5E551C68F3C5B9145
 5708703AA.pygtex)
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[25]
 \openout4 = `AdventureWorks.pyg'.
 
 
@@ -2637,37 +2627,18 @@ t line 11.
 
 
 (_minted-AdventureWorks/FB78A1DDB51733588F5B61EF8CC3CB394D271D5E551C68F3C5B9145
-5708703AA.pygtex)) (Matter/08-Back-Page.tex
+5708703AA.pygtex))
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[25
 
 
-]
-
-[26]
+[26] (Matter/08-Back-Page.tex
 
 [27]
 
-[28]
-
-[29]
-
-[30]
-
-[31]
-
-[32]
-
-[33]
-
-[35
-
-]
-
 File: Figures/Theme/Back-Page-BG.pdf Graphic file (type pdf)
 <use Figures/Theme/Back-Page-BG.pdf>
-[36
-
+[28
 
 ]
 *geometry* verbose mode - [ newgeometry ] result:
@@ -2718,7 +2689,7 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `AdventureWorks.out' has not changed.
-(rerunfilecheck)             Checksum: 49561EEE00D9F900E5F9F60E3C7E24C3;8377.
+(rerunfilecheck)             Checksum: E53DCB53B8E4628A8EA78A58E044BE01;7963.
 runsystem(del AdventureWorks.pyg)...executed.
 
 Package logreq Info: Writing requests to 'AdventureWorks.run.xml'.
@@ -2726,12 +2697,12 @@ Package logreq Info: Writing requests to 'AdventureWorks.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 58157 strings out of 408640
- 1210139 string characters out of 5745420
- 2356207 words of memory out of 5000000
- 80164 multiletter control sequences out of 15000+600000
+ 58156 strings out of 408640
+ 1210125 string characters out of 5745420
+ 2294097 words of memory out of 5000000
+ 80163 multiletter control sequences out of 15000+600000
  607294 words of font info for 183 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 123i,12n,122p,2644b,4249s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 123i,12n,122p,2644b,4248s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-Output written on AdventureWorks.pdf (49 pages).
+Output written on AdventureWorks.pdf (36 pages).

@@ -1,24 +1,15 @@
 %%% Document Macros and Extras %%%
 
-% Blank page with a warning indicating it is intentionally left blank.
-\newcommand\blankpage{
-    \clearpage
-    \thispagestyle{empty}%
-    \addtocounter{page}{1}%
-    \vspace*{\fill}
-    \begin{center}
-        \ifthenelse{\equal{\LanguageOption}{portuguese}}{%
-            \textcolor{gray!50}{\textit{Página intencionalmente deixada em branco.}}
-        }{%
-            \textcolor{gray!50}{\textit{This page intentionally left blank.}}
-        }
-    \end{center}
-    \vspace*{\fill}
-    \clearpage
-} 
+% Previously this macro inserted an explicit blank page with the phrase
+% "This page intentionally left blank." To avoid inserting blank pages
+% during compilation, redefine the blank-page helpers to no-ops. This
+% prevents the project from emitting the gray message and removes the
+% extra blank pages while preserving callers that expect these commands.
+\newcommand\blankpage{\relax}
 
-% Command that will combine a plain page style and a blank one.
-\newcommand{\plainblankpage}{\thispagestyle{plain}\blankpage}
+% Command that will combine a plain page style and a blank one. Make it
+% a no-op as well to avoid producing an empty page with text.
+\newcommand{\plainblankpage}{\relax}
 
 % Indicates that a writing guide will be displayed.
 \newcommand{\guideinfo}[1]{%
@@ -100,21 +91,14 @@
 \newcommand{\printacronymglossary}{\printglossary[type=\acronymtype]}
 
 % Logic to add or omit a blank page depending on the '\MediaOption' value.
-\newcommand{\MediaOptionLogic}{%
-    \ifthenelse{\equal{\MediaOption}{paper}}{\plainblankpage}{\thispagestyle{plain}}%
-}
-
-\newcommand{\MediaOptionLogicAcr}{%
-    \ifthenelse{\equal{\MediaOption}{paper}}{\plainblankpage}{\clearpage\thispagestyle{plain}}%
-}
-
-\newcommand{\MediaOptionLogicBlank}{%
-    \ifthenelse{\equal{\MediaOption}{paper}}{\blankpage}{}%
-}
-
-\newcommand{\MediaOptionLogicAnnexes}{%
-    \ifthenelse{\equal{\MediaOption}{paper}}{\blankpage}{\clearpage}%
-}
+% Silence media-option driven blank pages: make these logic macros
+% no-ops so appended/prepended calls (e.g., to \tableofcontents) no
+% longer inject blank pages. If you prefer to keep page breaks but not
+% the text, change these to use \clearpage instead of \relax.
+\newcommand{\MediaOptionLogic}{\relax}
+\newcommand{\MediaOptionLogicAcr}{\relax}
+\newcommand{\MediaOptionLogicBlank}{\relax}
+\newcommand{\MediaOptionLogicAnnexes}{\relax}
 
 % Update various elements based on the '\MediaOption' value.
 \apptocmd{\tableofcontents}{\MediaOptionLogic}{}{\fail}

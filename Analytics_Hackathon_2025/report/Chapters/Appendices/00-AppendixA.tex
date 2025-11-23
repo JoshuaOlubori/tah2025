@@ -3,7 +3,7 @@ This appendix contains the SQL code for the views created to support the analysi
 
 \section{Theme 1: Channel Performance}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Channel Revenue Comparison}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vChannelPerformance AS
@@ -19,7 +19,7 @@ GROUP BY YEAR(OrderDate), Channel;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Monthly Sales Trends}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_ChannelMonthly AS
@@ -35,7 +35,7 @@ GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATEFROMPARTS(YEAR(OrderDate), MONTH
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Geospatial Performance}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_ResellerTerritoryYoY AS
@@ -74,7 +74,7 @@ ORDER BY TotalRevenue DESC, OrderYear;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Average Order Metrics}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_ChannelOrderMetrics AS
@@ -97,7 +97,7 @@ GROUP BY Channel;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Top Salespeople}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_TopResellerSalespeople AS
@@ -124,7 +124,7 @@ ORDER BY TotalRevenue DESC;
 
 \section{Theme 2: Customer Segmentation}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for RFM Analysis}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_RFM_Online AS
@@ -174,7 +174,7 @@ ORDER BY RFM_Score DESC;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for New vs. Repeat Customers}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.v_MonthlyNewRepeat AS
@@ -204,7 +204,7 @@ ORDER BY OrderMonth, CustomerType;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Time to Repeat Purchase}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vAvgDaysToSecondPurchase AS
@@ -224,7 +224,7 @@ WHERE rn = 1 AND NextOrderDate IS NOT NULL;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Customer Geographics}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vTopCustomerGeography AS
@@ -264,7 +264,7 @@ ORDER BY NumberOfTopCustomers DESC;
 
 \section{Theme 3: Product Optimization}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Top and Bottom Products}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vTopBottomProducts AS
@@ -294,7 +294,7 @@ SELECT *, CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRev
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Market Basket Analysis}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vFrequentProductPairs AS
@@ -320,7 +320,7 @@ ORDER BY PairFrequency DESC;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Category by Channel}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vCategoryChannelRevenue AS
@@ -336,7 +336,7 @@ ORDER BY TotalRevenue DESC;
 \end{minted}
 \end{listing}
 
-\begin{listing}[!htpb]
+\begin{listing}[H]
 \caption{View for Discount Impact Analysis}
 \begin{minted}{sql}
 CREATE OR ALTER VIEW Analytics.vDiscountImpact AS
