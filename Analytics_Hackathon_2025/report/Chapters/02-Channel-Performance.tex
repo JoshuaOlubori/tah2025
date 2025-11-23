@@ -1,80 +1,99 @@
-\chapter[Channel Performance]{Channel Performance Analysis}
+\chapter[Channel Performance and Salesforce Efficiency]{Channel Performance Analysis}
 \label{cp:channel-performance}
 
 {
-\parindent0pt
-\vspace{.935em}
-\section{Overview of Sales Channels}
+	\parindent0pt
+	\vspace{.935em}
+	\section{Overview of Sales Channels}
 
-AdventureWorks distributes its products through two distinct avenues: the \textbf{Online} channel (Direct-to-Consumer) and the \textbf{Reseller} channel (Business-to-Business). A comparative analysis of these channels reveals a significant divergence between revenue generation and profitability. While the Reseller channel is the primary driver of volume, the Online channel serves as the engine for profit stability.
+	AdventureWorks distributes its products through two channels: the \textbf{Online} channel (Direct-to-Consumer) and the \textbf{Reseller} channel (Business-to-Business). These channels handle money and profit very differently. The Reseller channel is responsible for the highest sales volume, but the Online channel is the most stable source of profit.
 
-\section{Financial Performance and The Profitability Paradox}
+	\section{Financial Performance and The Profitability Paradox}
 
-The most critical insight derived from the longitudinal data (2011--2014) is the inverse relationship between revenue volume and profit margin across channels.
+	A key finding from the longitudinal data (2011–2014) is that channels with higher revenue volume generally had lower profit margins.
 
-As illustrated in \autoref{tab:profitability_paradox}, the Reseller channel consistently generates the majority of revenue, peaking at \$32.89 million in 2013. However, this volume appears to come at a cost. The Reseller channel has operated at a negative profit margin since 2012, recording a loss of -2.85\% in 2013. Conversely, the Online channel, while smaller in scale, maintains a robust profit margin consistently hovering around 40\%.
+	\vspace{1em}
+	As illustrated in \autoref{tab:profitability_paradox}, the Reseller channel consistently generates the majority of revenue, peaking at \$32.89 million in 2013. However, this volume appears to come at a cost. The Reseller channel has operated at a negative profit margin since 2012, recording a loss of -2.85\% in 2013. Conversely, the Online channel, while smaller in scale, maintains a profit margin of about 40\%.
 
-\begin{table}[h!]
-    \centering
-    \caption{Yearly Revenue and Profit Margin Comparison}
-    \label{tab:profitability_paradox}
-    \begin{tabularx}{\textwidth}{l X r r r}
-        \toprule
-        \textbf{Year} & \textbf{Channel} & \textbf{Total Revenue (\$)} & \textbf{Total Profit (\$)} & \textbf{Margin (\%)} \\
-        \midrule
-        \multirow{2}{*}{2011} & Online & 3.86 M & 1.54 M & 39.91\% \\
-         & Reseller & 8.78 M & 0.08 M & 0.97\% \\
-        \midrule
-        \multirow{2}{*}{2012} & Online & 6.39 M & 2.38 M & 37.28\% \\
-         & Reseller & 27.13 M & (1.43 M) & -5.29\% \\
-        \midrule
-        \multirow{2}{*}{2013} & Online & 10.73 M & 4.29 M & 40.00\% \\
-         & Reseller & 32.89 M & (0.94 M) & -2.85\% \\
-        \midrule
-        \multirow{2}{*}{2014*} & Online & 8.37 M & 3.47 M & 41.45\% \\
-         & Reseller & 11.69 M & (0.03 M) & -0.24\% \\
-        \bottomrule
-        \multicolumn{5}{l}{\footnotesize \textit{*2014 data represents a partial fiscal year.}}
-    \end{tabularx}
-\end{table}
+	\begin{table}[h!]
+		\centering
+		\caption{Yearly Revenue and Profit Margin Comparison}
+		\label{tab:profitability_paradox}
+		\begin{tabularx}{\textwidth}{l X r r r}
+			\toprule
+			\textbf{Year}          & \textbf{Channel} & \textbf{Total Revenue (\$)} & \textbf{Total Profit (\$)} & \textbf{Margin (\%)} \\
+			\midrule
+			\multirow{2}{*}{2011}  & Online           & 3.86 M                      & 1.54 M                     & 39.91\%              \\
+			                       & Reseller         & 8.78 M                      & 0.08 M                     & 0.97\%               \\
+			\midrule
+			\multirow{2}{*}{2012}  & Online           & 6.39 M                      & 2.38 M                     & 37.28\%              \\
+			                       & Reseller         & 27.13 M                     & (1.43 M)                   & -5.29\%              \\
+			\midrule
+			\multirow{2}{*}{2013}  & Online           & 10.73 M                     & 4.29 M                     & 40.00\%              \\
+			                       & Reseller         & 32.89 M                     & (0.94 M)                   & -2.85\%              \\
+			\midrule
+			\multirow{2}{*}{2014*} & Online           & 8.37 M                      & 3.47 M                     & 41.45\%              \\
+			                       & Reseller         & 11.69 M                     & (0.03 M)                   & -0.24\%              \\
+			\bottomrule
+			\multicolumn{5}{l}{\footnotesize \textit{*2014 data represents a partial fiscal year.}}
+		\end{tabularx}
+	\end{table}
 
-This discrepancy suggests that the pricing strategy for Resellers—likely involving deep volume discounts—may be eroding the bottom line, whereas the Online channel benefits from premium pricing power.
+	This discrepancy suggests that the pricing strategy for Resellers—likely involving deep volume discounts—may be eroding the bottom line, whereas the Online channel benefits from premium pricing power.
 
-\section{Operational Metrics: Volume vs. Value}
+	\section{Operational Metrics: Volume vs. Value}
 
-The fundamental operational differences between the channels are highlighted by the Average Order Value (AOV) and items per order. The data confirms that the Reseller channel functions as a bulk-wholesale mechanism, while the Online channel serves individual consumer needs.
+    Average Order Value (AOV) tells you how much money, on average, each customer spends per transaction.
+   
 
-\begin{itemize}
-    \item \textbf{Reseller Channel:} Characterized by a high AOV of \textbf{\$21,147.58} and an average of \textbf{16 items per order}. This indicates complex, large-scale logistical requirements.
-    \item \textbf{Online Channel:} Characterized by a lower AOV of \textbf{\$1,061.45} and an average of \textbf{2.18 items per order}, reflecting a transactional, high-frequency retail model.
-\end{itemize}
+	\begin{itemize}
+		\item \textbf{Reseller Channel:} High AOV of \textbf{\$21,147.58} and an average of \textbf{16 items per order}. This indicates complex, large-scale logistical requirements.
+		
+		\item \textbf{Online Channel:} Lower AOV of \textbf{\$1,061.45} and an average of \textbf{2.18 items per order}, reflecting a transactional, high-frequency retail model.
+	\end{itemize}
 
-\section{Geographic \& Personnel Performance}
+     This confirms that the Reseller channel functions as a bulk-wholesale mechanism, while the Online channel serves individual consumer needs.
 
-\subsection{Territorial Growth}
-The North American market remains the stronghold for AdventureWorks. Specifically, the \textbf{Southwest} territory is a dominant performer, generating over \$7.19 million in 2013 alone. However, international markets are showing distinct trends. The \textbf{United Kingdom} and \textbf{France} showed positive year-over-year growth in 2013 (1.23\% and 1.61\% respectively), identifying them as key expansion targets. Conversely, established markets like Central North America have shown signs of saturation or decline (-0.68\% growth in 2014).
+	\section{Geographic \& Personnel Performance}
 
-\subsection{Salesforce Efficiency}
-An analysis of the top salespeople within the Reseller channel reinforces the concern regarding profitability. \autoref{tab:salesperson_performance} lists the top five performers by revenue. Notably, \textbf{all top five salespeople generated negative profit margins}.
+	\subsection{Territorial Growth}
+	The North American market remains the stronghold for AdventureWorks. The \textbf{Southwest} territory, for instance, is a dominant performer, generating over \$7.19 million in 2013 alone as seen in \autoref{fig:yoy-growth}. However, international markets are showing promise. The \textbf{United Kingdom} and \textbf{France} showed positive year-over-year growth in 2013 (1.23\% and 1.61\% respectively), identifying them as key expansion targets. On the other hand, established markets like Central North America have shown signs of saturation or decline (-0.68\% growth in 2014).
 
-\begin{table}[h!]
-    \centering
-    \caption{Top 5 Salespeople by Revenue (Reseller Channel)}
-    \label{tab:salesperson_performance}
-    \begin{tabularx}{\textwidth}{X r r r}
-        \toprule
-        \textbf{Salesperson} & \textbf{Total Revenue} & \textbf{Total Profit} & \textbf{Profit Margin} \\
-        \midrule
-        Michael Blythe & \$9,293,903 & (\$281,662) & -3.03\% \\
-        Jae Pak & \$8,503,338 & (\$142,034) & -1.67\% \\
-        Tsvi Reiter & \$7,171,012 & (\$147,095) & -2.05\% \\
-        Shu Ito & \$6,427,005 & (\$396,323) & -6.17\% \\
-        Amy Alberts & \$732,759 & (\$24,279) & -3.31\% \\
-        \bottomrule
-    \end{tabularx}
-\end{table}
+        \begin{figure}[!htpb]
+            \centering
+            \includegraphics[width=\linewidth]{Figures/fig_1.png}
+            \caption{Regional revenue distribution across territories (all years).}
+            \label{fig:territorial-revenue}
+        \end{figure}
 
-For example, Michael Blythe generated the highest revenue (\$9.29M) but incurred a loss of over \$281k. This systemic issue suggests that sales commissions or targets may be aligned solely with gross revenue rather than net profitability, incentivizing aggressive discounting to close deals.
+        \begin{figure}[!htpb]
+            \centering
+            \includegraphics[width=\linewidth]{Figures/fig_2.png}
+            \caption{Trend of revenue growth by territory.}
+            \label{fig:yoy-growth}
+        \end{figure}
+
+        \vspace{1em}
+	\subsection{Salesforce Efficiency}
+	An analysis of the top salespeople within the Reseller channel reiterates the concern regarding profitability noted earlier. \autoref{tab:salesperson_performance} lists the top five performers by revenue. Notably, \textbf{all top five salespeople generated negative profit margins}.
+	\begin{table}[h!]
+		\centering
+		\caption{Top 5 Salespeople by Revenue (Reseller Channel)}
+		\label{tab:salesperson_performance}
+		\begin{tabularx}{\textwidth}{l X r r r}
+			\toprule
+			\textbf{Salesperson} & \textbf{} & \textbf{Total Revenue} & \textbf{Total Profit} & \textbf{Profit Margin} \\
+			\midrule
+			Michael Blythe & & \$9,293,903 & (\$281,662) & -3.03\% \\
+			Jae Pak & & \$8,503,338 & (\$142,034) & -1.67\% \\
+			Tsvi Reiter & & \$7,171,012 & (\$147,095) & -2.05\% \\
+			Shu Ito & & \$6,427,005 & (\$396,323) & -6.17\% \\
+			Amy Alberts & & \$732,759 & (\$24,279) & -3.31\% \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	For example, Michael Blythe generated the highest revenue (\$9.29M) but incurred a loss of over \$281k. This suggests that sales commissions or targets may be aligned solely with gross revenue rather than net profitability, incentivizing aggressive discounting to close deals.
 
 
 }

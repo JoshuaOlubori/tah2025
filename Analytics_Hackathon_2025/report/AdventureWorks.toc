@@ -7,33 +7,31 @@
 \contentsline {section}{\numberline {1.3}Temporal Revenue Trends}{2}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}Growth Phase (2011--2013)}{2}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}Consolidation and Decline (2014)}{2}{subsection.1.3.2}%
-\contentsline {chapter}{\numberline {2}Channel Performance}{4}{chapter.2}%
+\contentsline {chapter}{\numberline {2}Channel Performance and Salesforce Efficiency}{4}{chapter.2}%
 \contentsline {section}{\numberline {2.1}Overview of Sales Channels}{4}{section.2.1}%
 \contentsline {section}{\numberline {2.2}Financial Performance and The Profitability Paradox}{4}{section.2.2}%
 \contentsline {section}{\numberline {2.3}Operational Metrics: Volume vs. Value}{5}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Geographic \& Personnel Performance}{5}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Territorial Growth}{5}{subsection.2.4.1}%
-\contentsline {subsection}{\numberline {2.4.2}Salesforce Efficiency}{5}{subsection.2.4.2}%
-\contentsline {chapter}{\numberline {3}Okra: Our Solution Proposal}{6}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Core Concept and Functionality}{6}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Marketplace Networking}{6}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Logistics Integration}{6}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}AI-Powered Insights}{7}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Youth-led Agribusiness Empowerment}{7}{subsection.3.1.4}%
-\contentsline {section}{\numberline {3.2}Screens}{8}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Data Strategy}{9}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Image Data Collection}{9}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Data Labeling and Training}{9}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Feedback Loop (Active Learning)}{9}{subsection.3.3.3}%
-\contentsline {section}{\numberline {3.4}Auxiliary data sources}{9}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Privacy and Governance}{10}{subsection.3.4.1}%
-\contentsline {section}{\numberline {3.5}OkraAI}{10}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Dataset}{10}{subsection.3.5.1}%
-\contentsline {section}{\numberline {3.6}Data Split}{11}{section.3.6}%
-\contentsline {section}{\numberline {3.7}Model Training}{11}{section.3.7}%
-\contentsline {section}{\numberline {3.8}Deployment}{11}{section.3.8}%
-\contentsline {section}{\numberline {3.9}Confusion Matrix}{12}{section.3.9}%
-\contentsline {section}{\numberline {3.10}Training Progression}{13}{section.3.10}%
-\contentsline {section}{\numberline {3.11}F1-Confidence Curve}{14}{section.3.11}%
-\contentsline {section}{\numberline {3.12}Deployment and Demo}{14}{section.3.12}%
-\contentsline {backmatter}{Bibliography}{18}{chapter*.21}%
+\contentsline {subsection}{\numberline {2.4.2}Salesforce Efficiency}{6}{subsection.2.4.2}%
+\contentsline {chapter}{\numberline {3}Customer Segmentation}{7}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Introduction}{7}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Data and Preprocessing}{7}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Methods}{8}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Results}{8}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Segment Distribution and Scale}{8}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}New vs. Repeat Customer AOV Dynamics}{9}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}The Repeat Purchase Cycle and Retention Insights}{10}{subsection.3.4.3}%
+\contentsline {subsection}{\numberline {3.4.4}Geographic Concentration and Regional Targeting}{11}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5}Interpretation and Business Insights}{11}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}The Retention Gap and Purchase-to-Purchase Timing}{11}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Segment-Specific Acquisition and Retention Strategy}{11}{subsection.3.5.2}%
+\contentsline {section}{\numberline {3.6}Limitations}{12}{section.3.6}%
+\contentsline {chapter}{\numberline {4}Product Optimization}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Objectives}{14}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Data and Preprocessing}{14}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Methods}{15}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Results}{15}{section.4.4}%
+\contentsline {section}{\numberline {4.5}Interpretation and Operational Insights}{17}{section.4.5}%
+\contentsline {section}{\numberline {4.6}Limitations}{18}{section.4.6}%
+\contentsline {section}{\numberline {4.7}Recommendations for Next Steps}{18}{section.4.7}%

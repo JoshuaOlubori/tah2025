@@ -16,35 +16,5 @@
   {}
 \endgroup
 
-
-\refsection{0}
-  \datalist[entry]{nyt/global//global/global/global}
-    \entry{onnx}{misc}{}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=f450d9c6bd7a4d38afa293d89f4663c0}{%
-           family={{ONNX Community}},
-           familyi={O\bibinitperiod}}}%
-      }
-      \strng{namehash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{fullhash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{fullhashraw}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{bibnamehash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{authorbibnamehash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{authornamehash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{authorfullhash}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \strng{authorfullhashraw}{f450d9c6bd7a4d38afa293d89f4663c0}
-      \field{sortinit}{O}
-      \field{sortinithash}{2cd7140a07aea5341f9e2771efe90aae}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{howpublished}{\url{https://onnx.ai/}}
-      \field{note}{Accessed: 2025-05-15}
-      \field{title}{Open Neural Network Exchange (ONNX)}
-      \field{year}{2019}
-    \endentry
-  \enddatalist
-\endrefsection
 \endinput
 

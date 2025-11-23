@@ -1,12 +1,10 @@
 \babel@toc {english}{}\relax 
 \addvspace {10\p@ }
 \addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Regional revenue distribution across territories (all years).}}{5}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Trend of revenue growth by territory.}}{6}{figure.caption.11}%
 \addvspace {10\p@ }
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Screenshot of the landing page}}{8}{figure.caption.11}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Screenshot of the farmer's dashboard}}{8}{figure.caption.12}%
-\contentsline {figure}{\numberline {3.3}{\ignorespaces Screenshot of the buyers's dashboard}}{8}{figure.caption.13}%
-\contentsline {figure}{\numberline {3.4}{\ignorespaces Screenshot of the buyers's dashboard}}{9}{figure.caption.14}%
-\contentsline {figure}{\numberline {3.5}{\ignorespaces Confusion matrix of the model}}{13}{figure.caption.17}%
-\contentsline {figure}{\numberline {3.6}{\ignorespaces Training progression of the model}}{13}{figure.caption.18}%
-\contentsline {figure}{\numberline {3.7}{\ignorespaces F1-confidence curve of the model}}{14}{figure.caption.19}%
-\contentsline {figure}{\numberline {3.8}{\ignorespaces Gradio Demo of the model}}{15}{figure.caption.20}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Customer count distribution across RFM segments.}}{9}{figure.caption.15}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Average order value comparison: new versus repeat customers by month.}}{10}{figure.caption.16}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Revenue vs.\ Profit Margin for Top 10 Product.}}{16}{figure.caption.20}%

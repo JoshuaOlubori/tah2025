@@ -1,0 +1,255 @@
+\chapter[Customer Segmentation]{Customer Segmentation Analysis}
+\label{cp:customer-segmentation}
+
+{
+	\parindent0pt
+	\vspace{.935em}
+
+	\section{Introduction}
+
+	Following the analysis of channel performance, this chapter attempts to understand the customer base through segmentation. By grouping customers with similar purchasing behaviors, AdventureWorks can tailor marketing strategies, optimize resource allocation, and enhance customer lifetime value (CLV).
+
+	\section{Data and Preprocessing}
+
+	The segmentation analysis uses sales transaction data filtered for the \textbf{Online} channel, combined with customer demographic and geographic data. The primary dataset is derived from \texttt{Analytics.Fact\_Sales}, joined with \texttt{Sales.Customer} and \texttt{Person.Person} to attribute transactions to unique individuals.
+
+	\vspace{1em}
+	\textbf{Data sources (views):}
+	\begin{itemize}
+		\item \texttt{v\_RFM\_Online.csv}: Transactional data aggregated to the customer level for RFM scoring.
+		\item \texttt{vTopCustomerGeography.csv}: Geographic distribution of top-tier customers.
+		\item \texttt{v\_AvgDaysToSecondPurchase.csv}: Metrics on purchase latency.
+		\item \texttt{vMonthlyCustomerTypeTrend.csv}: Time-series data distinguishing new versus repeat customer activity.
+	\end{itemize}
+
+	\textbf{Preprocessing Steps:}
+	\begin{enumerate}
+		\item \textbf{Filtering}: Analysis was restricted to customers where \texttt{Channel = 'Online'} to focus on digital consumer behavior.
+		\item \textbf{Aggregation}: Transaction data was grouped by \texttt{CustomerID}. Key metrics (Last Order Date, Order Count, Total Spend) were calculated.
+		\item \textbf{Handling Nulls}: Customer names were constructed by concatenating First and Last names; nulls or missing person records were coalesced into ``Company/Unknown''.
+		\item \textbf{Derived Features}: \texttt{Recency} was calculated as the number of days elapsed since the last purchase relative to the current date (\texttt{GETDATE()}).
+	\end{enumerate}
+
+	\begin{table}[h!]
+		\centering
+		\caption{Fields used for segmentation}
+		\label{tab:segmentation_fields}
+		\begin{tabularx}{\textwidth}{l X r}
+			\toprule
+			\textbf{Field Name} & \textbf{Type}    & \textbf{Purpose}                                         \\
+			\midrule
+			CustomerID          & Identifier       & Unique key for customer aggregation.                     \\
+			Recency             & Computed (Int)   & Days since last purchase; measures engagement retention. \\
+			Frequency           & Computed (Int)   & Number of distinct sales orders; measures loyalty.       \\
+			Monetary            & Computed (Money) & Sum of LineTotal; measures revenue contribution.         \\
+			R/F/M\_Score        & Rank (1--4)      & Quartile scoring for segmentation logic.                 \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+
+	\section{Methods}
+
+	The primary method employed was \textbf{RFM Analysis (Recency, Frequency, Monetary)}. This rule-based segmentation approach was chosen for its interpretability and direct application to marketing action. Unlike black-box clustering algorithms, RFM provides actionable levers tailored to engagement, purchasing frequency, and value.
+
+	\vspace{1em}
+	\textbf{Feature Creation \& Scoring Logic:}
+	Customers were scored on a scale of 1 to 4 for each dimension using the SQL \texttt{NTILE(4)} window function:
+	\begin{itemize}
+		\item \textbf{Recency (R)}: Ordered ascending (Lower days = Higher Score). A score of 4 represents the most active, recent customers.
+		\item \textbf{Frequency (F)}: Ordered descending (Higher order count = Higher Score).
+		\item \textbf{Monetary (M)}: Ordered descending (Higher spend = Higher Score).
+	\end{itemize}
+
+	An aggregate \texttt{RFM\_Score} was calculated by summing R + F + M, resulting in a range from 3 to 12. Segments were defined using the following thresholds:
+	\begin{itemize}
+		\item \textbf{Champions}: Score $\ge$ 11
+		\item \textbf{Loyal Customers}: Score $\ge$ 9
+		\item \textbf{Potential Loyalists}: Score $\ge$ 6
+		\item \textbf{At-Risk Customers}: Score $\ge$ 4
+		\item \textbf{Lost Customers}: Score $<$ 4
+	\end{itemize}
+
+	\section{Results}
+
+	\subsection{Segment Distribution and Scale}
+
+	The analysis identified 18,484 unique online customers distributed across five RFM segments as shown in \autoref{tab:segment_distribution}. The \textbf{Champions} and \textbf{Loyal Customers} drive a disproportionate share of revenue, characterized by frequent purchases and high average order values. Champions comprise only 5.5\% of the total customer base, yet they are responsible for most of the profit. On the other hand, the \textbf{Lost} and \textbf{At-Risk} segments represent a combined 21.5\% of customers — a substantial population of disengaged or inactive accounts warranting recovery strategies.
+
+	\begin{table}[h!]
+		\centering
+		\caption{Customer Segmentation Distribution}
+		\label{tab:segment_distribution}
+		\begin{tabularx}{\textwidth}{l X r r r}
+			\toprule
+			\textbf{Segment}    & \textbf{Customer Count} & \textbf{\% of Base} & \textbf{Business Implication}          \\
+			\midrule
+			Champions           & 1,007                   & 5.5\%               & High-value core; maximize retention.   \\
+			Loyal Customers     & 6,257                   & 33.8\%              & Stable revenue base; nurture loyalty.  \\
+			Potential Loyalists & 7,319                   & 39.6\%              & Largest segment; prime growth target.  \\
+			At-Risk Customers   & 2,907                   & 15.7\%              & Require win-back; high recovery value. \\
+			Lost Customers      & 994                     & 5.4\%               & Low-touch or reactivation pilots only. \\
+			\midrule
+			\textbf{Total}      & \textbf{18,484}         & \textbf{100\%}      & ---                                    \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\textbf{Cluster Summaries:}
+	\begin{itemize}
+		\item \textbf{Champions}: High purchase frequency (4+ orders), high monetary value ($>$ \$10k), very recent buyers.
+		\item \textbf{At-Risk}: Moderate monetary value but poor recency trends; customers who have ``gone quiet.''
+		\item \textbf{Lost Customers}: Single low-value purchases made long ago; Recency often $>$ 4000 days.
+	\end{itemize}
+
+	\autoref{fig:segment-distribution} provides a visual breakdown of customer counts across all five segments.
+
+	\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=0.5\linewidth]{Figures/fig_3.png}
+		\caption{Customer count distribution across RFM segments.}
+		\label{fig:segment-distribution}
+	\end{figure}
+
+	\subsection{New vs. Repeat Customer AOV Dynamics}	An interesting observation was noted: repeat customers exhibit Average Order Values (\textbf{AOV}) that are \textbf{8--20x higher} than new customer AOVs. From the acquisition and retention data, new customers in peak acquisition months (July 2013) averaged $\sim$\$1,602 AOV, while repeat customers in the same period averaged $\sim$\$6,268 — a 3.9x difference. In earlier cohorts (2011--2012), the spread widened significantly: repeat customers achieved AOVs of $\$18,000$--\$37,000+, while new cohorts remained in the $\$3,000$--\$8,000 range.
+
+	\vspace{1em}
+	\textbf{Strategic Implication:} This suggests that new customer acquisition may be driven by lower-priced entry-level products (e.g., accessories or promotional bundles). Success metrics should prioritize repeat purchase rate and customer lifetime value over initial transaction size.
+
+	\autoref{fig:aov-new-vs-repeat} illustrates the stark AOV difference between new and repeat customers across the observation period.
+
+	\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=\linewidth]{Figures/fig_4.png}
+		\caption{Average order value comparison: new versus repeat customers by month.}
+		\label{fig:aov-new-vs-repeat}
+	\end{figure}
+
+	\subsection{The Repeat Purchase Cycle and Retention Insights}	The average days to a second purchase is \textbf{161 days} (approximately 5.3 months). This metric is important for campaign timing:
+	\begin{itemize}
+		\item \textbf{Nurture Window}: A 90--120 day post-purchase nurture sequence can intercept customers during their consideration phase before they drift to competitors.
+		\item \textbf{Cohort Retention}: Cohorts acquired in 2011--2012 (earlier) show proportionally higher repeat purchase rates; newer cohorts (2013--2014) display lower repeat penetration, suggesting either shorter observation windows or changing customer behavior.
+		\item \textbf{Repeat Volume Trends}: The total repeat customer volume in 2014-03 (1,215 customers) surpassed new customer acquisitions (1,134) for the first time, indicating maturing customer base maturation.
+	\end{itemize}
+
+	\subsection{Geographic Concentration and Regional Targeting}
+
+	Top-tier customers (top 10\%) show extreme geographic concentration:
+	\begin{table}[h!]
+		\centering
+		\caption{Top 5 Geographic Clusters (Top 10\% Customers)}
+		\label{tab:geo_top5}
+		\begin{tabularx}{\textwidth}{l X r r}
+			\toprule
+			\textbf{Region/State} & \textbf{Top Customers} & \textbf{Concentration Rank} \\
+			\midrule
+			England               & 66                     & 1st (9.0\% of top tier)     \\
+			Seine (Paris), France & 33                     & 2nd (4.5\% of top tier)     \\
+			Queensland, Australia & 29                     & 3rd (4.0\% of top tier)     \\
+			California, USA       & 15                     & 4th (2.0\% of top tier)     \\
+			New South Wales, AUS  & 23                     & 5th (3.1\% of top tier)     \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\textbf{Key Insight:} England has the most top-tier customers with 66, followed by Paris with 33. The Australian states (Queensland and NSW) represent a significant regional base, with 52 top customers. This concentration represents an opportunity to efficiently scale operations in high-density regions, and a risk of significant disruption from supply chain or regulatory issues in a limited number of areas.
+
+
+	\section{Interpretation and Business Insights}
+
+	\subsection{The Retention Gap and Purchase-to-Purchase Timing}
+
+	Data from the repeat purchase analysis indicates that the average time to a second purchase is approximately \textbf{161 days (5.3 months)}. Based on this insight, the following actions are recommended:
+
+	\vspace{1em}
+	\textbf{Timeline-Based Actions:}
+	\begin{itemize}
+		\item \textbf{Days 0--30 (Onboarding Phase)}: Confirm receipt, upsell complementary products, begin loyalty program enrollment.
+		\item \textbf{Days 60--90 (Consideration Window)}: Deploy targeted email nurture (personalized product recommendations, exclusive discounts, social proof testimonials).
+		\item \textbf{Days 100--120 (Critical Intervention Point)}: First engagement drop-off risk; deploy SMS or retargeting ads to prevent churn.
+		\item \textbf{Days 130--161 (Conversion Goal)}: Win-back campaigns with time-limited incentives to trigger repeat purchase.
+		\item \textbf{Days 162+ (At-Risk Zone)}: Customer transitions to ``Inactive'' status; move to quarterly win-back or low-touch reactivation.
+	\end{itemize}
+
+	\textbf{Recommendation:} Implement an automated drip campaign series with three touch-points at day 60, day 100, and day 140 to maximize repeat purchase likelihood before the 161-day threshold is exceeded.
+
+	% \subsection{Geographic Concentration and Multi-Region Strategy}
+
+	% The analysis reveals stark geographic concentration: \textbf{England (66 customers)} and \textbf{Paris (33 customers)} represent 13\% of the top 10\% customer segment despite global operations. Australia (Queensland + New South Wales: 52 combined customers) forms a secondary but significant cluster.
+
+	% \textbf{Strategic Recommendations:}
+	% \begin{enumerate}
+	% 	\item \textbf{England-Focused Initiatives}:
+	% 	      \begin{itemize}
+	% 		      \item Localize inventory and fulfillment (consider UK warehouse).
+	% 		      \item Launch England-exclusive VIP programs for Champions (max 50 customers).
+	% 		      \item Coordinate local events and in-person customer engagement.
+	% 	      \end{itemize}
+	% 	\item \textbf{France Opportunity}:
+	% 	      \begin{itemize}
+	% 		      \item Paris metro region (Paris + nearby departments) totals 66 customers — competitive with England's 66.
+	% 		      \item Expand French language support and marketing; test same-day delivery in Paris.
+	% 	      \end{itemize}
+	% 	\item \textbf{Australia Secondary Hub}:
+	% 	      \begin{itemize}
+	% 		      \item Queensland (29 top customers) + NSW (23 top customers) warrant dedicated account management.
+	% 		      \item Establish regional partnerships (e.g., with Australian distributors) to reduce shipping latency.
+	% 	      \end{itemize}
+	% \end{enumerate}
+
+	\subsection{Segment-Specific Acquisition and Retention Strategy}
+
+	Based on segment distribution and behavioral patterns:
+
+	\textbf{Champions \& Loyalists (39.3\% combined):}
+	\begin{itemize}
+		\item \textbf{Retention Focus}: Quarterly business reviews, VIP customer councils, exclusive new product previews.
+		\item \textbf{Expansion}: Cross-sell higher-margin product lines; upsell service contracts (e.g., extended warranty, priority support).
+		\item \textbf{Referral Programs}: Offer \$500--\$1,000 incentives for Champions to refer new customers (high-trust referrals convert faster).
+	\end{itemize}
+
+	\textbf{Potential Loyalists (39.6\%):}
+	\begin{itemize}
+		\item \textbf{Growth Target}: This cohort represents 39.6\% of the customer base but lower monetary value; moving even 10\% into Loyal status would add 731 high-value customers.
+		\item \textbf{Accelerated Repeat}: Implement a 60-day post-purchase incentive (e.g., ``Buy again within 60 days, get 15\% off'') to compress the natural 161-day repeat cycle.
+		\item \textbf{Bundle Offers}: Create starter bundles to increase basket size and trigger higher-tier RFM scores.
+	\end{itemize}
+
+	\textbf{At-Risk Customers (15.7\%):}
+	\begin{itemize}
+		\item \textbf{Value Salvage}: Many possess strong historical monetary values (often $\$5,000$--\$15,000 lifetime spend). Prioritize recovery.
+		\item \textbf{Win-Back Campaigns}: Deploy segmented email sequences: ``We miss you'' offer (10\% discount), followed by ``Last chance'' urgency messaging, then a final ``Say goodbye'' sentiment message.
+		\item \textbf{Root Cause Analysis}: Survey a sample ($n=50$) of At-Risk customers to understand churn drivers (product dissatisfaction, price sensitivity, switching to competitor, etc.).
+	\end{itemize}
+
+	\textbf{Lost Customers (5.4\%):}
+	\begin{itemize}
+		\item \textbf{Reactivation Pilot}: Test a limited reactivation campaign (e.g., 50 customers) with a dramatic offer (e.g., ``Come back with 25\% off your next order'').
+		\item \textbf{Cost-Benefit Check}: If AOV for Lost customers was $<\$500$, focus marketing budget on Potential Loyalists instead.
+	\end{itemize}	\section{Limitations}
+
+	\begin{itemize}
+		\item \textbf{Rank-Based Scoring}: The NTILE quartile system may mask true variance in skewed distributions; e.g., a customer with \$50k lifetime spend scores the same as one with \$5k if both fall in the top quartile.
+		\item \textbf{Data Recency}: Recency calculations depend on the reference date (\texttt{GETDATE()}); results are valid only for analysis runs performed on or near the original report generation date.
+		\item \textbf{Temporal Bias}: Cohorts acquired in 2011--2012 have longer observation windows; newer 2013--2014 cohorts may appear to have lower repeat rates simply because insufficient time has passed.
+		\item \textbf{Geographic Data Granularity}: Top customer data is provided at state/province level; city-level clustering (e.g., within California or England) is not available for deeper micro-targeting.
+		\item \textbf{External Factors}: Competitive dynamics, product launches, and promotional calendars are not accounted for in the RFM scoring; a customer in the ``Lost'' segment may return if triggered by a seasonal sale or new product launch.
+	\end{itemize}
+
+	% \section{Recommendations for Next Steps}
+
+	% \begin{enumerate}
+	% 	\item \textbf{Cohort Analysis}: Construct customer acquisition cohorts (by acquisition month/year) and track retention curves over 12--24 months. Identify whether older cohorts (2011) retain better than newer ones (2014), and if so, what operational changes drove the shift.
+
+	% 	\item \textbf{AOV Progression Modeling}: Analyze the path from first purchase ($\sim\$1,600$) to repeat purchase ($\sim\$6,000$+) in 161 days. Identify which product bundles or categories drive this progression and optimize first-time buyer onboarding.
+
+	% 	\item \textbf{Geographic Expansion Roadmap}: Rank regions by top-tier customer density and operationalization cost. Develop localized fulfillment, marketing, and support for the top 3--5 regions (England, France, Australia, California, and one emerging market).
+
+	% 	\item \textbf{Churn Prediction Modeling}: Build a propensity model to identify which At-Risk or Potential Loyalist customers are most likely to churn; prioritize interventions for high-churn-risk, high-value customers.
+
+	% 	\item \textbf{Marketing Attribution Analysis}: Link the 161-day repeat purchase cycle to specific touchpoints (email campaigns, ads, promotions). Isolate which campaigns drive repeat behavior and optimize budget allocation accordingly.
+
+	% 	\item \textbf{Segment Migration Tracking}: Implement monthly segment assignment and track movement rates. For example, if 10\% of Potential Loyalists migrate to Loyal status per month, prioritize the onboarding programs driving that migration.
+	% \end{enumerate}
+
+}

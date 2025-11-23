@@ -1,0 +1,257 @@
+\chapter[Product Optimization]{Product Optimization}
+\label{po:product-optimization}
+
+{
+	\parindent0pt
+	\vspace{.935em}
+
+	\section{Objectives}
+
+	The objective of this chapter is to evaluate product performance with the aim of optimizing the AdventureWorks product portfolio, improving profitability, and identifying opportunities for bundling and cross-selling. Based on the datasets provided, the analysis focuses on four strategic goals:
+
+	\begin{enumerate}
+		\item \textbf{Identify Product Profitability Extremes:} Determine the top-performing “hero” products and the underperforming “laggard” products using revenue and profit margin metrics.
+		\item \textbf{Analyze Cross-Selling Patterns:} Conduct Market Basket Analysis to find frequently co-purchased product pairs that can inform bundling strategies.
+		\item \textbf{Evaluate Channel-Specific Trends:} Compare product category performance between Online and Reseller channels.
+		\item \textbf{Assess Discount Sensitivity:} Examine the relationship between discount depth, sales volume, and profitability to guide pricing decisions.
+	\end{enumerate}
+
+	\section{Data and Preprocessing}
+
+	The analysis relies on \texttt{Fact\_Sales} and \texttt{Dim\_Product}. These tables provide product identifiers, transactional revenue, cost-derived profit, discount information, and descriptive product metadata.
+
+	\subsection*{Data Preparation}
+
+	\begin{itemize}
+		\item \textbf{Cleaning:} Sales records were aggregated by product ID, category, and subcategory.
+		\item \textbf{Feature Engineering:}
+		      \begin{itemize}
+			      \item \textbf{Profit Margin:} $\frac{\text{Total Profit}}{\text{Total Revenue}}$
+			      \item \textbf{Discount Buckets:} Discount values segmented into four buckets (0--5\%, 5--15\%, 15--30\%, >30\%).
+			      \item \textbf{Pair Frequency:} Self-join across sales orders generated co-occurring product pairs.
+		      \end{itemize}
+	\end{itemize}
+
+	\begin{table}[h!]
+		\centering
+		\caption{Key Data Fields and Definitions}
+		\label{tab:po_fields}
+		\begin{tabularx}{\textwidth}{l X X r}
+			\toprule
+			\textbf{Field Name} & \textbf{Type} & \textbf{Source} & \textbf{Purpose}                                  \\
+			\midrule
+			ProductID           & Integer       & Dim\_Product    & Unique product identifier.                        \\
+			LineTotal           & Decimal       & Fact\_Sales     & Total revenue (Quantity $\times$ Unit Price).     \\
+			LineProfit          & Decimal       & Fact\_Sales     & Derived profit metric (Revenue -- Standard Cost). \\
+			Channel             & String        & Fact\_Sales     & Distinguishes Online vs.\ Reseller sales.         \\
+			UnitPriceDiscount   & Decimal       & Fact\_Sales     & Discount percentage applied.                      \\
+			OrderQty            & Integer       & Fact\_Sales     & Number of units sold.                             \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\section{Methods}
+
+	\subsection*{Profitability and Pareto Analysis}
+
+	High and low performers were identified through revenue-based ranking using CTEs.
+	Products were sorted in descending order to capture the top performers and ascending order to determine laggards.
+	Profit margin was then calculated.\footnote{See citation 4.}
+
+	\subsection*{Market Basket Analysis}
+
+	A self-join on \texttt{Fact\_Sales} grouped products purchased within the same \texttt{SalesOrderID}.
+	Only pairs where \texttt{ProductA < ProductB} were retained to prevent duplicates such as A–B and B–A.
+	Pair frequencies were aggregated to reveal dominant co-purchase patterns.\footnote{See citations 7 and 10.}
+
+	\subsection*{Discount Impact Analysis}
+
+	Discount rates were categorized using SQL \texttt{CASE} logic, and \texttt{OrderQty} and \texttt{LineProfit} were aggregated at the Subcategory × Discount-Bucket level.
+	This enabled identification of categories where discounts either supported volume or eroded value.\footnote{See citation 1973.}
+
+	\section{Results}
+
+	\subsection*{Hero vs.\ Laggard Products}
+
+	A clear performance variance exists across the product portfolio.
+	The \textit{Mountain-200} series dominates the top revenue and profitability lists, with margins between 15--20\%.
+	Conversely, the \textit{Road-250 Black} series appears in the revenue top 10 but shows negative profitability, indicating it may be a loss-making product.
+
+	\begin{table}[h!]
+		\centering
+		\caption{Top 5 Best-Selling Products by Revenue and Profitability}
+		\label{tab:top_products}
+		\begin{tabularx}{\textwidth}{l X r}
+			\toprule
+			\textbf{Product A}     & \textbf{Product B}         & \textbf{Pair Frequency} \\
+			\midrule
+			Water Bottle - 30 oz.  & Mountain Bottle Cage       & 1692                    \\
+			Water Bottle - 30 oz.  & Road Bottle Cage           & 1521                    \\
+			AWC Logo Cap           & Long-Sleeve Logo Jersey, L & 1172                    \\
+			AWC Logo Cap           & Water Bottle - 30 oz.      & 1019                    \\
+			Sport-100 Helmet, Blue & AWC Logo Cap               & 1011                    \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+
+	\begin{figure}[!htpb]
+		\centering
+		\includegraphics[width=0.8\linewidth]{Figures/fig_5.png}
+		\caption{Revenue vs.\ Profit Margin for Top 10 Product.}
+		\label{fig:revenue_margin_top10}
+	\end{figure}
+
+
+	\subsection*{Market Basket Opportunities}
+
+	The basket analysis revealed strong cross-selling patterns.
+	Frequent pairs include frame-and-fork combinations (common in reseller assembly orders) and accessory bundles often purchased by individual Online customers.
+
+	\begin{table}[h!]
+		\centering
+		\caption{Top 5 Frequently Purchased Product Pairs}
+		\label{tab:product_pairs}
+		\begin{tabularx}{\textwidth}{l l X X}
+			\toprule
+			\textbf{Product A}      & \textbf{Product B}      & \textbf{Frequency} & \textbf{Insight}                 \\
+			\midrule
+			LL Road Frame - Red, 48 & Road-650 Black, 58      & 225                & High-volume component pairing.   \\
+			Road-650 Black, 58      & Road-650 Black, 60      & 319                & Bulk reseller stocking.          \\
+			Sport-100 Helmet, Red   & Patch Kit/8 Patches     & 132                & Strong accessory add-on.         \\
+			Mountain-200 Silver, 38 & Mountain-300 Black, 40  & 193                & Cross-model buyer overlap.       \\
+			Hitch Rack - 4-Bike     & Touring-3000 Yellow, 54 & 71                 & High-value accessory attachment. \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	\subsection*{Channel Performance Analysis}
+
+	\begin{table}[h!]
+		\centering
+		\caption{Product Category Revenue by Sales Channel}
+		\label{tab:po_channel_revenue}
+		\begin{tabularx}{\textwidth}{l X X X X}
+			\toprule
+			\textbf{Category} & \textbf{Online Revenue} & \textbf{Reseller Revenue} & \textbf{Total Revenue} & \textbf{Online \%} \\
+			\midrule
+			Bikes             & \$28.3M                 & \$66.3M                   & \$94.7M                & 29.9\%             \\
+			Components        & \$0.0M                  & \$11.8M                   & \$11.8M                & 0.0\%              \\
+			Accessories       & \$0.7M                  & \$0.6M                    & \$1.3M                 & 55.1\%             \\
+			Clothing          & \$0.3M                  & \$1.8M                    & \$2.1M                 & 16.0\%             \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+	From this data, it can be observed that \textbf{Components are exclusively reseller products} (0\% online penetration), while Accessories show strong online adoption (55\% online revenue). Bikes split 30\%--70\% favoring resellers. This channel segmentation suggests different customer personas and distribution strategies.
+
+	\subsection*{Discount Impact on Profitability}
+
+	Discount sensitivity varies by subcategory. Road Bikes at minimal discounts (0--5\%) generate \$2.93M profit on 46,837 units (\$62.48 profit per unit), but aggressive discounting (15--30\%) on just 304 units yields losses exceeding \$97K. Mountain Bikes at deep discounts (>30\%) are very unprofitable: 838 units sold at a loss of \$709K total, or \$846 loss per unit.\footnote{See citation 1975.}
+
+	\vspace{1em}
+	On the other hand, Helmets and Jerseys show resilience to moderate discounting (5--15\%), maintaining positive margins even at discount rates. This suggests that discount sensitivity is category-dependent and requires tailored strategies. The data on discount impact across product categories and discount bands is presented in \autoref{tab:discount-impact-comprehensive}.
+
+	\begin{table}[!htpb]
+		\caption{Comprehensive Profitability Impact Across Product Categories by Discount Band}
+		\label{tab:discount-impact-comprehensive}
+		\centering
+		\begin{tabularx}{\textwidth}{l X X X X}
+			\toprule
+			\textbf{Product Category} & \textbf{Discount Band} & \textbf{Units Sold} & \textbf{Total Profit (\$)} & \textbf{Profit per Unit (\$)} \\
+			\midrule
+			Helmets                   & 0--5\%                 & 18,369              & 227,117                    & 12.36                         \\
+			Helmets                   & 5--15\%                & 1,172               & 1,213                      & 1.03                          \\
+			\midrule
+			Jerseys                   & 0--5\%                 & 22,654              & -148,916                   & -6.57                         \\
+			Jerseys                   & 5--15\%                & 57                  & -972                       & -17.04                        \\
+			\midrule
+			Mountain Bikes            & 0--5\%                 & 27,483              & 5,617,396                  & 204.40                        \\
+			Mountain Bikes            & >30\%                  & 838                 & -709,354                   & -846.48                       \\
+			\midrule
+			Road Bikes                & 0--5\%                 & 46,837              & 2,926,486                  & 62.48                         \\
+			Road Bikes                & 5--15\%                & 55                  & -17,439                    & -317.06                       \\
+			Road Bikes                & 15--30\%               & 304                 & -97,973                    & -322.28                       \\
+			\bottomrule
+		\end{tabularx}
+	\end{table}
+
+
+	\section{Interpretation and Operational Insights}
+
+	\subsection*{Profitability Crisis in Road-250 Series}
+
+	The Road-250 Black (44) represents a critical anomaly: \$2.5M in revenue but negative \$36K profit (--1.4\% margin). This loss-making SKU, despite ranking in the top 10 by revenue, suggests either aggressive promotional pricing or uncontrolled cost inflation. Immediate investigation of COGS allocation is warranted.
+
+	\subsection*{Cross-Selling and Discount Insights}
+
+	Market basket analysis reveals component pairing (LL Road Frame + Road-650 Black, 225 pairs), accessory add-ons (Sport-100 Helmet + Patch Kit, 132 pairs), and upsell opportunities (Mountain-200 to Mountain-300, 193 pairs). Additionally, discount sensitivity is category-dependent: Road Bikes at 0--5\% discounts generate \$62.48 profit per unit, while Mountain Bikes at >30\% discounts lose \$846 per unit.
+
+	\subsection*{Channel Segmentation and Strategy}
+
+	Components show zero online penetration yet generate \$11.8M reseller revenue (pure B2B). Accessories show 55\% online adoption, the highest of all categories. Bikes split 30\%--70\% online-to-reseller. This asymmetry requires tailored strategies:
+
+	\begin{enumerate}
+		\item \textbf{Profitability Crisis in Road-250 Series:}
+		      Despite strong revenue contribution, the \textit{Road-250 Black} series incurs losses.\footnote{See citation 6.}
+		      \textit{Recommendation:} Review COGS allocation and consider price increases or discontinuation of unprofitable sizes.
+
+		\item \textbf{Optimized Bundling Strategy:}
+		      Strong bike–accessory relationships (e.g., Hitch Rack with Touring Bikes) indicate bundling potential.\footnote{See citations 13 and 14.}
+		      \textit{Recommendation:} Implement “Adventure Bundles” offering small discounts to increase average order value.
+
+		\item \textbf{Discount Discipline:}
+		      Losses in the Mountain Bike category correlate with excessive discounting.\footnote{See citation 1975.}
+		      \textit{Recommendation:} Introduce a 15\% discount floor except for discontinued models.
+
+		\item \textbf{Channel Segmentation:}
+		      Components show no Online sales.\footnote{See citation 1970.}
+		      \textit{Recommendation:} Maintain reseller exclusivity while increasing Online promotion of high-margin categories.
+	\end{enumerate}
+
+	\section{Limitations}
+
+	\begin{itemize}
+		\item \textbf{Cost Data Granularity:}
+		      Without manufacturing data (e.g., scrap, labor hours), the root cause of high COGS in laggard products cannot be fully diagnosed.
+		\item \textbf{Temporal Blind Spots:}
+		      Aggregate lifetime performance obscures seasonality, product lifecycle (launch vs. decline), or promotional calendar effects.
+		\item \textbf{Customer-Type Mixing:}
+		      Basket analysis combines Reseller bulk orders and Online impulse purchases, potentially masking distinct customer behavioral segments.
+		\item \textbf{Missing Attribution:}
+		      Profit figures exclude distribution, marketing, and overhead allocation, so ``true'' product profitability may differ.
+		\item \textbf{Competitive Context:}
+		      Without market pricing benchmarks, it is unclear whether Road-250 losses reflect competitive pressure or internal inefficiency.
+	\end{itemize}
+
+	% \section{Recommendations for Next Steps}
+
+	\section{Recommendations for Next Steps}
+
+	\begin{enumerate}
+		\item \textbf{Urgent: Road-250 Profitability Audit}
+		      Conduct a detailed cost-to-serve analysis for Road-250 SKUs. Determine whether losses are driven by (a) aggressive promotional pricing, (b) manufacturing inefficiency, or (c) supply chain overhead. Quantify breakeven and decide: retain with margin targets, or exit the segment.
+
+		\item \textbf{Discount Cap Enforcement}
+		      Implement a pricing governance system preventing discounts >15\% on Mountain Bikes and Road Bikes without VP approval. Expected savings: \$400K annually based on reduced loss per unit.
+
+		\item \textbf{Reseller Assembly Program}
+		      Formalize a ``Reseller Build Kits'' program using top basket pairs (Road Frame + Road-650 Black; Touring Frames + Touring Bikes). Offer 2--3\% bundled discounts to drive higher volumes without eroding unit margins.
+
+		\item \textbf{Online Accessory Growth Initiative}
+		      Launch a ``Pack \& Protect'' ecommerce campaign bundling helmets, patch kits, and lights. Target 20\% lift in online accessory revenue (from \$0.7M to \$0.84M) within 12 months through retargeting and email campaigns.
+
+		\item \textbf{Dashboard Development}
+		      Build a PowerBI ``Product Margin Monitor'' with:
+		      \begin{itemize}
+			      \item Scatter plot of Revenue vs.\ Profit Margin per Product, colored by discount bucket
+			      \item Channel Performance Heatmap (Category $\times$ Channel $\times$ Margin\%)
+			      \item Top 20 Product Pair Co-occurrence Network Graph
+			      \item Discount Sensitivity Curve (Units Sold vs.\ Profit per Unit by Discount Level)
+		      \end{itemize}
+
+		\item \textbf{Competitive Pricing Benchmark}
+		      Conduct quarterly market pricing analysis for top 20 SKUs against 3--5 key competitors. Quantify whether Road-250 and Mountain Bike margin pressure is market-driven or internal.
+	\end{enumerate}
+
+}
