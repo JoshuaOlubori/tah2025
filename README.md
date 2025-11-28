@@ -3,7 +3,7 @@
 **Challenge:** Analyze the AdventureWorks dataset to identify five high-quality, business-relevant insights across channel performance, customer behavior, and product optimization.
 
 **Submission:** PDF Report  
-🔗 [Access Full Report (PDF)](./Analytics_Hackathon_2025/report/AdventureWorks.pdf)
+🔗 [Access Full Report (PDF)](https://drive.google.com/file/d/14f_ncfHQ_GoVIj2GVt-hJfPalsSZpzcJ/view?usp=sharing)
 
 ![PDF Report Preview](./Analytics_Hackathon_2025/report_cover_page_screenshot.png)
 
@@ -191,7 +191,7 @@ Each chapter follows a consistent structure:
 ## 📎 Quick Links
 
 - 📊 [Interactive Power BI Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
-- 📄 [Full Report PDF](./Analytics_Hackathon_2025/report/AdventureWorks.pdf)
+- 📄 [Full Report PDF](https://drive.google.com/file/d/14f_ncfHQ_GoVIj2GVt-hJfPalsSZpzcJ/view?usp=sharing)
 - 🎤 [Presentation Slides](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)
 - 📖 [Detailed Analysis by Theme (SQL)](./Analytics_Hackathon_2025/02_Analysis_Scripts/)
 
