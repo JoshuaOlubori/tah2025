@@ -1,6 +1,6 @@
 -- Theme 1: Channel Performance
 -- Question 2: What is the monthly sales trend for each channel? Are there seasonal patterns?
--- This helps identify seasonality and momentum, which is key for inventory and marketing planning.
+
 
 SELECT
   YEAR(OrderDate) AS OrderYear,

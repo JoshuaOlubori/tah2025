@@ -1,6 +1,6 @@
 -- Theme 3: Product Optimization
 -- Question 2: What products are most frequently purchased together? (Market Basket Analysis)
--- This is a classic data mining technique to uncover cross-selling opportunities.
+
 
 
 

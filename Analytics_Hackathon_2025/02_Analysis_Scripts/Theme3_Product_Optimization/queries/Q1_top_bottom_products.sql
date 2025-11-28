@@ -1,8 +1,6 @@
 -- Theme 3: Product Optimization
 -- Question 1: What are the top 10 best and worst-selling products by revenue, and what is their profitability?
--- This helps identify hero products to promote and laggards to potentially discontinue.
 
--- Using two CTEs to get top and bottom products, then UNION them together.
 
 WITH ProdAgg AS (
   SELECT

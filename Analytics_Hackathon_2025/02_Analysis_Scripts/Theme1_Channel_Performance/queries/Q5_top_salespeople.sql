@@ -1,6 +1,6 @@
 -- Theme 1: Channel Performance
 -- Question 5: Who are the top 5 salespeople in the Reseller channel by total revenue, and what is their profitability?
--- This query identifies key employees driving the reseller business.
+
 
     WITH SalesPersonPerformance AS (
   SELECT

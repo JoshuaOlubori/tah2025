@@ -1,6 +1,6 @@
 -- Theme 2: Customer Segmentation
 -- Question 1: Who are our most valuable customers based on RFM (Recency, Frequency, Monetary) analysis?
--- RFM is a powerful marketing segmentation technique. This query uses CTEs and NTILE to score customers.
+-- RFM for marketing segmentation. This query uses CTEs and NTILE to score customers.
 
 
     WITH RFM_Base AS (

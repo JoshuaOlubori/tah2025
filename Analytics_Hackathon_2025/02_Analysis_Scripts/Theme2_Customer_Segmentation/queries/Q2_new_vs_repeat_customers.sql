@@ -1,6 +1,6 @@
 -- Theme 2: Customer Segmentation
 -- Question 2: What is the rate of new vs. repeat customers each month, and what is their average order value?
--- This is vital for understanding customer acquisition and retention effectiveness.
+
 
 WITH CustomerFirstOrder AS (
   SELECT CustomerID, MIN(OrderDate) AS FirstOrderDate

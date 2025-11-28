@@ -1,6 +1,6 @@
 -- Theme 1: Channel Performance
 -- Question 4: What is the average order value (AOV) and average items per order for each channel?
--- This query helps understand the fundamental purchasing behavior differences between channels.
+
 
 WITH OrderMetrics AS (
   SELECT

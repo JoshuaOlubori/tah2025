@@ -1,6 +1,5 @@
 -- Theme 3: Product Optimization
 -- Question 3: How does product category performance differ across sales channels?
--- This query compares channel revenues side-by-side for each product category.
 
 SELECT
   p.CategoryName,

@@ -1,6 +1,6 @@
 -- Theme 3: Product Optimization
 -- Question 4: What is the impact of discounts on sales volume and profitability for key subcategories?
--- This query analyzes the relationship between discounts, sales quantity, and profit.
+
 WITH DiscountBuckets AS (
   SELECT
     p.CategoryName,

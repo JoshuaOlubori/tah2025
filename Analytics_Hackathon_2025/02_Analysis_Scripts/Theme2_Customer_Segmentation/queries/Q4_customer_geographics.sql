@@ -1,6 +1,6 @@
 -- Theme 2: Customer Segmentation
 -- Question 4: What is the geographic distribution of our top online customers?
--- This query joins back to the original schema to pull in rich geographic data.
+
 
 WITH CustSpend AS (
   SELECT

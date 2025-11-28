@@ -1,6 +1,6 @@
 -- Theme 2: Customer Segmentation
 -- Question 3: How long does it take for a new online customer to make their second purchase?
--- This query uses the LEAD window function to find the time gap between the first and second purchase.
+
 
 WITH Purchases AS (
   SELECT

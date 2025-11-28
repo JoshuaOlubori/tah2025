@@ -1,6 +1,6 @@
 -- Theme 1: Channel Performance
 -- Question 1: How does total revenue and profit compare between the 'Online' and 'Reseller' channels on a yearly basis?
--- This query provides a high-level financial overview of the two main sales channels.
+
 
 
     SELECT

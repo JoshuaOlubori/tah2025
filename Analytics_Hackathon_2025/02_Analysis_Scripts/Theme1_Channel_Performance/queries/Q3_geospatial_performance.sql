@@ -1,6 +1,6 @@
 -- Theme 1: Channel Performance
 -- Question 3: Which sales territories are the top performers for the 'Reseller' channel, and how have they grown year-over-year?
--- This query uses a CTE and a window function (LAG) to calculate year-over-year growth for top territories.
+
 
 
     WITH TerritorySales AS (
