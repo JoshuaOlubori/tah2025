@@ -11,9 +11,17 @@
 **Submission:**  
 🔗 [View Interactive Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
 
-![Power BI Dashboard Preview](./Analytics_Hackathon_2025/placeholder-powerbi-screenshot.png)
+![Power BI Dashboard Preview](./Analytics_Hackathon_2025/powerbi.gif)
 
 ---
+
+**Submission:**  
+🔗 [View Presentation Slides](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)
+
+![Power BI Dashboard Preview](./Analytics_Hackathon_2025/TAH2025.gif)
+
+------
+
 
 ## 📊 Project Overview
 
@@ -85,23 +93,6 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 ### [`scrap_data/`](./Analytics_Hackathon_2025/data/)
 
 **supplementary files**
-
-
----
-
-## 📈 Interactive Dashboard
-
-**Power BI Report**  
-🔗 [View Interactive Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
-
-![Power BI Dashboard Preview](./Analytics_Hackathon_2025/placeholder-powerbi-screenshot.png)
-
----
-
-## 🎤 Presentation Slides
-
-**Executive Summary & Key Insights**  
-🔗 [View Presentation Slides](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)
 
 
 ---
