@@ -1,0 +1,90 @@
+-- ========== CORE METRICS ==========
+'Total Revenue' = SUM('Analytics Fact_Sales'[LineTotal])
+'Total Profit' = SUM('Analytics Fact_Sales'[LineProfit])
+'Total Orders' = DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID])
+'Total Customers' = DISTINCTCOUNT('Analytics Fact_Sales'[CustomerID])
+'Total Quantity' = SUM('Analytics Fact_Sales'[OrderQty])
+'Profit Margin %' = DIVIDE(SUM('Analytics Fact_Sales'[LineProfit]), SUM('Analytics Fact_Sales'[LineTotal]), 0) * 100
+
+-- ========== SALES & ORDER METRICS ==========
+'Average Order Value' = DIVIDE(SUM('Analytics Fact_Sales'[LineTotal]), DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID]), 0)
+'Avg Profit per Order' = DIVIDE(SUM('Analytics Fact_Sales'[LineProfit]), DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID]), 0)
+'Avg Items per Order' = DIVIDE(SUM('Analytics Fact_Sales'[OrderQty]), DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID]), 0)
+'Avg Unique Products per Order' = AVERAGEX(VALUES('Analytics Fact_Sales'[SalesOrderID]), DISTINCTCOUNT('Analytics Fact_Sales'[ProductID]))
+'Units Sold' = SUM('Analytics Fact_Sales'[OrderQty])
+'Avg Selling Price' = DIVIDE(SUM('Analytics Fact_Sales'[LineTotal]), SUM('Analytics Fact_Sales'[OrderQty]), 0)
+
+-- ========== CUSTOMER METRICS ==========
+'Customer Lifetime Value' = CALCULATE([Total Revenue], ALLEXCEPT('Analytics Fact_Sales', 'Analytics Fact_Sales'[CustomerID]))
+'Avg Customer LTV' = AVERAGEX(VALUES('Analytics Fact_Sales'[CustomerID]), [Customer Lifetime Value])
+'Revenue per Customer' = DIVIDE([Total Revenue], [Total Customers], 0)
+'Customer Purchase Frequency' = DIVIDE([Total Orders], [Total Customers], 0)
+'Repeat Customer Count' = CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[CustomerID]), FILTER(VALUES('Analytics Fact_Sales'[CustomerID]), CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID])) > 1))
+'Repeat Customer Rate %' = DIVIDE([Repeat Customer Count], [Total Customers], 0) * 100
+'New Customers' = CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[CustomerID]), FILTER(ALL('Analytics Fact_Sales'), CALCULATE(MIN('Analytics Fact_Sales'[OrderDate])) >= MIN('Analytics Fact_Sales'[OrderDate]) && CALCULATE(MIN('Analytics Fact_Sales'[OrderDate])) <= MAX('Analytics Fact_Sales'[OrderDate])))
+'Avg Days Between Orders' = AVERAGEX(VALUES('Analytics Fact_Sales'[CustomerID]), VAR CustomerOrders = CALCULATETABLE(VALUES('Analytics Fact_Sales'[OrderDate]), ALLEXCEPT('Analytics Fact_Sales', 'Analytics Fact_Sales'[CustomerID])) VAR OrderCount = COUNTROWS(CustomerOrders) VAR FirstOrder = MINX(CustomerOrders, 'Analytics Fact_Sales'[OrderDate]) VAR LastOrder = MAXX(CustomerOrders, 'Analytics Fact_Sales'[OrderDate]) VAR DaySpan = DATEDIFF(FirstOrder, LastOrder, DAY) RETURN IF(OrderCount > 1, DIVIDE(DaySpan, OrderCount - 1, 0), BLANK()))
+'YoY Orders Growth %' = VAR CurrentOrders = [Total Orders] VAR PYOrders = CALCULATE([Total Orders], DATEADD('Analytics Fact_Sales'[OrderDate], -1, YEAR)) RETURN DIVIDE(CurrentOrders - PYOrders, PYOrders, 0) * 100
+'YoY Profit Growth %' = DIVIDE([Total Profit] - [PY Profit], [PY Profit], 0) * 100
+'YoY Revenue Change' = [Total Revenue] - [PY Revenue]
+'YoY Revenue Growth' = VAR CurrentRevenue = [Total Revenue] VAR PreviousRevenue = [PY Revenue] RETURN IF(ISBLANK(PreviousRevenue) || PreviousRevenue = 0, BLANK(), DIVIDE(CurrentRevenue - PreviousRevenue, PreviousRevenue, 0))
+'YoY Revenue Growth %' = [YoY Revenue Growth] * 100
+'MoM Revenue Growth %' = VAR CurrentRevenue = [Total Revenue] VAR PrevMonth = CALCULATE([Total Revenue], DATEADD('Analytics Fact_Sales'[OrderDate], -1, MONTH)) RETURN DIVIDE(CurrentRevenue - PrevMonth, PrevMonth, 0) * 100
+
+-- ========== TIME PERIOD METRICS ==========
+'PY Revenue' = CALCULATE([Total Revenue], DATEADD('Analytics Fact_Sales'[OrderDate], -1, YEAR))
+'PY Profit' = CALCULATE([Total Profit], DATEADD('Analytics Fact_Sales'[OrderDate], -1, YEAR))
+'YTD Revenue' = TOTALYTD([Total Revenue], 'Analytics Fact_Sales'[OrderDate])
+'PYTD Revenue' = CALCULATE([YTD Revenue], DATEADD('Analytics Fact_Sales'[OrderDate], -1, YEAR))
+'QTD Revenue' = TOTALQTD([Total Revenue], 'Analytics Fact_Sales'[OrderDate])
+'Revenue 3M MA' = AVERAGEX(DATESINPERIOD('Analytics Fact_Sales'[OrderDate], LASTDATE('Analytics Fact_Sales'[OrderDate]), -3, MONTH), [Total Revenue])
+'YTD vs PYTD %' = DIVIDE([YTD Revenue] - [PYTD Revenue], [PYTD Revenue], 0) * 100
+
+-- ========== CHANNEL METRICS ==========
+'Online Revenue' = CALCULATE([Total Revenue], 'Analytics Fact_Sales'[Channel] = "Online")
+'Reseller Revenue' = CALCULATE([Total Revenue], 'Analytics Fact_Sales'[Channel] = "Reseller")
+'Online Revenue %' = DIVIDE([Online Revenue], [Total Revenue], 0) * 100
+'Reseller Revenue %' = DIVIDE([Reseller Revenue], [Total Revenue], 0) * 100
+'Channel Mix Index' = DIVIDE([Online Revenue], [Reseller Revenue], 0)
+'Online Profit Margin %' = DIVIDE(CALCULATE([Total Profit], 'Analytics Fact_Sales'[Channel] = "Online"), [Online Revenue], 0) * 100
+'Reseller Profit Margin %' = DIVIDE(CALCULATE([Total Profit], 'Analytics Fact_Sales'[Channel] = "Reseller"), [Reseller Revenue], 0) * 100
+
+-- ========== CROSS-SELL & BUNDLING METRICS ==========
+'Cross-Sell Orders' = CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID]), FILTER(VALUES('Analytics Fact_Sales'[SalesOrderID]), CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[ProductID])) > 1))
+'Cross-Sell Rate %' = DIVIDE([Cross-Sell Orders], [Total Orders], 0) * 100
+'Product Attachment Rate' = VAR SelectedProduct = SELECTEDVALUE('Analytics Dim_Product'[ProductID]) VAR OrdersWithProduct = CALCULATETABLE(VALUES('Analytics Fact_Sales'[SalesOrderID]), 'Analytics Fact_Sales'[ProductID] = SelectedProduct) VAR OrdersWithBothProducts = CALCULATE(DISTINCTCOUNT('Analytics Fact_Sales'[SalesOrderID]), 'Analytics Fact_Sales'[SalesOrderID] IN OrdersWithProduct) RETURN DIVIDE(OrdersWithBothProducts, COUNTROWS(OrdersWithProduct), 0) * 100
+
+-- ========== PRODUCT METRICS ==========
+'Product Revenue Rank' = RANKX(ALL('Analytics Dim_Product'[ProductName]), [Total Revenue], , DESC, DENSE)
+'Product Profit Rank' = RANKX(ALL('Analytics Dim_Product'[ProductName]), [Total Profit], , DESC, DENSE)
+'Revenue Contribution %' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], ALL('Analytics Dim_Product')), 0) * 100
+'Profit Contribution %' = DIVIDE([Total Profit], CALCULATE([Total Profit], ALL('Analytics Dim_Product')), 0) * 100
+'Price Realization %' = DIVIDE([Avg Selling Price], AVERAGE('Analytics Dim_Product'[ListPrice]), 0) * 100
+'Top 20% Products Revenue' = VAR TotalProducts = DISTINCTCOUNT('Analytics Dim_Product'[ProductID]) VAR Top20Count = ROUNDUP(TotalProducts * 0.2, 0) VAR TopProducts = TOPN(Top20Count, ALL('Analytics Dim_Product'[ProductID]), [Total Revenue], DESC) RETURN CALCULATE([Total Revenue], 'Analytics Fact_Sales'[ProductID] IN TopProducts)
+'Pareto 80/20 Contribution %' = DIVIDE([Top 20% Products Revenue], CALCULATE([Total Revenue], ALL('Analytics Dim_Product')), 0) * 100
+
+-- ========== DISCOUNT & PRICING METRICS ==========
+'Avg Discount %' = AVERAGE('Analytics Fact_Sales'[UnitPriceDiscount]) * 100
+'Revenue with Discount' = CALCULATE([Total Revenue], 'Analytics Fact_Sales'[UnitPriceDiscount] > 0)
+'Discount Impact %' = DIVIDE([Revenue with Discount], [Total Revenue], 0) * 100
+
+-- ========== PERFORMANCE RANKING & SEGMENTATION ==========
+'Top 10 Customer Revenue %' = VAR Top10Customers = TOPN(10, ALL('Analytics Fact_Sales'[CustomerID]), [Total Revenue], DESC) RETURN DIVIDE(CALCULATE([Total Revenue], 'Analytics Fact_Sales'[CustomerID] IN Top10Customers), CALCULATE([Total Revenue], ALL('Analytics Fact_Sales'[CustomerID])), 0) * 100
+'Sales Velocity' = VAR DayCount = DISTINCTCOUNT('Analytics Fact_Sales'[OrderDate]) RETURN DIVIDE([Total Revenue], DayCount, 0)
+'Customer Value Tier' = VAR LTV = [Customer Lifetime Value] VAR AvgLTV = [Avg Customer LTV] RETURN SWITCH(TRUE(), LTV >= AvgLTV * 2, "VIP", LTV >= AvgLTV * 1.5, "High Value", LTV >= AvgLTV, "Medium Value", LTV < AvgLTV, "Low Value", "New")
+'Profit Margin Category' = SWITCH(TRUE(), [Profit Margin %] >= 30, "High Margin", [Profit Margin %] >= 20, "Medium Margin", [Profit Margin %] >= 10, "Low Margin", "Negative Margin")
+
+-- ========== STATUS INDICATORS & HEALTH SCORES ==========
+'Revenue Target Status' = VAR GrowthRate = [YoY Revenue Growth %] RETURN SWITCH(TRUE(), GrowthRate >= 10, "🟢 Above Target", GrowthRate >= 5, "🟡 Near Target", GrowthRate < 5, "🔴 Below Target", "⚪ No Data")
+'Profit Margin Health' = VAR Margin = [Profit Margin %] RETURN SWITCH(TRUE(), Margin >= 30, "Excellent", Margin >= 20, "Good", Margin >= 10, "Fair", Margin < 10, "Poor", "Unknown")
+'Revenue Status' = VAR Growth = [YoY Revenue Growth %] RETURN SWITCH(TRUE(), Growth >= 0.15, "🟢 Excellent", Growth >= 0.05, "🟡 Good", Growth >= -0.05, "🟠 Fair", "🔴 Poor")
+'Customer Health Score' = VAR Recency = AVERAGE(v_RFM_Online[Recency]) VAR Frequency = AVERAGE(v_RFM_Online[Frequency]) VAR Monetary = AVERAGE(v_RFM_Online[Monetary]) VAR RecencyScore = 100 - (Recency / 365 * 100) VAR FrequencyScore = MIN(100, Frequency * 10) VAR MonetaryScore = MIN(100, Monetary / 10000 * 100) RETURN (RecencyScore + FrequencyScore + MonetaryScore) / 3
+'Territory Score' = VAR RevenueScore = DIVIDE([Total Revenue], [Avg Customer LTV], 0) * 40 VAR GrowthScore = ([YoY Revenue Growth %] + 0.1) * 300 VAR MarginScore = [Profit Margin %] * 100 RETURN MIN(100, RevenueScore + GrowthScore + MarginScore)
+
+-- ========== SUMMARY & NARRATIVE MEASURES ==========
+'Channel Performance Summary' = VAR OnlineRev = [Online Revenue] VAR ResellerRev = [Reseller Revenue] VAR OnlineGrowth = [YoY Revenue Growth %] VAR BetterChannel = IF(OnlineGrowth > 10, "Online", "Reseller") RETURN "The " & BetterChannel & " channel is driving growth with " & FORMAT(OnlineGrowth, "0.0%") & " YoY increase, contributing $" & FORMAT(OnlineRev/1000000, "0.0") & "M in revenue."
+'Revenue Decomposition' = [Total Revenue]
+
+-- ========== TARGETS & PLANNING ==========
+'Target Growth Rate' = 0.10
+'Target Revenue' = [Total Revenue] * (1 + [Target Growth Rate])
+'Revenue Gap' = [Target Revenue] - [Total Revenue]
