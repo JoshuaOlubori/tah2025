@@ -2,8 +2,16 @@
 
 **Challenge:** Analyze the AdventureWorks dataset to identify five high-quality, business-relevant insights across channel performance, customer behavior, and product optimization.
 
-**Submission:** Comprehensive PDF Report  
-🔗 [Access Full Report (PDF)](#file:AdventureWorks.pdf)
+**Submission:** PDF Report  
+🔗 [Access Full Report (PDF)](./Analytics_Hackathon_2025/report/AdventureWorks.pdf)
+
+![PDF Report Preview](./Analytics_Hackathon_2025/report_cover_page_screenshot.png)
+
+-----
+**Submission:**  
+🔗 [View Interactive Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
+
+![Power BI Dashboard Preview](./Analytics_Hackathon_2025/placeholder-powerbi-screenshot.png)
 
 ---
 
@@ -74,15 +82,10 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
   - `Configurations/` — Typography, colors, headers, code highlighting
   - `Figures/` — Charts and visualizations
 
-### [`data/`](./Analytics_Hackathon_2025/data/)
+### [`scrap_data/`](./Analytics_Hackathon_2025/data/)
 
-**Output data and supplementary files**
+**supplementary files**
 
-#### Subdirectories
-
-- `additional_customer_data/` — Customer segmentation outputs (AOV, acquisition trends, RFM distribution)
-- `additional_product_data/` — Product analysis outputs (discount impact, category revenue, top/bottom products)
-- `views_output/` — CSV exports from all SQL Server views for reference
 
 ---
 
@@ -136,10 +139,10 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 
 | Deliverable              | Location                       | Status                                           |
 | ------------------------ | ------------------------------ | ------------------------------------------------ |
-| **SQL Scripts**          | `consolidated_scripts/`        | ✅ All queries and views                         |
+| **SQL Scripts**          | `Analytics_Hackathon_2025/02_Analysis_Scripts/`        | ✅ All queries and views                         |
 | **Documentation Report** | `report/` (PDF + LaTeX source) | ✅ Comprehensive analysis                        |
 | **Dashboard**            | Power BI (link above)          | 🔗 [Interactive Report](#-interactive-dashboard) |
-| **Presentation Slides**  | `report/` (embedded in PDF)    | ✅ Summary slides in conclusion                  |
+| **Presentation Slides**  | [link](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)    | ✅ provided as link                  |
 
 ---
 
@@ -148,29 +151,10 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 | Tool                            | Purpose                                            |
 | ------------------------------- | -------------------------------------------------- |
 | **SQL Server**                  | Data exploration, schema design, view creation     |
-| **Power BI**                    | Interactive dashboards, slicers, KPI cards         |
-| **Python** (Pandas, Matplotlib) | Statistical analysis, supplementary visualizations |
-| **Excel**                       | Data cleaning, quick calculations                  |
+| **Power BI**                    | Interactive dashboards, slicers, KPI cards         | |
 | **LaTeX**                       | Professional PDF report generation                 |
-| **Git**                         | Version control and collaboration                  |
+| **Git**                         | Version control                   |
 
----
-
-## 📖 How to Use This Repository
-
-### For Reviewers
-
-1. **Quick Summary:** Start with this README and the [PDF Report](#-interactive-dashboard)
-2. **Detailed Analysis:** Review individual chapter files in `report/Chapters/`
-3. **Raw Data & Queries:** Explore `consolidated_scripts/` for SQL logic and `data/views_output/` for sample outputs
-4. **Dashboard:** Open the [Power BI interactive report](#-interactive-dashboard) for real-time exploration
-
-### For Developers / Future Enhancements
-
-1. **Restore Schema:** Run `01_Data_Modeling/create_analytics_schema.sql` against AdventureWorks database
-2. **Run Analysis Scripts:** Execute queries in `02_Analysis_Scripts/` by theme
-3. **Compile LaTeX Report:** Use `report/AdventureWorks.tex` with pdfLaTeX or XeLaTeX
-4. **Update Power BI:** Refresh data source connection to your SQL Server instance
 
 ---
 
