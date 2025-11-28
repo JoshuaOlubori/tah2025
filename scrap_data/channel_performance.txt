@@ -1,0 +1,264 @@
+-- ============================================================================
+-- CONSOLIDATED SQL QUERIES
+-- Analytics Hackathon 2025
+-- ============================================================================
+-- This file contains all queries from the Analysis_Scripts folder
+-- organized by theme
+-- ============================================================================
+
+-- ============================================================================
+-- THEME 1: CHANNEL PERFORMANCE
+-- ============================================================================
+
+-- Theme 1: Channel Performance
+-- Question 1: How does total revenue and profit compare between the 'Online' and 'Reseller' channels on a yearly basis?
+-- This query provides a high-level financial overview of the two main sales channels.
+
+SELECT
+  YEAR(OrderDate) AS OrderYear,
+  Channel,
+  FORMAT(SUM(LineTotal), 'C', 'en-US') AS TotalRevenue,
+    FORMAT(SUM(LineProfit), 'C', 'en-US') AS TotalProfit,
+FORMAT(CASE WHEN SUM(LineTotal) = 0 THEN NULL
+       ELSE SUM(LineProfit) * 1.0 / SUM(LineTotal) END, 'P') AS ProfitMargin
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), Channel;
+
+
+OrderYear	Channel	TotalRevenue	TotalProfit	ProfitMargin
+2013	Reseller	$32,890,351.72	($938,824.88)	-2.85%
+2011	Online	$3,863,120.21	$1,541,849.02	39.91%
+2014	Online	$8,372,829.73	$3,470,486.37	41.45%
+2014	Reseller	$11,685,099.08	($27,992.71)	-0.24%
+2012	Online	$6,390,599.95	$2,382,419.68	37.28%
+2012	Reseller	$27,133,701.38	($1,434,218.49)	-5.29%
+2011	Reseller	$8,778,552.00	$84,996.82	0.97%
+2013	Online	$10,732,127.33	$4,293,187.81	40.00%
+
+
+-- ============================================================================
+
+-- Theme 1: Channel Performance
+-- Question 2: What is the monthly sales trend for each channel? Are there seasonal patterns?
+-- This helps identify seasonality and momentum, which is key for inventory and marketing planning.
+
+SELECT
+  YEAR(OrderDate) AS OrderYear,
+  MONTH(OrderDate) AS OrderMonth,
+  DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1) AS MonthStart,
+  Channel,
+    FORMAT(SUM(LineTotal), 'C', 'en-US') AS MonthlyRevenue,
+  COUNT(DISTINCT SalesOrderID) AS NumberOfOrders
+FROM Analytics.Fact_Sales
+GROUP BY YEAR(OrderDate), MONTH(OrderDate), DATEFROMPARTS(YEAR(OrderDate), MONTH(OrderDate), 1), Channel;
+
+
+OrderYear	OrderMonth	MonthStart	Channel	MonthlyRevenue	NumberOfOrders
+2013	6	2013-06-01	Reseller	$4,220,928.00	186
+2014	5	2014-05-01	Online	$1,951,195.90	2232
+2012	10	2012-10-01	Reseller	$2,185,213.21	114
+2013	3	2013-03-01	Online	$531,316.29	307
+2012	12	2012-12-01	Online	$444,558.23	246
+2014	2	2014-02-01	Reseller	$3,230.65	3
+2012	2	2012-02-01	Reseller	$882,899.94	37
+2013	1	2013-01-01	Reseller	$1,563,955.08	106
+2011	8	2011-08-01	Reseller	$2,010,618.07	100
+2013	12	2013-12-01	Online	$1,371,675.81	1875
+2014	3	2014-03-01	Reseller	$5,526,352.18	271
+2011	7	2011-07-01	Reseller	$1,538,408.31	75
+2013	7	2013-07-01	Reseller	$4,049,215.09	176
+2013	9	2013-09-01	Reseller	$3,486,885.94	179
+2013	11	2013-11-01	Online	$1,643,177.78	2007
+2011	12	2011-12-01	Reseller	$713,116.69	40
+2012	3	2012-03-01	Online	$706,631.53	219
+2013	12	2013-12-01	Reseller	$2,703,810.82	175
+2011	11	2011-11-01	Online	$737,839.82	230
+2012	9	2012-09-01	Online	$400,335.61	219
+2013	10	2013-10-01	Reseller	$3,511,220.36	176
+2011	10	2011-10-01	Reseller	$4,027,080.34	153
+2012	8	2012-08-01	Reseller	$1,802,154.21	73
+2013	5	2013-05-01	Online	$578,200.28	333
+2012	5	2012-05-01	Reseller	$2,393,689.52	72
+2013	8	2013-08-01	Reseller	$2,284,056.68	99
+2014	1	2014-01-01	Reseller	$2,738,752.39	175
+2011	5	2011-05-01	Online	$14,477.34	5
+2014	4	2014-04-01	Online	$1,795,889.13	2113
+2012	6	2012-06-01	Reseller	$3,601,190.71	139
+2012	11	2012-11-01	Online	$555,160.14	318
+2012	4	2012-04-01	Reseller	$1,001,803.77	68
+2012	1	2012-01-01	Reseller	$3,356,069.34	143
+2012	7	2012-07-01	Reseller	$2,885,359.20	111
+2013	2	2013-02-01	Online	$451,643.72	251
+2013	10	2013-10-01	Online	$1,284,592.93	1792
+2013	5	2013-05-01	Reseller	$2,667,423.48	95
+2011	9	2011-09-01	Online	$502,073.85	157
+2012	3	2012-03-01	Reseller	$2,269,116.71	85
+2011	8	2011-08-01	Online	$485,198.66	150
+2012	6	2012-06-01	Online	$498,163.64	251
+2011	5	2011-05-01	Reseller	$489,328.58	38
+2011	10	2011-10-01	Online	$561,681.48	174
+2014	4	2014-04-01	Reseller	$1,284.79	2
+2012	4	2012-04-01	Online	$632,797.03	201
+2013	1	2013-01-01	Online	$523,917.38	294
+2012	8	2012-08-01	Online	$373,483.01	212
+2012	2	2012-02-01	Online	$592,526.97	182
+2012	7	2012-07-01	Online	$532,594.67	274
+2012	5	2012-05-01	Online	$680,913.29	221
+2013	9	2013-09-01	Online	$1,046,022.77	1612
+2014	2	2014-02-01	Online	$1,334,494.39	1753
+2013	4	2013-04-01	Online	$544,393.21	326
+2012	10	2012-10-01	Online	$358,877.89	207
+2013	4	2013-04-01	Reseller	$1,987,872.71	102
+2012	1	2012-01-01	Online	$614,557.94	193
+2013	11	2013-11-01	Reseller	$1,668,952.47	96
+2013	6	2013-06-01	Online	$860,141.13	533
+2014	1	2014-01-01	Online	$1,551,065.56	1966
+2014	3	2014-03-01	Online	$1,691,178.91	2128
+2011	12	2011-12-01	Online	$596,746.56	188
+2011	6	2011-06-01	Online	$458,910.82	141
+2012	9	2012-09-01	Reseller	$3,053,816.33	133
+2013	2	2013-02-01	Reseller	$1,865,278.43	74
+2011	7	2011-07-01	Online	$506,191.69	156
+2014	5	2014-05-01	Reseller	$3,415,479.07	179
+2013	8	2013-08-01	Online	$1,049,907.39	1690
+2012	11	2012-11-01	Reseller	$1,317,541.83	65
+2014	6	2014-06-01	Online	$49,005.84	939
+2013	7	2013-07-01	Online	$847,138.65	1564
+2012	12	2012-12-01	Reseller	$2,384,846.59	132
+2013	3	2013-03-01	Reseller	$2,880,752.68	134
+-- ============================================================================
+
+-- Theme 1: Channel Performance
+-- Question 3: Which sales territories are the top performers for the 'Reseller' channel, and how have they grown year-over-year?
+-- This query uses a CTE and a window function (LAG) to calculate year-over-year growth for top territories.
+
+WITH TerritorySales AS (
+  SELECT
+    st.Name AS TerritoryName,
+    st.[Group] AS TerritoryGroup,
+    YEAR(fs.OrderDate) AS OrderYear,
+    SUM(fs.LineTotal) AS TotalRevenue
+  FROM Analytics.Fact_Sales fs
+  JOIN Sales.SalesTerritory st ON fs.TerritoryID = st.TerritoryID
+  WHERE fs.Channel = 'Reseller'
+  GROUP BY st.Name, st.[Group], YEAR(fs.OrderDate)
+),
+YoY AS (
+  SELECT
+    TerritoryName,
+    TerritoryGroup,
+    OrderYear,
+    TotalRevenue,
+    LAG(TotalRevenue) OVER (PARTITION BY TerritoryName ORDER BY OrderYear) AS PrevRevenue
+  FROM TerritorySales
+)
+SELECT
+  TerritoryName,
+  TerritoryGroup,
+  OrderYear,
+  FORMAT(TotalRevenue, 'C', 'en-US') AS TotalRevenue,
+  FORMAT(PrevRevenue, 'C', 'en-US') AS PrevRevenue,
+  CASE 
+    WHEN PrevRevenue IS NULL OR PrevRevenue = 0 THEN NULL
+    ELSE (TotalRevenue - PrevRevenue) * 1.0 / PrevRevenue
+  END AS YoYGrowthPct
+FROM YoY
+ORDER BY TotalRevenue DESC, OrderYear;
+
+
+TerritoryName	TerritoryGroup	OrderYear	TotalRevenue	PrevRevenue	YoYGrowthPct
+United Kingdom	Europe	2012	$999,823.00	NULL	NULL
+Australia	Pacific	2013	$987,312.24	NULL	NULL
+Central	North America	2014	$955,632.02	$2,991,457.26	-0.680546
+Southeast	North America	2014	$869,560.28	$2,395,318.44	-0.636975
+France	Europe	2014	$867,518.61	$2,705,288.58	-0.679324
+Northeast	North America	2014	$775,812.13	$2,627,292.79	-0.704710
+Southwest	North America	2013	$7,199,251.33	$7,065,042.19	0.018996
+Southwest	North America	2012	$7,065,042.19	$2,009,760.87	2.515364
+Germany	Europe	2014	$637,573.39	$1,383,521.87	-0.539166
+Northeast	North America	2011	$626,625.69	NULL	NULL
+Australia	Pacific	2014	$607,023.14	$987,312.24	-0.385176
+Canada	North America	2013	$5,596,457.21	$5,273,580.99	0.061225
+Canada	North America	2012	$5,273,580.99	$1,677,139.29	2.144390
+Northwest	North America	2013	$4,770,749.30	$3,936,707.27	0.211862
+Northwest	North America	2012	$3,936,707.27	$1,824,275.54	1.157956
+Central	North America	2013	$2,991,457.26	$2,958,558.29	0.011119
+Southeast	North America	2012	$2,962,147.49	$1,640,390.01	0.805758
+Central	North America	2012	$2,958,558.29	$1,000,360.59	1.957491
+Northeast	North America	2012	$2,903,111.40	$626,625.69	3.632927
+France	Europe	2013	$2,705,288.58	$1,034,730.73	1.614485
+Northeast	North America	2013	$2,627,292.79	$2,903,111.40	-0.095007
+Southeast	North America	2013	$2,395,318.44	$2,962,147.49	-0.191357
+United Kingdom	Europe	2013	$2,233,702.70	$999,823.00	1.234098
+Southwest	North America	2014	$2,192,404.39	$7,199,251.33	-0.695467
+Southwest	North America	2011	$2,009,760.87	NULL	NULL
+Northwest	North America	2014	$1,903,343.89	$4,770,749.30	-0.601038
+Canada	North America	2014	$1,830,748.10	$5,596,457.21	-0.672873
+Northwest	North America	2011	$1,824,275.54	NULL	NULL
+Canada	North America	2011	$1,677,139.29	NULL	NULL
+Southeast	North America	2011	$1,640,390.01	NULL	NULL
+Germany	Europe	2013	$1,383,521.87	NULL	NULL
+United Kingdom	Europe	2014	$1,045,483.12	$2,233,702.70	-0.531950
+France	Europe	2012	$1,034,730.73	NULL	NULL
+Central	North America	2011	$1,000,360.59	NULL	NULL
+-- ============================================================================
+
+-- Theme 1: Channel Performance
+-- Question 4: What is the average order value (AOV) and average items per order for each channel?
+-- This query helps understand the fundamental purchasing behavior differences between channels.
+
+WITH OrderMetrics AS (
+  SELECT
+    SalesOrderID,
+    Channel,
+    SUM(LineTotal) AS OrderTotalValue,
+    COUNT(SalesOrderDetailID) AS ItemsPerOrder
+  FROM Analytics.Fact_Sales
+  GROUP BY SalesOrderID, Channel
+)
+SELECT
+  Channel,
+  FORMAT(AVG(OrderTotalValue), 'C', 'en-US') AS AverageOrderValue,
+  AVG(CAST(ItemsPerOrder AS FLOAT)) AS AverageItemsPerOrder,
+  COUNT(*) AS TotalOrders
+FROM OrderMetrics
+GROUP BY Channel;
+
+Channel	AverageOrderValue	AverageItemsPerOrder	TotalOrders
+Online	$1,061.45	2.18366535304964	27659
+Reseller	$21,147.58	16.0060430898581	3806
+
+-- ============================================================================
+
+-- Theme 1: Channel Performance
+-- Question 5: Who are the top 5 salespeople in the Reseller channel by total revenue, and what is their profitability?
+-- This query identifies key employees driving the reseller business.
+
+WITH SalesPersonPerformance AS (
+  SELECT
+    fs.SalesPersonID,
+    COALESCE(p.FirstName + ' ' + p.LastName, 'Unknown') AS SalesPersonName,
+    SUM(fs.LineTotal) AS TotalRevenue,
+    SUM(fs.LineProfit) AS TotalProfit
+  FROM Analytics.Fact_Sales fs
+  LEFT JOIN Person.Person p ON fs.SalesPersonID = p.BusinessEntityID
+  WHERE fs.Channel = 'Reseller' AND fs.SalesPersonID IS NOT NULL
+  GROUP BY fs.SalesPersonID, p.FirstName, p.LastName
+)
+SELECT TOP (5)
+  SalesPersonName,
+ FORMAT(TotalRevenue, 'C', 'en-US') AS TotalRevenue,
+    FORMAT(TotalProfit, 'C', 'en-US') AS TotalProfit,
+    FORMAT(
+        CASE WHEN TotalRevenue = 0 THEN NULL ELSE TotalProfit * 1.0 / TotalRevenue END,
+        'P'
+    ) AS ProfitMargin
+FROM SalesPersonPerformance
+ORDER BY TotalRevenue DESC;
+
+SalesPersonName	TotalRevenue	TotalProfit	ProfitMargin
+Michael Blythe	$9,293,903.00	($281,662.35)	-3.03%
+Jae Pak	$8,503,338.65	($142,034.44)	-1.67%
+Amy Alberts	$732,759.18	($24,279.29)	-3.31%
+Tsvi Reiter	$7,171,012.75	($147,095.18)	-2.05%
+Shu Ito	$6,427,005.55	($396,323.45)	-6.17%

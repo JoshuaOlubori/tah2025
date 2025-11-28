@@ -1,2 +1,0 @@
-AvgDaysToRepeatPurchase
-160.928651825913

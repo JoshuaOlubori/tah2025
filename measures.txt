@@ -1,0 +1,87 @@
+measure 'Revenue Decomposition' =
+				[Total Revenue]
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Profit Margin Category' = 
+				SWITCH(
+				    TRUE(),
+				    [Profit Margin %] >= 30, "High Margin",
+				    [Profit Margin %] >= 20, "Medium Margin",
+				    [Profit Margin %] >= 10, "Low Margin",
+				    "Negative Margin"
+				)
+        displayFolder: Miscellaneous
+
+measure 'Channel Performance Summary' = ```
+				VAR OnlineRev = [Online Revenue]
+				VAR ResellerRev = [Reseller Revenue]
+				VAR OnlineGrowth = [YoY Revenue Growth %]
+				VAR BetterChannel = IF(OnlineGrowth > 10, "Online", "Reseller")
+				RETURN
+				"The " & BetterChannel & " channel is driving growth with " &
+				FORMAT(OnlineGrowth, "0.0%") & " YoY increase, contributing $" &
+				FORMAT(OnlineRev/1000000, "0.0") & "M in revenue."
+				```
+        displayFolder: Miscellaneous
+
+measure 'Revenue Status' = ```
+				VAR Growth = [YoY Revenue Growth %]
+				RETURN
+				    SWITCH(
+				        TRUE(),
+				        Growth >= 0.15, "🟢 Excellent",
+				        Growth >= 0.05, "🟡 Good",
+				        Growth >= -0.05, "🟠 Fair",
+				        "🔴 Poor"
+				    )
+				```
+        displayFolder: Miscellaneous
+
+measure 'Territory Score' = ```
+				VAR RevenueScore = DIVIDE([Total Revenue], [Avg Customer LTV], 0) * 40
+				VAR GrowthScore = ([YoY Revenue Growth %] + 0.1) * 300
+				VAR MarginScore = [Profit Margin %] * 100
+				RETURN
+				    MIN(100, RevenueScore + GrowthScore + MarginScore)
+				```
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Product Recommendation Priority' = ```
+				VAR Margin = [Profit Margin %]
+				VAR Revenue = [Total Revenue]
+				VAR Growth = [YoY Revenue Growth %]
+				VAR CrossSell = [Cross-Sell Rate %]
+				RETURN
+				    (Margin * 0.3) + (Revenue/1000000 * 0.3) + (Growth * 0.2) + (CrossSell * 0.2)
+				```
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Customer Health Score' = ```
+				VAR Recency = AVERAGE(v_RFM_Online[Recency])
+				VAR Frequency = AVERAGE(v_RFM_Online[Frequency])
+				VAR Monetary = AVERAGE(v_RFM_Online[Monetary])
+				VAR RecencyScore = 100 - (Recency / 365 * 100)
+				VAR FrequencyScore = MIN(100, Frequency * 10)
+				VAR MonetaryScore = MIN(100, Monetary / 10000 * 100)
+				RETURN
+				    (RecencyScore + FrequencyScore + MonetaryScore) / 3
+				```
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Target Growth Rate' = 0.10
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Target Revenue' = 
+				[Total Revenue] * (1 + [Target Growth Rate])
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+measure 'Revenue Gap' = 
+				[Target Revenue] - [Total Revenue]
+        displayFolder: Miscellaneous
+        annotation PBI_FormatHint = {"isGeneralNumber":true}

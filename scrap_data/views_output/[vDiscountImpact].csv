@@ -1,0 +1,10 @@
+﻿CategoryName,SubcategoryName,DiscountBucket,TotalQuantitySold,TotalProfit,ProfitPerUnit
+Bikes,Mountain Bikes,>30%,838,-709353.866100,-846.484327
+Accessories,Helmets,5-15%,1172,1212.581280,1.034625
+Bikes,Road Bikes,0-5%,46837,2926485.692612,62.482347
+Clothing,Jerseys,5-15%,57,-971.503040,-17.043912
+Bikes,Road Bikes,15-30%,304,-97972.724800,-322.278700
+Accessories,Helmets,0-5%,18369,227116.559697,12.364122
+Clothing,Jerseys,0-5%,22654,-148915.654226,-6.573481
+Bikes,Road Bikes,5-15%,55,-17438.547500,-317.064500
+Bikes,Mountain Bikes,0-5%,27483,5617395.758580,204.395290
