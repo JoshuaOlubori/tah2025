@@ -2,8 +2,8 @@
 
 **Challenge:** Analyze the AdventureWorks dataset to identify five high-quality, business-relevant insights across channel performance, customer behavior, and product optimization.
 
-**Submission:** Compressed PDF Report on Google Drive  
-🔗 [Access Full Report (PDF)](https://drive.google.com/xxxxxxxxxxxxxxxxx)
+**Submission:** Comprehensive PDF Report  
+🔗 [Access Full Report (PDF)](#file:AdventureWorks.pdf)
 
 ---
 
@@ -15,7 +15,7 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 
 ## 📁 Project Structure
 
-### [`01_Data_Engineering/`](./Analytics_Hackathon_2025/01_Data_Engineering/)
+### [`01_Data_Modeling/`](./Analytics_Hackathon_2025/01_Data_Modeling/)
 
 **Database schema and ETL setup**
 
@@ -89,10 +89,17 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 ## 📈 Interactive Dashboard
 
 **Power BI Report**  
-🔗 [View Interactive Dashboard](https://app.powerbi.com/xxxxxxxxxxxxxxxxx)
+🔗 [View Interactive Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
 
-![Power BI Dashboard Preview](./placeholder-powerbi-screenshot.png)  
-_Placeholder: Replace with actual screenshot of key Power BI report page showing channel comparison, customer segmentation, and product performance_
+![Power BI Dashboard Preview](./Analytics_Hackathon_2025/placeholder-powerbi-screenshot.png)
+
+---
+
+## 🎤 Presentation Slides
+
+**Executive Summary & Key Insights**  
+🔗 [View Presentation Slides](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)
+
 
 ---
 
@@ -160,7 +167,7 @@ _Placeholder: Replace with actual screenshot of key Power BI report page showing
 
 ### For Developers / Future Enhancements
 
-1. **Restore Schema:** Run `01_Data_Engineering/create_analytics_schema.sql` against AdventureWorks database
+1. **Restore Schema:** Run `01_Data_Modeling/create_analytics_schema.sql` against AdventureWorks database
 2. **Run Analysis Scripts:** Execute queries in `02_Analysis_Scripts/` by theme
 3. **Compile LaTeX Report:** Use `report/AdventureWorks.tex` with pdfLaTeX or XeLaTeX
 4. **Update Power BI:** Refresh data source connection to your SQL Server instance
@@ -194,41 +201,16 @@ Each chapter follows a consistent structure:
 4. **Business Implications** — Actionable recommendations with expected impact
 5. **Limitations** — Honest discussion of data constraints and assumptions
 
----
-
-## 🚀 Next Steps & Future Work
-
-- [ ] Implement recommended discount policy and track impact
-- [ ] A/B test "Champion" VIP program on select customer cohorts
-- [ ] Conduct detailed COGS audit for Road-250 series
-- [ ] Build automated weekly monitoring dashboard for margin trends
-- [ ] Expand geographic analysis to forecast international expansion potential
-
----
-
-## 📄 Submission Details
-
-**Hackathon:** The Analytics Hackathon 2025  
-**Challenge:** Business Intelligence & Data Analysis  
-**Team/Participant:** AdventureWorks Analytics  
-**Submission Date:** November 2025  
-**Evaluation Criteria:**
-
-- Insight Quality (25 points)
-- SQL & Analysis Proficiency (25 points)
-- Visualization & Storytelling (20 points)
-- Documentation (15 points)
-- Presentation (15 points)
 
 ---
 
 ## 📎 Quick Links
 
-- 📊 [Interactive Power BI Dashboard](https://app.powerbi.com/xxxxxxxxxxxxxxxxx)
-- 📄 [Full Report PDF (Google Drive)](https://drive.google.com/xxxxxxxxxxxxxxxxx)
-- 💾 [SQL Scripts](./Analytics_Hackathon_2025/consolidated_scripts/)
-- 📖 [Detailed Analysis by Theme](./Analytics_Hackathon_2025/02_Analysis_Scripts/)
-- 📈 [Data Exports & Views](./Analytics_Hackathon_2025/data/views_output/)
+- 📊 [Interactive Power BI Dashboard](https://app.powerbi.com/view?r=eyJrIjoiZWVlM2I0OWYtZGFiMi00ZWQ2LThiZGYtYzk4MmZiMDVkNDRiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9&embedImagePlaceholder=true&pageName=ReportSection)
+- 📄 [Full Report PDF](./Analytics_Hackathon_2025/report/AdventureWorks.pdf)
+- 🎤 [Presentation Slides](https://www.canva.com/design/DAG5h5eibu4/MB3Ovu6mnCFVhxnrrxO59g/view?utm_content=DAG5h5eibu4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h04be52884b)
+- 📖 [Detailed Analysis by Theme (SQL)](./Analytics_Hackathon_2025/02_Analysis_Scripts/)
+
 
 ---
 
