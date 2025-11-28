@@ -25,7 +25,7 @@
 
 ## 📊 Project Overview
 
-This submission presents a data-driven analysis of AdventureWorks' sales performance, customer segmentation, and product profitability. The analysis uncovers a critical **profitability paradox**: the Reseller channel drives 73% of revenue but operates at a loss, while the Online channel delivers superior margins. Key recommendations address pricing discipline, incentive realignment, and targeted retention strategies.
+This submission presents an analysis of AdventureWorks' sales performance, customer segmentation, and product profitability. The analysis reveals that the Reseller channel drives 73% of revenue but operates at a loss, while the Online channel delivers superior margins. Key recommendations address pricing discipline, incentive realignment, and targeted retention strategies.
 
 ---
 
@@ -35,7 +35,7 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 
 **Database schema and ETL setup**
 
-- `create_analytics_schema.sql` — SQL script to create analytical schema and views for AdventureWorks data
+- `create_analytics_schema.sql` — SQL script to create analytical schema and views for AdventureWorks data. Views are loaded in directly from SQL Server in Power BI
 - Contains foundational tables and computed metrics used across all analyses
 
 ### [`02_Analysis_Scripts/`](./Analytics_Hackathon_2025/02_Analysis_Scripts/)
@@ -142,7 +142,7 @@ This submission presents a data-driven analysis of AdventureWorks' sales perform
 | Tool                            | Purpose                                            |
 | ------------------------------- | -------------------------------------------------- |
 | **SQL Server**                  | Data exploration, schema design, view creation     |
-| **Power BI**                    | Interactive dashboards, slicers, KPI cards         | |
+| **Power BI**                    | Interactive dashboards, slicers, KPI cards, direct connection to SQL Server views         | |
 | **LaTeX**                       | Professional PDF report generation                 |
 | **Git**                         | Version control                   |
 
